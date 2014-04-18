@@ -29,7 +29,7 @@ public function admin()
 
 		{
 	
-	
+	$this->load->view('general/header');
 	    $this->load->view('general/header');
 	    $this->load->view('productlist');
 		$this->load->view('general/adminmenu');
@@ -41,6 +41,11 @@ public function admin()
 public function superadmin()
 
 		{
+<<<<<<< HEAD
+=======
+		
+	
+>>>>>>> 309813ec7c049783e280d0f3b23c3930cc54d42d
 	    $this->load->view('general/header');
 	    $this->load->view('productlist');
 		$this->load->view('general/superadminmenu');
