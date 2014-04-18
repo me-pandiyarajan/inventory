@@ -81,26 +81,26 @@ class Auth extends CI_Controller {
 				{
 				case 1: 
 					$users['tablehead'] = array('username','password');
-					$users['visiblity'] = 0;
+					$users['visiblity'] = 1;
 					$this->load->view('general/header',$header);
-					$this->load->view('userlist',$users); 
 					$this->load->view('general/deomenu');
+					$this->load->view('userlist',$users); 
 					$this->load->view('general/footer');
 					break;
 				case 2:
 					$users['tablehead'] = array('username','password','Edit');
 					$users['visiblity'] = 1;
 					$this->load->view('general/header',$header);
-					$this->load->view('userlist',$users); 
 					$this->load->view('general/deomenu');
+					$this->load->view('userlist',$users); 
 					$this->load->view('general/footer');
 										break;
 				case 3:
 					$users['tablehead'] = array('username','password','Edit',' Delete');
-					$users['visiblity'] = 2;
+					$users['visiblity'] = 0;
 					$this->load->view('general/header',$header);
-					$this->load->view('userlist',$users);
 					$this->load->view('general/deomenu');
+					$this->load->view('userlist',$users);
 					$this->load->view('general/footer');
 					redirect('Usercontroller/deo', 'refresh');		
 					break;
@@ -130,9 +130,9 @@ class Auth extends CI_Controller {
 				'id' => 'password',
 				'type' => 'password',
 			);
-             $this->_render_page('header');
+             $this->_render_page('header_login');
 			 $this->_render_page('auth/login', $this->data);
-			 $this->load->view('footer');
+			 $this->load->view('footer_login');
 		}
 	}
 
