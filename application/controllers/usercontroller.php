@@ -41,12 +41,11 @@ public function admin()
 public function superadmin()
 
 		{
-	
-	
 	    $this->load->view('general/header');
 	    $this->load->view('productlist');
 		$this->load->view('general/superadminmenu');
 	    $this->load->view('general/footer');
+		$this->load->view('general/footer');
 		}
    
  
