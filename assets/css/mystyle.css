@@ -1,0 +1,30 @@
+<style>
+ div.sty
+      {
+     margin-top:0px;
+     margin-bottom:0;
+     border-width:2px;	
+     border-style:groove;
+   }
+  .sty1
+      {
+     margin-top:0px;
+     margin-bottom:0;
+	 border-width:2px;	
+	 border-style:solid;
+	}
+    ul
+       {
+      list-style-type:none;
+    }
+	button {padding: 2px 1px 2px 1px;}
+	 a:hover{color:red}
+    #menubox{height:500px;width:18%;;float:left;}
+    #header{width:98%;clear:both;text-align:right;margin-top:20px;margin-left:10px;padding-top:8px;padding-bottom:8px;}
+    #global{ width:100%;height:700px; align:center}
+    #fieldsty{height:482px;width:77%;float:right;margin-right:15px }
+    #foot1{margin-left:10px;margin-bottom:10px}
+	#foot2{width:99%; float:left; border:2px solid black; margin-top:30px;padding-top:8px;padding-bottom:8px;}
+	#foot3{width:450px; float:left; margin:0;  text-align: center; margin:0 0 0 320px;}
+	#foot4{width:450px; float:left; margin:0;}
+</style>  
