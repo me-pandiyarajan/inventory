@@ -29,7 +29,7 @@ public function admin()
 
 		{
 	
-	
+	$this->load->view('general/header');
 	    $this->load->view('general/header');
 	    $this->load->view('productlist');
 		$this->load->view('general/adminmenu');
@@ -41,7 +41,7 @@ public function admin()
 public function superadmin()
 
 		{
-	
+		
 	
 	    $this->load->view('general/header');
 	    $this->load->view('productlist');
