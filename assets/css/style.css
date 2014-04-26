@@ -1,0 +1,43 @@
+/*
+ * Back ground
+ * --------------------------------------------------
+ */
+body {
+	background-image:url(../images/retina_wood.png);
+}
+
+/*
+ * Height
+ * ht-1 = 100px 
+ * ht-2 = ht-1 x 2	
+ * --------------------------------------------------
+ */
+ 
+ .ht-1 {
+ 	height: 100px;
+ }
+ 
+ .ht-2 {
+ 	height: 200px;
+ }
+ 
+ .ht-3 {
+ 	height: 300px;
+ }
+ 
+ .ht-4 {
+ 	height: 400px;
+ }
+ 
+ .ht-5 {
+ 	height: 500px;
+ }
+ 
+ .ht-6 {
+ 	height: 600px;
+ }
+ 
+ .ht-7 {
+ 	height: 700px;
+ }
+ 

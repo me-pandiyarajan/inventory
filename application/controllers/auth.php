@@ -1,14 +1,38 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
- public $em;
+
+	/*
+	*	Available actions
+	*	---------------------------
+	*	> index				-	redirect if needed, otherwise display the user list
+	*	> login				-	log the user in
+	*	> logout			-	log the user out
+	*	> change_password	-	change user password
+	*	> forgot_password	-	forgot password
+	*	> reset_password	-	reset password - final step for forgotten password
+	*	> activate			-	activate the user
+	*	> deactivate		-	deactivate the user
+	*	> create_user		-	create a new user
+	*	> list_users [C]	-	display the user list
+	*	> edit_user			-	edit a user
+	*	> create_group		-	create a new group
+	*	> edit_group		-	edit a group
+	*	> _get_csrf_nonce	-
+	*	> _valid_csrf_nonce	-
+	*	> _valid_csrf_nonce	-
+	*	> _render_page		-
+	*
+	*/
+
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->library('ion_auth');
 		$this->load->library('form_validation');
+		$this->load->library('navigator');
+
 		$this->load->helper('url');
-		$this->em = $this->doctrine->em;
 
 		// Load MongoDB library instead of native db driver if required
 		$this->config->item('use_mongodb', 'ion_auth') ?
@@ -38,18 +62,7 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
-             $this->_render_page('header');
-			$this->_render_page('auth/index', $this->data);
-			$this->load->view('footer');
+			
 		}
 	}
 
@@ -70,42 +83,10 @@ class Auth extends CI_Controller {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
-			
-			//if the login is successful
-			//redirect them back to the home page
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
-            $header['data']=$this->GetHeaderDetails();
-	        $users['data'] = $this->ion_auth->users()->result();
-			$group = $this->GetUserGroupId();
-				switch($group)
-				{
-				case 1: 
-					$users['tablehead'] = array('username','password');
-					$users['visiblity'] = 1;
-					$this->load->view('general/header',$header);
-					$this->load->view('general/deomenu');
-					$this->load->view('userlist',$users); 
-					$this->load->view('general/footer');
-					break;
-				case 2:
-					$users['tablehead'] = array('username','password','Edit');
-					$users['visiblity'] = 1;
-					$this->load->view('general/header',$header);
-					$this->load->view('general/deomenu');
-					$this->load->view('userlist',$users); 
-					$this->load->view('general/footer');
-										break;
-				case 3:
-					$users['tablehead'] = array('username','password','Edit',' Delete');
-					$users['visiblity'] = 0;
-					$this->load->view('general/header',$header);
-					$this->load->view('general/deomenu');
-					$this->load->view('userlist',$users);
-					$this->load->view('general/footer');
-					redirect('Usercontroller/deo', 'refresh');		
-					break;
-						
-				}
+				//if the login is successful
+				//redirect them back to the home page
+				$this->session->set_flashdata('message', $this->ion_auth->messages());
+				redirect('dashboard', 'refresh');	
 			}
 			else
 			{
@@ -365,7 +346,6 @@ class Auth extends CI_Controller {
 		}
 	}
 
-
 	//activate the user
 	function activate($id, $code=false)
 	{
@@ -503,7 +483,7 @@ class Auth extends CI_Controller {
 			);
 			
 
-			$group = $this->GetUserGroupId();
+			$group = $this->ion_auth->GetUserGroupId();
 			switch($group)
 			{
 				case 1:
@@ -516,12 +496,50 @@ class Auth extends CI_Controller {
 				$this->data['options'] = array();
 				break;
 			} 
-			$header['data']=$this->GetHeaderDetails();
+			$header['data']=$this->ion_auth->GetHeaderDetails();
             $this->_render_page('general/header',$header);
 			$this->_render_page('general/superadminmenu');
 			$this->_render_page('auth/create_user_admin', $this->data);
 			$this->_render_page('general/footer');
 		}
+	}
+
+	public function list_users()
+	{
+		//set the flash data error message if there is one
+		$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$this->data['data'] = $this->ion_auth->users()->result();
+		$menu = $this->navigator->getMenu();
+		
+		foreach ($this->data['data'] as $k => $user)
+		{
+			$this->data['data'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+		}		
+			
+		switch($group)
+		{
+		case 1: 
+			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Status','Role','Action');
+			$this->data['visiblity'] = 2;
+			break;
+		case 2:
+			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Status','Role','Action');
+			$this->data['visiblity'] = 1;
+			break;
+		case 3:
+		   	$this->data['tablehead'] = array('UserName','Email');
+		  	$this->data['visiblity'] = 0;				
+			break;				
+		}
+
+		$this->load->view('general/header',$header);
+		$this->load->view($menu);
+		$this->load->view('userlist',$this->data); 
+		$this->load->view('general/footer');
+
 	}
 
 	//edit a user
@@ -747,7 +765,6 @@ class Auth extends CI_Controller {
 		$this->_render_page('auth/edit_group', $this->data);
 	}
 
-
 	function _get_csrf_nonce()
 	{
 		$this->load->helper('string');
@@ -782,17 +799,5 @@ class Auth extends CI_Controller {
 		if (!$render) return $view_html;
 	}
 	
-	function GetUserGroupId()
-	{
-		$user = $this->ion_auth->user()->row();
-	    $user_groups = $this->ion_auth->get_users_groups($user->id)->result();
-		return $user_groups[0]->id;
-	}
 	
-	function GetHeaderDetails()
-	{
-		$user = $this->ion_auth->user()->row();
-		return $user->first_name." ".$user->last_name;
-	}
-
 }

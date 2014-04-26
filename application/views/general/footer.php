@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="panel panel-default">
 	  <div class="panel-body">
-	    <span class="">&copy;<?php echo date('Y'); ?> Saagar furnising </span>
+	    <span class="">&copy;<?php echo date('Y'); ?> Saagars furnising </span>
 		<span class="pull-right">Last login: 17/4/2014 7:00 AM </span>	
 	  </div>
 	</div>

@@ -17,7 +17,7 @@
 				        </tr>
 				    </thead>
 					<div class="btn-group ">
-                     <a class="btn btn-primary btn-sm" href="<?php echo base_url();?>auth/create_user">Add User</a> 
+                     <a class="btn btn-primary" href="<?php echo base_url();?>auth/create_user">Add User</a> 
 				
 					</div>
 						
@@ -36,13 +36,25 @@
 							<?php endforeach?>
 			                </td>
 							
-							<td class="align-center">
-								<a class="btn btn-xs" href="<?php echo base_url();?>auth/edit_user/">Edit</a>
-								<?php 
-								if($visiblity == 2)
-									echo'<a class="btn btn-xs" href="">Delete</a>';
-								?>
-							</td>
+							
+							<?php 
+							if($visiblity == 1)
+							{
+							echo'<td class="align-center">
+									<a class="btn btn-xs" href="<?php echo base_url();?>auth/edit_user/">Edit</a>  
+								</td>';
+							}
+							?>
+							
+							<?php 
+							if($visiblity == 2)
+							{
+							echo'<td class="align-center">
+									<a class="btn btn-xs" href="">Edit</a>  
+									<a class="btn btn-xs" href="">Delete</a>
+								</td>';
+							}
+							?>
 							
 							</tr>	
 

@@ -516,5 +516,18 @@ class Ion_auth
 		 */
 		return $check_all;
 	}
+	
+	function GetUserGroupId()
+	{
+		$user = $this->ion_auth_model->user()->row();
+	    $user_groups = $this->ion_auth_model->get_users_groups($user->id)->result();
+		/*  var_dump($user_groups);exit; */
+		return $user_groups[0]->id;
+	}
+	function GetHeaderDetails()
+	{
+		$user = $this->ion_auth_model->user()->row();
+		return array('id'=>$user->id,'firstName'=>$user->first_name,'lastName'=>$user->last_name);
+	}
 
 }
