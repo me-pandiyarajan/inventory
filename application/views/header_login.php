@@ -4,7 +4,7 @@
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body id="login">
 <!-- container start -->
 <div class="container-fluid">
 

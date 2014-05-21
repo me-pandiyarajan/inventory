@@ -408,7 +408,7 @@ class Ion_auth
 			$this->session->sess_regenerate(TRUE);
 		}
 
-		$this->set_message('logout_successful');
+		//$this->set_message('logout_successful');
 		return TRUE;
 	}
 
@@ -527,7 +527,7 @@ class Ion_auth
 	function GetHeaderDetails()
 	{
 		$user = $this->ion_auth_model->user()->row();
-		return array('id'=>$user->id,'firstName'=>$user->first_name,'lastName'=>$user->last_name);
+		return array('id'=>$user->id,'firstName'=>$user->first_name,'lastName'=>$user->last_name,'lastlogin'=>$user->last_login);
 	}
 
 }

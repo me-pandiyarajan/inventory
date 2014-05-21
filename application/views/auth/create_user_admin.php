@@ -1,50 +1,94 @@
-<h1>Add User</h1>
-<p><?php echo lang('create_user_subheading');?></p>
+  <div class="col-sm-9 col-md-10 main">
 
-<div id="infoMessage"><?php echo $message;?></div>
+   <!-- dynamic view content -->       
 
-<?php echo form_open("auth/create_user");?>
+          <h1 class="page-header">Add User</h1>
 
+            <?php echo validation_errors(); ?>
+            <?php if(!empty($success)) echo $success; ?>
+            <div id="infoMessage"><?php echo $message;?></div>
+            <!--<form class="form-horizontal" role="form" action="<?php echo base_url(); ?>"> -->
+              
+                <?php 
+                $attributes = array('class' => 'form-horizontal', 'role' => 'form');
+                echo form_open($form_action,$attributes); 
+                ?>
+               
+               <div class="form-group">
+                  <label for="user name" class="col-sm-2 control-label">User Name</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="username" name="username"  value="<?php echo set_value('name'); ?>"  placeholder="Enter user name" pattern="[a-zA-Z0-9]{1,}">
+                    </div>
+               </div>
 
+               <div class="form-group">
+                    <label for="first_name" class="col-sm-2 control-label">First name</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="first_name" name="first_name" value="<?php echo set_value('first_name'); ?>" placeholder="Enter first name" pattern="[a-zA-Z0-9]{1,}">
+                  </div>
+               </div> 
 
-   <div class="form-group">
-      <label for="name">User Name</label>
-      <input type="text"  id="name" name="name" placeholder="Enter User Name">
-   </div>
-    <div class="form-group">
-      <label for="name">Last Name</label>
-      <input type="text"  id="last_name" name="last_name" placeholder="Enter Last Name">
-   </div>
-      <div class="form-group">
-      <label for="name">First Name</label>
-      <input type="text"  id="first_name" name="first_name" placeholder="Enter First Name">
-   </div>
-    <div class="form-group">
-      <label for="name">email</label>
-      <input type="text"  id="email" name="email" placeholder="Enter Email">
-   </div>
-   
- 
-   
-    <div class="form-group">
-      <label for="name">phone</label>
-      <input type="text"  id="phone" name="phone" placeholder="Enter Phone">
-   </div>
-  
- <?php if(!empty($options)): ?> 
-  <div class="form-group">
-  <label for="name">Group</label>
-   <div class="dropdown">
-   <select name="group" id="group">
-   <?php foreach($options as $val => $option): ?>
-    <option value="<?php echo $val;?>"><?php echo $option;?></option>
-   <?php endforeach; ?>
-   </select> 
+               <div class="form-group">
+                    <label for="first_name" class="col-sm-2 control-label">Last name</label>
+                    <div class="col-sm-10">
+                      <input type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name'); ?>" placeholder="Enter Last name" pattern="[a-zA-Z0-9]{1,}">
+                  </div>
+               </div>               
+                    
+               <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email"  id="email" name="email" value="<?php echo set_value('email'); ?>" placeholder="Enter email">
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Mobile</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="mobile" name="mobile"  pattern="[0-9]{10}" value="<?php echo set_value('mobile'); ?>" placeholder="Enter mobile number">
+                  </div>
+               </div>
+
+                <?php if(!empty($options)): ?> 
+                <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Group</label>
+                    <div class="col-sm-3">
+                      <select name="group" id="group" class="form-control" >
+                         <?php foreach($options as $val => $option): ?>
+                          <option value="<?php echo $val;?>"><?php echo $option;?></option>
+                         <?php endforeach; ?>
+                       </select> 
+                  </div>
+               </div>
+               <?php endif; ?>
+
+               <div class="form-group">
+                  <label for="status" class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-3">
+                      <select class="form-control" id="status" name="status" value="<?php echo set_value('status'); ?>">
+                        <option value="1">Enable</option>
+                        <option value="0">Disable</option>
+                      </select>
+                  </div>
+               </div>
+
+               <!-- action -->
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-success btn-sm" id="submit">Add</button>
+                       <button type="reset" class="btn btn-info btn-sm" id="reset">Reset</button>
+                  </div>
+              </div>
+
+               <!-- action end-->            
+            
+            <?php echo form_close();?>
+          <!-- </form> -->
   </div>
-  </div>
-  <?php endif; ?>
-  
-  
- 
-   <button type="submit" class="btn btn-default" id="">Submit</button>
-<?php echo form_close();?>
+
+<!-- dynamic view content end-->
+
+</div>
+
+

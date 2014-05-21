@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2014 at 03:08 PM
+-- Generation Time: Apr 28, 2014 at 11:32 AM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -36,14 +36,15 @@ CREATE TABLE IF NOT EXISTS `categories` (
   PRIMARY KEY (`category_id`),
   KEY `fk_categories_users1_idx` (`created_by`),
   KEY `fk_categories_users2_idx` (`last_updated_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`category_id`, `category_name`, `comments`, `created_date`, `last_updated_date`, `created_by`, `last_updated_by`) VALUES
-(1, 'Fabric', 'Fabric', '2014-04-21 17:15:09', '2014-04-21 17:15:09', NULL, NULL);
+(1, 'Fabric', 'Fabric', '2014-04-21 17:15:09', '2014-04-21 17:15:09', NULL, NULL),
+(2, 'Cutrine', NULL, '2014-04-26 17:17:13', '2014-04-26 17:17:13', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -93,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`id`, `name`, `description`) VALUES
-(1, 'superadmin', 'super Administrator'),
+(1, 'superadmin', 'super administrator'),
 (2, 'admin', 'admin'),
-(3, 'DEO', 'data entry operator');
+(3, 'deo', 'data entry operator');
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,8 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 
 CREATE TABLE IF NOT EXISTS `products` (
   `product_gen_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(10) unsigned DEFAULT NULL,
+  `Product_ID_PLU` varchar(45) DEFAULT NULL,
+  `sku` varchar(45) DEFAULT NULL,
   `product_name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `short_description` varchar(45) DEFAULT NULL,
@@ -160,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `installation_charges` mediumint(9) DEFAULT NULL,
   `total_cost` float DEFAULT NULL,
   `grand_total` float DEFAULT NULL,
-  `upload_image` varchar(45) DEFAULT NULL,
+  `upload_image` varchar(100) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `stock_availability` tinyint(1) DEFAULT NULL,
   `safety_stock_level` int(11) DEFAULT NULL,
@@ -181,23 +183,22 @@ CREATE TABLE IF NOT EXISTS `products` (
   `last_updated_by` int(11) DEFAULT NULL,
   `approved_by` int(11) DEFAULT NULL,
   `categories_category_id` int(11) DEFAULT NULL,
+  `track` int(11) DEFAULT NULL,
   PRIMARY KEY (`product_gen_id`),
+  UNIQUE KEY `Product_ID_PLU` (`Product_ID_PLU`),
+  UNIQUE KEY `sku` (`sku`),
   KEY `fk_products_suppliers1_idx` (`suppliers_supplier_id`),
   KEY `fk_products_tax_class1_idx` (`tax_class_tax_class_id`),
   KEY `fk_products_users1_idx` (`created_by`),
   KEY `fk_products_users2_idx` (`last_updated_by`),
   KEY `fk_products_users3_idx` (`approved_by`),
   KEY `fk_products_categories1_idx` (`categories_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_gen_id`, `product_id`, `product_name`, `description`, `short_description`, `status`, `country_of_manufacture`, `price`, `group_price`, `special_price_from`, `special_price_to`, `installation_charges`, `total_cost`, `grand_total`, `upload_image`, `quantity`, `stock_availability`, `safety_stock_level`, `weight`, `width`, `length`, `height`, `design_name`, `shade`, `created_date`, `last_updated`, `product_activated`, `approved`, `approved_date`, `suppliers_supplier_id`, `tax_class_tax_class_id`, `created_by`, `last_updated_by`, `approved_by`, `categories_category_id`) VALUES
-(1, NULL, 'test', 'test', 'test', NULL, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL),
-(2, NULL, 'test', 'test', 'test', NULL, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL),
-(3, NULL, '', 'test', 'test', NULL, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,8 +211,8 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   `supplier_name` varchar(45) DEFAULT NULL,
   `telephone` int(11) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  `address1` varchar(45) DEFAULT NULL,
-  `address2` varchar(45) DEFAULT NULL,
+  `street` varchar(45) DEFAULT NULL,
+  `state` varchar(45) DEFAULT NULL,
   `zip_code` int(11) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
   `country` varchar(45) DEFAULT NULL,
@@ -223,14 +224,15 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   PRIMARY KEY (`supplier_id`),
   KEY `fk_suppliers_users1_idx` (`created_by`),
   KEY `fk_suppliers_users2_idx` (`last_updated_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `telephone`, `email`, `address1`, `address2`, `zip_code`, `city`, `country`, `status`, `created_date`, `last_updated_date`, `created_by`, `last_updated_by`) VALUES
-(1, 'supplier', 424242422, 'Test@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-04-21 16:24:38', NULL, NULL);
+INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `telephone`, `email`, `street`, `state`, `zip_code`, `city`, `country`, `status`, `created_date`, `last_updated_date`, `created_by`, `last_updated_by`) VALUES
+(1, 'supplier', 424242422, 'Test@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-04-21 16:24:38', NULL, NULL),
+(2, 'supplier2 ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-04-26 17:12:38', '2014-04-26 17:12:38', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -248,12 +250,14 @@ CREATE TABLE IF NOT EXISTS `tax_class` (
   PRIMARY KEY (`tax_class_id`),
   KEY `fk_tax_class_users1_idx` (`last_updated_by`),
   KEY `fk_tax_class_users2_idx` (`created_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tax_class`
 --
 
+INSERT INTO `tax_class` (`tax_class_id`, `tax_class_name`, `created_date`, `last_updated_date`, `last_updated_by`, `created_by`) VALUES
+(1, 'tax-able', '2014-04-22 15:12:43', '2014-04-22 15:12:43', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -287,9 +291,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', '', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1398066615, 1, 'Admin', 'istrator', 'ADMIN', '0'),
-(2, '127.0.0.1', 'test test', '$2y$08$CyXyq9dUI/flAyB5n..k4uSSTZxSyW3km.IghsYwNdDkPVMYvGTv2', NULL, 'test@test.com', NULL, NULL, NULL, NULL, 1397736034, 1398066290, 1, 'test', 'test', 'test', '9999999990'),
-(10, '127.0.0.1', 'sample sample', '0', NULL, 'sampletest@sample.com', NULL, NULL, NULL, NULL, 1397746185, 1397746185, 1, 'sample', 'sample', NULL, '5464564564');
+(1, '127.0.0.1', 'super administrator', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', '', 'superadmin@inventory.com', '', NULL, NULL, NULL, 1268889823, 1398675481, 1, 'super', 'admin', 'ADMIN', '1111111111'),
+(2, '127.0.0.1', 'admin', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', NULL, 'admin@inventory.com', NULL, NULL, NULL, NULL, 1397736034, 1398675426, 1, 'admin', 'admin', 'test', '2222222222'),
+(10, '127.0.0.1', 'deo', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', NULL, 'deo@inventory.com', NULL, NULL, NULL, NULL, 1397746185, 1398675375, 1, 'data', 'operator', NULL, '3333333333');
 
 -- --------------------------------------------------------
 
@@ -312,8 +316,8 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
 --
 
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
-(1, 1, 2),
-(3, 2, 3),
+(1, 1, 1),
+(3, 2, 2),
 (8, 10, 3);
 
 --

@@ -1,66 +1,93 @@
-<h1><?php echo lang('edit_user_heading');?></h1>
-<p><?php echo lang('edit_user_subheading');?></p>
+ <div class="col-sm-9 col-md-10 main">
 
-<div id="infoMessage"><?php echo $message;?></div>
+   <!-- dynamic view content -->       
 
-<?php echo form_open(uri_string());?>
+          <h1 class="page-header">Edit User</h1>
 
-      <p>
-            <?php echo lang('edit_user_fname_label', 'first_name');?> <br />
-            <?php echo form_input($first_name);?>
-      </p>
+            <?php echo validation_errors(); ?>
+            <?php if(!empty($success)) echo $success; ?>
+            <div id="infoMessage"><?php echo $message;?></div>
+            <!--<form class="form-horizontal" role="form" action="<?php echo base_url(); ?>"> -->
+              
+                <?php 
+                $attributes = array('class' => 'form-horizontal', 'role' => 'form');
+                echo form_open(uri_string(),$attributes); 
+                ?>
 
-      <p>
-            <?php echo lang('edit_user_lname_label', 'last_name');?> <br />
-            <?php echo form_input($last_name);?>
-      </p>
+               
+               <div class="form-group">
+                  <label for="user name" class="col-sm-2 control-label">User Name</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="username" name="username"  value="<?php echo $user->username; ?>"  placeholder="Enter user name" pattern="[a-zA-Z0-9]{1,}">
+                    </div>
+               </div>
 
-      <p>
-            <?php echo lang('edit_user_company_label', 'company');?> <br />
-            <?php echo form_input($company);?>
-      </p>
+               <div class="form-group">
+                    <label for="first_name" class="col-sm-2 control-label">First name</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="first_name" name="first_name" value="<?php echo $user->first_name; ?>" placeholder="Enter first name" pattern="[a-zA-Z0-9]{1,}">
+                  </div>
+               </div> 
 
-      <p>
-            <?php echo lang('edit_user_phone_label', 'phone');?> <br />
-            <?php echo form_input($phone);?>
-      </p>
+               <div class="form-group">
+                    <label for="first_name" class="col-sm-2 control-label">Last name</label>
+                    <div class="col-sm-10">
+                      <input type="text" id="last_name" name="last_name" value="<?php echo $user->last_name; ?>" placeholder="Enter Last name" pattern="[a-zA-Z0-9]{1,}">
+                  </div>
+               </div>               
+                    
+               <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email"  id="email" name="email" value="<?php echo $user->email; ?>" placeholder="Enter email">
+                  </div>
+               </div>
 
-      <p>
-            <?php echo lang('edit_user_password_label', 'password');?> <br />
-            <?php echo form_input($password);?>
-      </p>
+               <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Mobile</label>
+                    <div class="col-sm-10">
+                      <input type="text"  id="phone" name="phone" value="<?php echo $user->phone; ?>" pattern="[0-9]{10}" placeholder="Enter mobile number">
+                  </div>
+               </div>
 
-      <p>
-            <?php echo lang('edit_user_password_confirm_label', 'password_confirm');?><br />
-            <?php echo form_input($password_confirm);?>
-      </p>
+                <?php if(!empty($options)): ?> 
+                <div class="form-group">
+                  <label for="name" class="col-sm-2 control-label">Group</label>
+                  <div class="col-sm-3">
+                       <?php echo form_dropdown('group', $options,$currentGroups,'class="form-control"'); ?>
+                  </div>
+               </div>
+               <?php endif; ?>
 
-      <?php if ($this->ion_auth->is_admin()): ?>
+               <div class="form-group">
+                  <label for="status" class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-3">
+                      <?php $options = array('1'  => 'Enable','0' => 'Disable'); 
+                       echo form_dropdown('status', $options,$user->active,'class="form-control"'); ?>
+                  </div>
+               </div>
 
-          <h3><?php echo lang('edit_user_groups_heading');?></h3>
-          <?php foreach ($groups as $group):?>
-              <label class="checkbox">
-              <?php
-                  $gID=$group['id'];
-                  $checked = null;
-                  $item = null;
-                  foreach($currentGroups as $grp) {
-                      if ($gID == $grp->id) {
-                          $checked= ' checked="checked"';
-                      break;
-                      }
-                  }
-              ?>
-              <input type="checkbox" name="groups[]" value="<?php echo $group['id'];?>"<?php echo $checked;?>>
-              <?php echo $group['name'];?>
-              </label>
-          <?php endforeach?>
+                <?php echo form_hidden('id', $user->id);?>
+                <?php echo form_hidden($csrf); ?>
 
-      <?php endif ?>
+               <!-- action -->
 
-      <?php echo form_hidden('id', $user->id);?>
-      <?php echo form_hidden($csrf); ?>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-success btn-xs" id="submit">Update</button>
+                      <a type="button" href="<?php echo base_url();?>auth/list_users" class="btn btn-default btn-xs">Cancel</a>
+                      
+                  </div>
+              </div>
+            
+               <!-- action end-->            
+            
+            <?php echo form_close();?>
+          <!-- </form> -->
+  </div>
 
-      <p><?php echo form_submit('submit', lang('edit_user_submit_btn'));?></p>
+<!-- dynamic view content end-->
 
-<?php echo form_close();?>
+</div>
+
+

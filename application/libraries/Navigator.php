@@ -1,4 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
 * Name:  Navigator
 *
@@ -27,7 +28,9 @@ class Navigator extends Ion_auth
 		#construct
 	}
 
-
+	/*
+	*	Description : check whether any user has logged in? continue : navigate to login page
+	*/
 	public function checkLogin()
 	{
 		if (!$this->ion_auth->logged_in())
@@ -57,6 +60,32 @@ class Navigator extends Ion_auth
 				# code...
 				break;
 		}	
+	}
+
+
+	/*
+	*	Description : check whether the user is either admin or super admin? continue : show error info
+	*/
+	public function mustBeAdminOrSAdmin()
+	{
+		$group = $this->ion_auth->GetUserGroupId();
+		if ($group >= 3)
+		{
+			show_error('Your not supposed to view this page! Bye');
+		}
+	}
+
+
+	/*
+	*	Description : check whether the user is superadmin? continue : show error info
+	*/
+	public function mustBeSAdmin()
+	{
+		$group = $this->ion_auth->GetUserGroupId();
+		if ($group >= 2)
+		{
+			show_error('Your not supposed to view this page! Bye');
+		}
 	}
 
 

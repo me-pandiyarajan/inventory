@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace models\inventory;
 
 /**
@@ -43,18 +41,18 @@ class Suppliers
     private $email;
 
     /**
-     * @var string $address1
+     * @var string $street
      *
-     * @Column(name="address1", type="string", length=45, nullable=true)
+     * @Column(name="street", type="string", length=45, nullable=true)
      */
-    private $address1;
+    private $street;
 
     /**
-     * @var string $address2
+     * @var string $state
      *
-     * @Column(name="address2", type="string", length=45, nullable=true)
+     * @Column(name="state", type="string", length=45, nullable=true)
      */
-    private $address2;
+    private $state;
 
     /**
      * @var integer $zipCode
@@ -111,6 +109,13 @@ class Suppliers
      * @Column(name="last_updated_by", type="integer", nullable=true)
      */
     private $lastUpdatedBy;
+
+    /**
+     * @var boolean $deleted
+     *
+     * @Column(name="deleted", type="boolean", nullable=false)
+     */
+    private $deleted;
 
 
 
@@ -191,47 +196,47 @@ class Suppliers
     }
 
     /**
-     * Set address1
+     * Set street
      *
-     * @param string $address1
+     * @param string $street
      * @return Suppliers
      */
-    public function setAddress1($address1)
+    public function setStreet($street)
     {
-        $this->address1 = $address1;
+        $this->street = $street;
         return $this;
     }
 
     /**
-     * Get address1
+     * Get street
      *
      * @return string 
      */
-    public function getAddress1()
+    public function getStreet()
     {
-        return $this->address1;
+        return $this->street;
     }
 
     /**
-     * Set address2
+     * Set state
      *
-     * @param string $address2
+     * @param string $state
      * @return Suppliers
      */
-    public function setAddress2($address2)
+    public function setState($state)
     {
-        $this->address2 = $address2;
+        $this->state = $state;
         return $this;
     }
 
     /**
-     * Get address2
+     * Get state
      *
      * @return string 
      */
-    public function getAddress2()
+    public function getState()
     {
-        return $this->address2;
+        return $this->state;
     }
 
     /**
@@ -408,5 +413,27 @@ class Suppliers
     public function getLastUpdatedBy()
     {
         return $this->lastUpdatedBy;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Suppliers
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }

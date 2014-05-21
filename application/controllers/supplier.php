@@ -83,7 +83,7 @@ class Supplier extends CI_Controller {
 		{
 			$this->load->view('general/header', $header);
 			$this->load->view($menu);
-			$this->load->view('addsupplier',$data);
+			$this->load->view('supplier/addsupplier',$data);
 			$this->load->view('general/footer');
 		}
 		else
@@ -102,9 +102,9 @@ class Supplier extends CI_Controller {
 				$supplier->setSupplierName($supplier_name);
 				$supplier->setEmail($email);
 				$supplier->setTelephone($mobile);
-				$supplier->setAddress1($street);
-				$supplier->setAddress1($city);
-				$supplier->setCity($state);
+				$supplier->setStreet($street);
+				$supplier->setCity($city);
+				$supplier->setState($state);
 				$supplier->setZipCode($zip);
 				$supplier->setStatus($status);
 				$this->em->persist($supplier);
@@ -117,7 +117,7 @@ class Supplier extends CI_Controller {
 
 				$this->load->view('general/header', $header);
 				$this->load->view($menu);
-				$this->load->view('addsupplier',$data);
+				$this->load->view('supplier/addsupplier',$data);
 				$this->load->view('general/footer');
 			}
 			catch(Exception $e)
@@ -142,8 +142,8 @@ class Supplier extends CI_Controller {
 	{
 
 		try {
-				$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findAll();
-				
+				//$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findAll();
+				$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('deleted' =>0));
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				$group = $this->ion_auth->GetUserGroupId();
 				$menu = $this->navigator->getMenu();
@@ -164,7 +164,7 @@ class Supplier extends CI_Controller {
 
 				$this->load->view('general/header', $header);
 				$this->load->view($menu);
-				$this->load->view('listsuppliers',$data);
+				$this->load->view('supplier/listsuppliers',$data);
 				$this->load->view('general/footer');
 			}
 			catch(Exception $e)
@@ -213,7 +213,7 @@ class Supplier extends CI_Controller {
 
 				$this->load->view('general/header', $header);
 				$this->load->view($menu);
-				$this->load->view($action,$data);
+				$this->load->view('supplier/'.$action,$data);
 				$this->load->view('general/footer');
 
 			}catch(Exception $e){
@@ -240,33 +240,33 @@ class Supplier extends CI_Controller {
 	public function updateSupplier()
 	{
 	
-			$this->load->helper('form','url');
-			$this->load->library('form_validation');
-			
-			//$data['form_action'] = 'supplier/updateSupplier';
+		$this->load->helper('form','url');
+		$this->load->library('form_validation');
+		
+		//$data['form_action'] = 'supplier/updateSupplier';
 
-			$config = array(
-	               array(
-	                     'field'   => 'supplier_name',
-	                     'label'   => 'Supplier name',
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'email',
-	                     'label'   => 'Email',
-	                     'rules'   => 'required'
-	                  ),
-	               array(
-	                     'field'   => 'mobile',
-	                     'label'   => 'Mobile',
-	                     'rules'   => 'required'
-	                  ),   
-	               array(
-	                     'field'   => 'status',
-	                     'label'   => 'status',
-	                     'rules'   => 'required'
-	                  )
-	            );
+		$config = array(
+               array(
+                     'field'   => 'supplier_name',
+                     'label'   => 'Supplier name',
+                     'rules'   => 'required'
+                  ),
+               array(
+                     'field'   => 'email',
+                     'label'   => 'Email',
+                     'rules'   => 'required'
+                  ),
+               array(
+                     'field'   => 'mobile',
+                     'label'   => 'Mobile',
+                     'rules'   => 'required'
+                  ),   
+               array(
+                     'field'   => 'status',
+                     'label'   => 'status',
+                     'rules'   => 'required'
+                  )
+            );
 
 			$this->form_validation->set_rules($config);
 			
@@ -321,9 +321,9 @@ class Supplier extends CI_Controller {
 					$supplier->setSupplierName($supplier_name);
 					$supplier->setEmail($email);
 					$supplier->setTelephone($mobile);
-					$supplier->setAddress1($street);
+					$supplier->setStreet($street);
 					$supplier->setCity($city);
-					$supplier->setAddress2($state);
+					$supplier->setState($state);
 					$supplier->setZipCode($zip);
 					$supplier->setStatus($status);
 					$this->em->persist($supplier);
@@ -347,25 +347,92 @@ class Supplier extends CI_Controller {
 
 					$this->load->view('general/header', $header);
 					$this->load->view($menu);
-					redirect('supplier/supplierDetails/'.$supplierid.'/viewSupplierDetails');
+					//redirect('supplier/supplierDetails/'.$supplierid.'/viewSupplierDetails');
+					redirect('supplier/listsuppliers');
 					$this->load->view('general/footer');
 
 				}
 				catch(Exception $e)
 				{
 					log_message('error',$e->getMessage());
-					// $this->load->view('general/header', $header_data);
-					// $this->load->view('general/deomenu');
-					// $this->load->view('addsupplier');
-					// $this->load->view('general/footer');
 				}
 			
-			}
+			}			
+	
+	}
+/*
+supplier delete
+*/
+public function deletesupplier($id)
+	{
 		
-				
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenu();
+		$data['supplier'] = $supplier = $this->em->getRepository('models\inventory\Suppliers')->find($id);
+		$supplier->setDeleted(1);
+		$this->em->persist($supplier);
+		$this->em->flush();
+		$this->session->set_flashdata('supplierdelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier Deleted successfuly</b></div>');
+		redirect('supplier/listsuppliers'); 
 	}
 
 
+	/*
+	*	AjaxCall: get supplier list  
+	*	---------------------
+	*	input : supplier name or id
+	*
+	*/
+	public function ajaxSuppliersLookup($supplier)
+	{
+		try {
+				$suppliers = $this->em->getRepository('models\inventory\Suppliers')->createQueryBuilder('s')
+												->where('s.supplierId LIKE :id')
+												->setParameter('id', '%'.$supplier.'%')
+												->orWhere('s.supplierName LIKE :name')
+												->setParameter('name', '%'.$supplier.'%')
+												->getQuery()
+   												->getResult();
+
+				foreach ($suppliers as $supplier) {
+					$supplier_list[] = array(
+											 'id' => $supplier->getSupplierId(),
+											 'value' => $supplier->getSupplierName() 
+											 );
+				}				
+				echo json_encode($supplier_list);
+			}
+			catch(Exception $e)
+			{
+				log_message('error',$e->getMessage());
+				
+			}
+	}
+
+	/*
+	*	AjaxCall: get supplier Details  
+	*	---------------------
+	*	input : id
+	*
+	*/
+	public function ajaxSupplierDetails($supplierid)
+	{
+		try {
+				$suppliers = $this->em->getRepository('models\inventory\Suppliers')->find($supplierid);
+				$supplier_detail['supplier_id'] = $supplierid;
+				$supplier_detail['supplier_name'] = $suppliers->getSupplierName();
+				$supplier_detail['phone'] = $suppliers->getTelephone();
+				$supplier_detail['email'] = $suppliers->getEmail();
+				$supplier_detail['address'] = $suppliers->getStreet();
+				echo json_encode($supplier_detail);
+			}
+			catch(Exception $e)
+			{
+				log_message('error',$e->getMessage());
+				
+			}
+	}
 
 }
 

@@ -4,6 +4,7 @@
 
 namespace models\inventory;
 
+
 /**
  * Users
  *
@@ -99,9 +100,9 @@ class Users
     private $lastLogin;
 
     /**
-     * @var boolean $active
+     * @var integer $active
      *
-     * @Column(name="active", type="boolean", nullable=true)
+     * @Column(name="active", type="integer", nullable=true)
      */
     private $active;
 
@@ -132,6 +133,13 @@ class Users
      * @Column(name="phone", type="string", length=20, nullable=true)
      */
     private $phone;
+
+    /**
+     * @var boolean $deleted
+     *
+     * @Column(name="deleted", type="boolean", nullable=false)
+     */
+    private $deleted;
 
 
 
@@ -495,5 +503,27 @@ class Users
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Users
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }

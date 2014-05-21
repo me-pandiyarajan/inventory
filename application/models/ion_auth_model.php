@@ -860,11 +860,11 @@ class Ion_auth_model extends CI_Model
 		}
 
 		//add to default group if not already set
-		$default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
+/* 		$default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
 		if ((isset($default_group->id) && empty($groups)) || (!empty($groups) && !in_array($default_group->id, $groups)))
 		{
 			$this->add_to_group($default_group->id, $id);
-		}
+		} */
 
 		$this->trigger_events('post_register');
 
@@ -1177,6 +1177,7 @@ class Ion_auth_model extends CI_Model
 	 * @return object Users
 	 * @author Ben Edmunds
 	 **/
+	 
 	public function users($groups = NULL)
 	{
 		$this->trigger_events('users');
@@ -1283,15 +1284,11 @@ class Ion_auth_model extends CI_Model
 	public function user($id = NULL)
 	{
 		$this->trigger_events('user');
-
 		//if no id was passed use the current users id
 		$id || $id = $this->session->userdata('user_id');
-
 		$this->limit(1);
 		$this->where($this->tables['users'].'.id', $id);
-
 		$this->users();
-
 		return $this;
 	}
 
@@ -1454,8 +1451,7 @@ class Ion_auth_model extends CI_Model
 
 		return $this->groups();
 	}
-
-	/**
+/**
 	 * update
 	 *
 	 * @return bool
@@ -1524,18 +1520,16 @@ class Ion_auth_model extends CI_Model
 	* @return bool
 	* @author Phil Sturgeon
 	**/
-	public function delete_user($id)
+	public function delete_user($id, array $data)
 	{
 		$this->trigger_events('pre_delete_user');
-
+        $user = $this->user($id)->row();
 		$this->db->trans_begin();
-
 		// remove user from groups
-		$this->remove_from_group(NULL, $id);
+		//$this->remove_from_group(NULL, $id);
 
 		// delete user from users table should be placed after remove from group
-		$this->db->delete($this->tables['users'], array('id' => $id));
-
+		$this->db->update($this->tables['users'], $data, array('id' => $user->id));
 		// if user does not exist in database then it returns FALSE else removes the user from groups
 		if ($this->db->affected_rows() == 0)
 		{
@@ -1556,6 +1550,7 @@ class Ion_auth_model extends CI_Model
 		$this->set_message('delete_successful');
 		return TRUE;
 	}
+
 
 	/**
 	 * update_last_login

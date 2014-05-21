@@ -87,28 +87,28 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getEmail();
     }
 
-    public function setAddress1($address1)
+    public function setStreet($street)
     {
         $this->__load();
-        return parent::setAddress1($address1);
+        return parent::setStreet($street);
     }
 
-    public function getAddress1()
+    public function getStreet()
     {
         $this->__load();
-        return parent::getAddress1();
+        return parent::getStreet();
     }
 
-    public function setAddress2($address2)
+    public function setState($state)
     {
         $this->__load();
-        return parent::setAddress2($address2);
+        return parent::setState($state);
     }
 
-    public function getAddress2()
+    public function getState()
     {
         $this->__load();
-        return parent::getAddress2();
+        return parent::getState();
     }
 
     public function setZipCode($zipCode)
@@ -207,10 +207,22 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getLastUpdatedBy();
     }
 
+    public function setDeleted($deleted)
+    {
+        $this->__load();
+        return parent::setDeleted($deleted);
+    }
+
+    public function getDeleted()
+    {
+        $this->__load();
+        return parent::getDeleted();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'supplierId', 'supplierName', 'telephone', 'email', 'address1', 'address2', 'zipCode', 'city', 'country', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy');
+        return array('__isInitialized__', 'supplierId', 'supplierName', 'telephone', 'email', 'street', 'state', 'zipCode', 'city', 'country', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy', 'deleted');
     }
 
     public function __clone()
