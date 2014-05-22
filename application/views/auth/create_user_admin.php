@@ -10,28 +10,28 @@
             <!--<form class="form-horizontal" role="form" action="<?php echo base_url(); ?>"> -->
               
                 <?php 
-                $attributes = array('class' => 'form-horizontal', 'role' => 'form');
+                $attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id'=>'add-user');
                 echo form_open($form_action,$attributes); 
                 ?>
                
-               <div class="form-group">
+             <!--  <div class="form-group">
                   <label for="user name" class="col-sm-2 control-label">User Name</label>
                     <div class="col-sm-10">
-                      <input type="text"  id="username" name="username"  value="<?php echo set_value('name'); ?>"  placeholder="Enter user name" pattern="[a-zA-Z0-9]{1,}">
+                      <input type="text"  id="username" name="username"  value="<?php echo set_value('name'); ?>"  placeholder="Enter user name" >
                     </div>
-               </div>
+               </div>-->
 
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">First name</label>
                     <div class="col-sm-10">
-                      <input type="text"  id="first_name" name="first_name" value="<?php echo set_value('first_name'); ?>" placeholder="Enter first name" pattern="[a-zA-Z0-9]{1,}">
+                      <input type="text"  id="first_name" name="first_name" value="<?php echo set_value('first_name'); ?>" placeholder="Enter first name">
                   </div>
                </div> 
 
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">Last name</label>
                     <div class="col-sm-10">
-                      <input type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name'); ?>" placeholder="Enter Last name" pattern="[a-zA-Z0-9]{1,}">
+                      <input type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name'); ?>" placeholder="Enter Last name" >
                   </div>
                </div>               
                     
@@ -45,7 +45,7 @@
                <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Mobile</label>
                     <div class="col-sm-10">
-                      <input type="text"  id="mobile" name="mobile"  pattern="[0-9]{10}" value="<?php echo set_value('mobile'); ?>" placeholder="Enter mobile number">
+                      <input type="text"  id="mobile" name="mobile" value="<?php echo set_value('mobile'); ?>" placeholder="Enter mobile number">
                   </div>
                </div>
 
@@ -66,6 +66,7 @@
                   <label for="status" class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
                       <select class="form-control" id="status" name="status" value="<?php echo set_value('status'); ?>">
+                        <option>--Secect Status--</option>
                         <option value="1">Enable</option>
                         <option value="0">Disable</option>
                       </select>
@@ -76,7 +77,7 @@
 
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-success btn-sm" id="submit">Add</button>
+                      <button type="submit" class="btn btn-success btn-sm">Add</button>
                        <button type="reset" class="btn btn-info btn-sm" id="reset">Reset</button>
                   </div>
               </div>

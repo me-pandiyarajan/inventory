@@ -9,7 +9,7 @@
 	        	<!--<form class="form-horizontal" role="form" action="<?php echo base_url(); ?>"> -->
 	        		
 	        			<?php 
-	        			$attributes = array('class' => 'form-horizontal', 'role' => 'form');
+	        			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id'=>'edit-supplier');
 	        			echo form_open($form_action,$attributes); 
 	        			?>
 						   
@@ -17,7 +17,7 @@
 						      <label for="supplier name" class="col-sm-2 control-label">Supplier Name</label>
 						      	<div class="col-sm-10">
 						      		<input type="hidden"  id="supplier_id" name="supplier_id"  value="<?php echo $supplier->getSupplierId(); ?>" >
-						      		<input type="text"  id="supplier_name" name="supplier_name"  value="<?php echo $supplier->getSupplierName(); ?>"  placeholder="Enter supplier name" pattern="[a-zA-Z0-9]{1,}">
+						      		<input type="text"  id="supplier_name" name="supplier_name"  value="<?php echo $supplier->getSupplierName(); ?>"  placeholder="Enter supplier name" >
 						   	  	</div>
 						   </div>
 						   
@@ -31,7 +31,7 @@
 						   <div class="form-group">
 						      <label for="name" class="col-sm-2 control-label">Mobile</label>
 						      	<div class="col-sm-10">
-						      		<input type="text"  id="mobile" name="mobile"  pattern="[0-9]{10}" value="<?php echo $supplier->getTelephone(); ?>" placeholder="Enter mobile number">
+						      		<input type="text"  id="mobile" name="mobile" value="<?php echo $supplier->getTelephone(); ?>" placeholder="Enter mobile number">
 						   		</div>
 						   </div>
 						   
@@ -47,7 +47,7 @@
 						    <div class="form-group">							   
 						     	<label for="city" class="col-sm-2 control-label">City</label>
 					      		<div class="col-sm-10">
-					      			<input type="text" id="city" name="city" value="<?php echo $supplier->getCity(); ?>" placeholder="Enter city name" pattern="[a-zA-Z0-9]{1,}"/>
+					      			<input type="text" id="city" name="city" value="<?php echo $supplier->getCity(); ?>" placeholder="Enter city name" />
 					      		</div>
 						   </div>
 
@@ -64,7 +64,7 @@
  							 <div class="form-group">
 						      	<label for="state" class="col-sm-2 control-label">State</label>
 						      	<div class="col-sm-10">
-						      		<input type="text"  id="state" name="state" value="<?php echo $supplier->getState(); ?>" placeholder="Enter state name" pattern="[a-zA-Z0-9]{1,}">
+						      		<input type="text"  id="state" name="state" value="<?php echo $supplier->getState(); ?>" placeholder="Enter state name" >
 						   		</div>
 						   </div>
 
@@ -82,7 +82,7 @@
 						   <div class="form-group">
 						      <label for="status" class="col-sm-2 control-label">Status</label>
 						      	<div class="col-sm-3">
-						      		<?php $options = array('1'  => 'Enable','0' => 'Disable'); 
+						      		<?php $options = array('' => 'Select Status', '1'  => 'Enable','0' => 'Disable'); 
 						      		 echo form_dropdown('status', $options,$supplier->getStatus(),'class="form-control"'); ?>
 						   		</div>
 						   </div>
@@ -92,7 +92,7 @@
 
 						    <div class="form-group">
 							    <div class="col-sm-offset-2 col-sm-10">
-							        <button type="submit" class="btn btn-success btn-xs" id="submit">Update</button>
+							        <button type="submit" class="btn btn-success btn-xs" >Update</button>
 							      <a type="button" href="<?php echo base_url();?>supplier/listsuppliers" class="btn btn-default btn-xs">Cancel</a>
 							    </div>
 							</div>

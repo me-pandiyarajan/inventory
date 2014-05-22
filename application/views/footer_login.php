@@ -3,7 +3,7 @@
 <!-- footer -->
 <div class="row">
 		<hr>
-	    <p class="">&copy;<?php echo date('Y'); ?> Saagars furnising </p>
+	    <p class="">&copy;<?php echo date('Y'); ?> Saagar's furnishing </p>
 </div>
 <!-- footer end -->
 

@@ -1,5 +1,5 @@
 <div class="col-sm-9 col-md-10 main">
-<h1 class="page-header">New Product list</h1>
+<h1 class="page-header">Updated Product list</h1>
  <!-- dynamic view content -->       
 <?php if ( $this->session->flashdata('EditProduct') ) echo $this->session->flashdata('EditProduct'); 
 if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('ProductNot');?>
@@ -50,25 +50,15 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							echo'<td class="align-center ">'.$datum->getPrice().'</td>
 				            <td class="align-center">'.$datum->getSafetyStockLevel().'</td>
 							<td class="align-center"><div class="btn-group">
-                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/np">Edit</a>
-                           <a class="btn btn-primary btn-xs" href="approveproduct/'.$datum->getproductGenId().'/np">Approve</a>
+                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
+                           <a class="btn btn-primary btn-xs" href="approveproduct/'.$datum->getproductGenId().'/up">Approve</a>
 						   <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'">Delete</a>
                            </div>
                            </td>';
 							
 							}
 							?>
-						<?php 
-							if($visiblity == 2)
-							{
-							echo'<td class="align-center"><div class="btn-group">
-                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/np">Edit</a>
-                           <a class="btn btn-primary btn-xs" href="approveproduct/'.$datum->getproductGenId().'/np">Approve</a>
-                           <a class="btn btn-primary btn-xs" href="revertproduct/'.$datum->getproductGenId().'">Revert</a>
-                           </div>
-                           </td>';
-							}
-							?>	
+							
 							
 					</tr>	
 	

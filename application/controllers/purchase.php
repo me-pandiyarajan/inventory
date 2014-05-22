@@ -45,7 +45,7 @@ class purchase extends CI_Controller {
         
 		$estimatedata['form_action'] = "purchase/create_new_estimate";
 
-	   $config = array(
+	  /* $config = array(
 	 		array(
                      'field'   => 'product_ids',
                      'label'   => 'Product',
@@ -62,7 +62,7 @@ class purchase extends CI_Controller {
                      'rules'   => 'required'
                   )				  
                );
-		$this->form_validation->set_rules($config);
+		$this->form_validation->set_rules($config);*/
 		$this->form_validation->set_message('required_2', 'Please add atleast one %s to generate an estimate');
 
 		/*
@@ -535,16 +535,7 @@ class purchase extends CI_Controller {
 						 'label'   => 'Delivery Quantity',
 						 'rules'   => 'required'
 					  ),
-				   array(
-						 'field'   => 'damagedquantity',
-						 'label'   => 'Damaged Quantity',
-						 'rules'   => 'required'
-					  ), 
-					array(
-						 'field'   => 'comments',
-						 'label'   => 'Comments',
-						 'rules'   => 'required'
-					  ), 				  
+				  		 				  
 				   );
 
 		$this->form_validation->set_rules($config);
@@ -641,7 +632,7 @@ class purchase extends CI_Controller {
 							$user = $this->ion_auth_model->user(1)->row();
 							$user->email;
 						    $attachments = array($orderedattachment,$confirmattachment);
-						    $this->email($user->email,$msg,$attachments);
+						    $this->email($user->email,$msg,$attachments,$subject);
 		     				
                     	}
                        	else

@@ -4,10 +4,11 @@
 	 <!-- dynamic view content -->       
 
 	        <h2 class="page-header">List Supplier</h2>
+ <?php if ( $this->session->flashdata('supplieredit') ) echo $this->session->flashdata('supplieredit'); ?>
  <?php if ( $this->session->flashdata('supplierdelect') ) echo $this->session->flashdata('supplierdelect'); ?>
 			   <!-- add supplier -->
 
-				        <a href="<?php echo site_url()."supplier/addSupplier"?>" class="btn btn-success btn-sm">Add</a>
+				        <a href="<?php echo site_url()."supplier/addSupplier"?>" class="btn btn-success btn-sm">Add Supplier</a>
 
 			   <!-- add supplier end--> 
 

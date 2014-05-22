@@ -3,10 +3,12 @@
 <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/dashboard.css" rel="stylesheet">
 
-
+<script src="<?php echo base_url(); ?>assets/jquery/core/jquery-1.11.0.js"></script>
+<script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.js"></script>
 <script src="<?php echo base_url(); ?>assets/chartjs/js/knockout-3.0.0.js"></script>
 <script src="<?php echo base_url(); ?>assets/chartjs/js/globalize.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/chartjs/js/dx.chartjs.js"></script>
+<script type="text/javascript">$(document).ready(function() { $("li.active").removeClass("active");var active = document.URL;active = active.split("#");$("#"+active[1]).addClass('active');});</script>
 	
 	<div class="col-md-7 ">			
 		<div class="panel panel-default ht-3_5 text-center">
@@ -85,7 +87,30 @@
 	</div>
 
 </div>
+
+
 </div>
+
+
+<!-- footer -->
+
+<div class="row">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <span class="">&copy;<?php echo date('Y'); ?> Saagar's furnishing </span>
+		<span class="pull-right"><?php echo unix_to_human($user_data['lastlogin']); ?></span>	
+	  </div>
+	</div>
+</div>
+
+<!-- footer end -->
+
+
+</div>	
+
+</body>
+</html>
+
 		
 <script>
 	$(function ()  {

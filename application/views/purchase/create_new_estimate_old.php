@@ -1,124 +1,116 @@
 <div class="col-sm-9 col-md-10 main">
-	 <h1 class="page-header">NEW ESTIMATE</h1>
-	 <div class="row placeholders">
-	 <?php echo validation_errors(); 
-	 if(isset($success)){echo $success;} 
-	 ?>  
-	 <?php 
-	  $attributes = array('class' => 'form-horizontal');
-	 echo form_open_multipart($form_action,$attributes);?>
-	 <?php foreach($product as $products): ?>
-	 <?php
-	 if($value == true)
-	 {
-	 
-	 $supplier_id = $products->getSuppliersSupplier()->getSupplierId();
-	 $supplier_name = $products->getSuppliersSupplier()->getSupplierName();
-	 $supplier_phone = $products->getSuppliersSupplier()->getTelephone();
-	 $supplier_email = $products->getSuppliersSupplier()->getEmail();
-	 $supplier_address = $products->getSuppliersSupplier()->getStreet().','.$products->getSuppliersSupplier()->getState();
-	 }
-	else
-	{
-	$supplier_id = NULL;
-	$supplier_name = NULL;
-	$supplier_phone = NULL;
-	$supplier_email = NULL;
-	$supplier_address =NULL;
-	}
+    
+    <h1 class="page-header">NEW ESTIMATE</h1>
+    <?php echo validation_errors();   
+      if(!empty($success)) echo $success; ?>
+    <?php 
+       $attributes = array('class' => 'form-horizontal' , 'id' =>'new-estimate');
+       echo form_open_multipart($form_action,$attributes);
     ?>
+	
+	 
+    <div class="form-group">
+        <label class="control-label col-xs-2" for="estimate_name">Estimate Name</label>
+        <div class="col-xs-3">
+            <input type="text" class="form-control" required value="<?php echo set_value('estimate_name'); ?>" id="estimate_name" placeholder="Estimate Name" name="estimate_name" >
+        </div>
+    </div>
+    <legend>Supplier Info</legend>
 	<div class="form-group">
             <div class="col-xs-4" hidden>
-                <input type="text" class="form-control" value="<?php echo set_value('supplier_id');echo $supplier_id;?>" id="supplier_id" placeholder="Supplier Name" name="supplier_id" >
+                <input type="text" class="form-control" required value="<?php echo set_value('supplier_id');?>" id="supplier_id" placeholder="Supplier Name" name="supplier_id" >
             </div>
       </div>
-	 <div class="form-group">
-            <label class="control-label col-xs-3" for="supplier_name">Supplier Name</label>
-            <div class="col-xs-4">
-                <input type="text" class="form-control" value="<?php echo set_value('supplier_name');echo  $supplier_name; ?>" id="supplier_name" placeholder="Supplier Name" name="supplier_name" >
+      <div class="form-group">
+             <label class="control-label col-xs-2" for="supplier_name">Supplier Name</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control supplier_typeahead" required value="<?php echo set_value('supplier_name');?>" id="supplier_name" placeholder="Supplier Name" name="supplier_name" >
+				<input type="hidden" name="supplierId" required id="supplierId" value="" />
+            </div>
+            <label class="control-label col-xs-2" for="phone">Phone Number</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" value="<?php echo set_value('phone'); ?>" id="phone" placeholder="Phone Number" name="phone">
             </div>
        </div>
-	  
-        <legend>Supplier Info</legend>
-	  <div class="form-group">
-            <label class="control-label col-xs-3" for="company">Name of the Company</label>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="email">Email Id</label>
             <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('company'); ?>" id="company" placeholder="Name of the Company" name="company">
-            </div>
-            <label class="control-label col-xs-3" for="phone">Phone Number</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('phone'); echo $supplier_phone; ?>" id="phone" placeholder="Phone Number" name="phone">
-            </div>
-       </div>
-	    <div class="form-group">
-            <label class="control-label col-xs-3" for="email">Email Id</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('email');echo $supplier_email; ?>" id="email" placeholder="Email Id" name="email">
+                <input type="text" class="form-control" value="<?php echo set_value('email'); ?>" id="email" placeholder="Email Id" name="email">
             </div>
        
-            <label class="control-label col-xs-3" for="address">Address</label>
+            <label class="control-label col-xs-2" for="address">Address</label>
             <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('address');echo $supplier_address; ?>" id="address" placeholder="Address" name="address">
+                <textarea type="text" class="form-control" row="3" value="<?php echo set_value('address'); ?>" id="address" placeholder="Address" name="address"></textarea>
             </div>
        </div>
-	  
-	  <legend>Product Info</legend>
-	  <div class="form-group">
-            <label class="control-label col-xs-3" for="name">Name</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Name" name= "name">
+     
+      <legend>Product Info</legend>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="name">Name</label>
+                <div class="col-xs-3">
+                    <input type="text"  class="form-control typeahead" value="<?php echo set_value('name'); ?>" id="name" placeholder="Name" name= "product[]">
+                    <input type="hidden" name="sku" id="sku" value="" />
+                    <input type="hidden" name="productId" id="productId" value="" />
+                </div>
+                
+                <label class="control-label col-xs-2" for="design">Design</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" value="<?php echo set_value('design'); ?>" id="design" placeholder="design Name" name= "design[]">
+                </div>
+                
             </div>
-      
-            <label class="control-label col-xs-3" for="description">Description</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('description'); ?>" id="description" placeholder="Description" name= "description">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="quantity">Quantity</label>
+                <div class="col-xs-3">
+                    <input type="text"  class="form-control" value="<?php echo set_value('Quantity'); ?>" id="quantity" placeholder="Quantity" name= "Quantity[]">
+                </div>
+                
+                <label class="control-label col-xs-2" for="shade">Shade</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" value="<?php echo set_value('shade'); ?>" id="shade" placeholder="shade"  name= "shade[]">
+                </div>
             </div>
-       </div>
-	   <div class="form-group">
-            <label class="control-label col-xs-3" for="quantity">Quantity</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('Quantity'); ?>" id="quantity" placeholder="Quantity" name= "quantity">
-            </div>
-       
-            <label class="control-label col-xs-3" for="desgin">Desgin Name</label>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" value="<?php echo set_value('desgin'); ?>" id="desgin" placeholder="Desgin Name" name= "desgin">
-            </div>
-       </div>
-	  <div class="form-group">
-            <label class="control-label col-xs-3" for="dimension">Dimension</label>
-            <div class="col-xs-4">
-                <input type="text" class="form-control" value="<?php echo set_value('dimension'); ?>" id="dimension" placeholder="dimension"  name= "dimension">
-            </div>
-       </div>
-	  <div class="form-group">
-            <div class="col-xs-offset-3 col-xs-9">
-                <input type="submit" class="btn btn-primary" value="Add">
-            </div>
-      </div>
-  </form>
-  <div class="table-responsive">
-  <table class="table table-bordered">
-               <thead> 
-							<tr>
-								<?php  foreach($tablehead as $table_head):?>	   
-								<th><?php echo $table_head;?></th>
-								<?php endforeach; ?>
-							</tr>
-				    </thead>			
-					<tbody role="alert" aria-live="polite" aria-relevant="all">
-					<tr class="odd"> 
-					<td class="align-center "><?php echo $products->getProductIdPlu();?></td>
-					<td class="align-center "><a href="productDetails/<?php echo $datum->getproductGenId();?>/productview"><?php echo $products->getProductName();?></a></td>
-					<td class="align-center "><?php echo $products->getQuantity();?></td>
+            <div class="form-group">
+                <label class="control-label col-xs-2"  for="description">Description</label>
+                <div class="col-xs-3">
+                    <textarea class="form-control"  row="3" value="<?php echo set_value('description'); ?>" id="description" placeholder="description" name= "description[]"></textarea>
+                </div>
 
-					</tr>	
-	
-				<?php endforeach; ?>  
-					</tbody>
-									
-				</table>
+                <label class="control-label col-xs-2" for="dimension">Dimension</label>
+                <div class="col-xs-3">
+                    <textarea class="form-control" row="3" value="<?php echo set_value('dimension'); ?>" id="dimension" placeholder="dimension"  name= "dimension[]"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-9">
+                    <input type="button" class="btn btn-success btn-xs" id="addProd" value="Add">
+                </div>
+            </div>
 
-			</div>
+            <legend>Estimate </legend>
+            <table class="table table-bordered" id='mytable'>
+                <thead>
+                    <th>Remove</th>
+                    <th>SKU</th>
+                    <th>Product name</th>
+                    <th>Description</th>
+                    <th>Design/Shade</th>
+                    <th>Dimension</th>
+                    <th>Quantity</th>
+                </thead>    
+                <tbody>
+                
+                </tbody>
+            </table>
+                            
+             <button class="btn btn-success btn-xs" type="submit" >Send Estimate</button>
+           
+    </form>
 </div>
-</div>
+
+<link href="<?php echo base_url(); ?>assets/css/typeahead.css" rel="stylesheet">
+<script type="text/javascript"> var base_url = "<?php print base_url(); ?>";</script>
+<script src="<?php echo base_url(); ?>assets/jquery/core/jquery-1.11.0.js"></script>
+<script src="<?php echo base_url(); ?>assets/typeahead/typeahead.bundle.js"></script>
+<script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/create_new_estimate.js"></script>

@@ -107,7 +107,6 @@ class Supplier extends CI_Controller {
 				$supplier->setState($state);
 				$supplier->setZipCode($zip);
 				$supplier->setStatus($status);
-				$supplier->setDeleted(0);
 				$this->em->persist($supplier);
 				$this->em->flush();
 
@@ -329,8 +328,12 @@ class Supplier extends CI_Controller {
 					$supplier->setStatus($status);
 					$this->em->persist($supplier);
 					$this->em->flush();
-                   
-		          // redirect('supplier/listsuppliers'); 
+
+					$data['success'] ='<div class="alert alert-success alert-dismissable">
+	  									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	  									Supplier detail updated successfuly!
+	  									</div>';
+
 					$group = $this->ion_auth->GetUserGroupId();
 					$menu = $this->navigator->getMenu();
 					switch ($group) {
@@ -344,10 +347,9 @@ class Supplier extends CI_Controller {
 
 					$this->load->view('general/header', $header);
 					$this->load->view($menu);
-					$this->load->view('general/footer');
-					 $this->session->set_flashdata('supplieredit','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier detail updated successfuly!</b></div>');
+					//redirect('supplier/supplierDetails/'.$supplierid.'/viewSupplierDetails');
 					redirect('supplier/listsuppliers');
-					
+					$this->load->view('general/footer');
 
 				}
 				catch(Exception $e)

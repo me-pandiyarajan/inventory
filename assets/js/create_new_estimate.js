@@ -11,7 +11,7 @@
 
             if(x <= MaxInputs) 
             {
-                FieldCount++; 
+                 FieldCount++; 
               
                 var p_name = $('#name').val();
                 
@@ -39,8 +39,7 @@
 
                 x++;
                 }
-                $('#productId').val(null);
-                $('#sku').val(null);     
+                     
             }
         });
 
@@ -49,6 +48,8 @@
                 $.each(param, function(i,variables){
                     $('#'+variables).val('');
             });
+			//$('#productId').val(null);
+            //$('#sku').val(null);
         });
     
             

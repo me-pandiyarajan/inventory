@@ -293,7 +293,7 @@ function __construct()  {
 	*	
 	*	
 	*/
-	public function productDetails($productid = null, $actionview = null )
+	public function productDetails($productid = null, $actionview = null, $editmode = null)
 	{
 		if($productid != null && $actionview != null)
 		{
@@ -368,6 +368,7 @@ function __construct()  {
 						$action['visiblity'] = 3;
 						break;
 				}
+				$action['editmode'] = $editmode;
                 $actionpage= "product/".$actionview."";
 				$this->load->view('general/header', $header);
 				$this->load->view($menu);
@@ -388,8 +389,9 @@ function __construct()  {
 	/*
 	 *	Update product
 	 */
-	public function editProduct()
+	public function editProduct( )
 	{
+			$editmode = $this->input->post('editmode');
 			$this->form_validation();
 			$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 			$group_id = $this->ion_auth->GetUserGroupId();
@@ -424,11 +426,11 @@ function __construct()  {
 					$product->setCountryOfManufacture($this->input->post('country_of_manufacture'));
 					$product->setStatus($this->input->post('status'));
 					$product->setPrice($this->input->post('price'));
-					$product->setGroupPrice($this->input->post('group_price'));
+					//$product->setGroupPrice($this->input->post('group_price'));
 					//$product->setSpecialPriceFrom($this->input->post('special_price_from'));
 					//$product->setSpecialPriceTo($this->input->post('special_price_to'));
 					$product->setInstallationCharges($this->input->post('installation_charges'));
-					$product->setTotalCost($this->input->post('total_cost'));
+					//$product->setTotalCost($this->input->post('total_cost'));
 					//$product->setGrandTotal($this->input->post(''));
 					$product->setUploadImage($image_path);
 					$product->setQuantity($this->input->post('quantity'));
@@ -446,25 +448,34 @@ function __construct()  {
 					$product->setDesignName($design);
 					$shade = $this->input->post('shade');
 					$product->setShade($shade);
-					if($group_id == 3){$product->setApproved($group_id);$product->setStatus($this->input->post('Status'));}
 					$update_date = new\DateTime("now");
 					$product->setLastUpdated($update_date);
 					$product->setLastUpdatedBy($header['user_data']['id']);
 					$supplier_id = $this->input->post('supplier_id');
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
-					$TaxClass =  $this->em->getRepository('models\inventory\TaxClass')->find($this->input->post('tax_id'));
+					//$TaxClass =  $this->em->getRepository('models\inventory\TaxClass')->find($this->input->post('tax_id'));
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
-					$product->setTaxClassTaxClass($TaxClass);
-					if($group_id == 3){$product->setApproved($group_id);$product->setStatus(1);}
-						$this->em->persist($product);
-						$this->em->flush();
-						$product_id = $product->getProductGenId();
-						list($response,$barCodeImage,$PLU,$SKU) = $this->getSKU_PLU($product_id,$supplier_id,$inv_counrty="INDIA",$inv_city="CHENNAI",$category,$design,$shade);
-						$k = array($response,$barCodeImage,$PLU,$SKU);
+					//$product->setTaxClassTaxClass($TaxClass);
+					if($group_id == 3){
+						$product->setApproved($group_id);
+						$product->setStatus(1);
+					}elseif ($group_id == 2) {
+						if ($editmode == 'ep') {
+							$product->setApproved(6);
+						}else{
+							$product->setApproved($group_id);
+						}
+					}
+					$product->setStatus($this->input->post('Status'));
+					$this->em->persist($product);
+					$this->em->flush();
+					$product_id = $product->getProductGenId();
+					list($response,$barCodeImage,$PLU,$SKU) = $this->getSKU_PLU($product_id,$supplier_id,$inv_counrty="INDIA",$inv_city="CHENNAI",$category,$design,$shade);
+					$k = array($response,$barCodeImage,$PLU,$SKU);
 					if(!$response)
 					{
 						$this->em->getConnection()->rollback();
@@ -487,10 +498,22 @@ function __construct()  {
 						}
 						else
 						{
-							redirect('product/newproductlist'); 
-						}
-					}					
+
+							if ($editmode == 'ep' && $group_id == 2) {
+								redirect('product/productlist'); 
+							}elseif($editmode == 'np' ){
+								redirect('product/newproductlist'); 
+							}
+							elseif ($editmode == 'ep' && $group_id == 1) {
+								redirect('product/updatedproductlist'); 
+							}
+							else{
+								redirect('product/productlist'); 
+							}
+					 	}
+					 }					
 			    }
+
 	       		catch(Exception $e)
 	        	{
 					log_message('error', $e->getMessage()); 
@@ -500,7 +523,27 @@ function __construct()  {
 	}
 
 	/*
-	*	list New Product List
+	*	list Updated Product 
+	*	---------------------
+	*	
+	*/
+
+	public function updatedproductlist()
+	{
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenu();
+		$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' => 6));
+		$user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Price','Safetylevel','Action'); 
+		$user['visiblity'] = 1;
+		$this->load->view('general/header',$header);
+	   	$this->load->view($menu);
+		$this->load->view('product/updatedproductlist',$user);
+	    $this->load->view('general/footer');
+	}
+
+	/*
+	*	list New Product 
 	*	---------------------
 	*	
 	*/
@@ -547,7 +590,7 @@ function __construct()  {
 
 		if($this->input->post())
 		{
-			$params = array('approved' => 1);
+			$params = array('approved' => 1,'deleted' => 0);
 
 			foreach ($this->input->post() as $key => $value) 
 			{
@@ -557,11 +600,26 @@ function __construct()  {
 					switch ($key) {
 						case "category_id":
 							$category_id =$this->em->getRepository('models\inventory\categories')->findBy(array('categoryName' => $value));
-							$params['categoriesCategory'] = $category_id[0]->getCategoryId();
-							break;
+							if(empty($category_id))
+							{
+                             $params['categoriesCategory'] = $value;
+							}
+							else
+							{
+							  $params['categoriesCategory'] = $category_id[0]->getCategoryId();
+							}
+						break;
 						case "supplier":
 							$supplier_id = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('supplierName' => $value));
-           					$params['suppliersSupplier'] = $supplier_id[0]->getSupplierId();
+							if(empty($supplier_id))
+							{
+                             $params['suppliersSupplier'] = $value;
+							}
+							else
+							{
+							 $params['suppliersSupplier'] = $supplier_id[0]->getSupplierId();
+							}
+           					
 							break;
 						case 'design':
 							$params['designName'] = $value;
@@ -610,7 +668,7 @@ function __construct()  {
 	*	---------------------
 	*	input: productid 
 	*/
-	public function approveproduct($id)
+	public function approveproduct($id,$nav)
 	{             
 		   $header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		   $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
@@ -626,7 +684,15 @@ function __construct()  {
 			$this->em->persist($product);
 			$this->em->flush();
 			$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' approved Successfully</b></div>');
-			redirect('product/productlist'); 
+			if($nav == "up")
+			{
+               redirect('product/updatedproductlist');
+			}
+			else
+			{
+				redirect('product/newproductlist'); 
+			}
+			
 	}
 	
 
@@ -654,7 +720,7 @@ function __construct()  {
 			$this->em->persist($product);
 			$this->em->flush();
 			$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' Reverted </b></div>');
-			redirect('product/productlist'); 
+			redirect('product/newproductlist'); 
 	}
 	
 	/*

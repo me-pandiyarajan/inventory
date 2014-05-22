@@ -86,7 +86,7 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							<td class="align-center ">'.$datum->getPrice().'</td>
 							<td class="align-center">'.$datum->getSafetyStockLevel().'</td>
 							<td class="align-center"><div class="btn-group">
-                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit">Edit</a>
+                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
                            <a class="btn btn-primary btn-xs" href="'.base_url().'purchase/addtoestimate/'.$datum->getproductGenId().'">Add to Estimate</a>
                            <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'">Delete</a>
                             <a class="btn btn-success btn-xs" href='.base_url().$datum->getBarcodeimage().'>Barcode <span class="glyphicon glyphicon-circle-arrow-down"></span></a>
@@ -98,7 +98,7 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							if($visiblity == 2)
 							{
 							echo'<td class="align-center"><div class="btn-group">
-                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit">Edit</a>
+                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
                            <a class="btn btn-primary btn-xs" href="'.base_url().'purchase/addtoestimate/'.$datum->getproductGenId().'">Add to Estimate</a>
                             <a class="btn btn-success btn-xs" href='.base_url().$datum->getBarcodeimage().'>Barcode <span class="glyphicon glyphicon-circle-arrow-down"></span></a>
                             </div>

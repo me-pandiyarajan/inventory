@@ -4,7 +4,7 @@
     <?php echo validation_errors(); ?> 
     <?php if(!empty($success)) echo $success; ?> 
     <?php 
-       $attributes = array('class' => 'form-horizontal');
+       $attributes = array('class' => 'form-horizontal', 'id'=>'edit-estimate');
        echo form_open_multipart($form_action,$attributes);
     ?>
 	<?php //var_dump($estimationlist);?>

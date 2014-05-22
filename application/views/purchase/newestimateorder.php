@@ -8,7 +8,7 @@
  
 
 <?php 
-       $attributes = array('class' => 'form-horizontal');
+       $attributes = array('class' => 'form-horizontal', 'id' =>'new-estimate-order');
        echo form_open($form_action,$attributes);
     ?>
     <div class="form-group" >

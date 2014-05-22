@@ -9,14 +9,14 @@
 	        	<!--<form class="form-horizontal" role="form" action="<?php echo base_url(); ?>"> -->
 	        		
 	        			<?php 
-	        			$attributes = array('class' => 'form-horizontal', 'role' => 'form');
+	        			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'add-supplier');
 	        			echo form_open($form_action,$attributes); 
 	        			?>
 						   
 						   <div class="form-group ">
 						      <label for="supplier name" class="col-sm-2 control-label">Supplier Name</label>
 						      	<div class="col-sm-10">
-						      		<input type="text"  id="supplier_name" name="supplier_name"  value="<?php echo set_value('supplier_name'); ?>"  placeholder="Enter supplier name" pattern="[a-zA-Z0-9]{1,}">
+						      		<input type="text"  id="supplier_name" name="supplier_name"  value="<?php echo set_value('supplier_name'); ?>"  placeholder="Enter supplier name" >
 						   	  	</div>
 						   </div>
 						   
@@ -45,7 +45,7 @@
 						   <div class="form-group">							   
 						     	<label for="city" class="col-sm-2 control-label">City</label>
 					      		<div class="col-sm-10">
-					      			<input type="text" id="city" name="city" value="<?php echo set_value('city'); ?>" placeholder="Enter city name" pattern="[a-zA-Z0-9]{1,}" />
+					      			<input type="text" id="city" name="city" value="<?php echo set_value('city'); ?>" placeholder="Enter city name" />
 					      		</div>
 						   </div>
 
@@ -62,14 +62,14 @@
  							 <div class="form-group">
 						      	<label for="state" class="col-sm-2 control-label">State</label>
 						      	<div class="col-sm-10">
-						      		<input type="text"  id="state" name="state" value="<?php echo set_value('state'); ?>" placeholder="Enter state name" pattern="[a-zA-Z0-9]{1,}">
+						      		<input type="text"  id="state" name="state" value="<?php echo set_value('state'); ?>" placeholder="Enter state name" >
 						   		</div>
 						   </div>
 
  							<div class="form-group">
 					      		<label for="zip" class="col-sm-2 control-label">Zip</label>
 					      		<div class="col-sm-2">
-					      			<input type="text" id="zip" name="zip" placeholder="Enter zip code" pattern="[0-9]{5,6}" value="<?php echo set_value('zip'); ?>">
+					      			<input type="text" id="zip" name="zip" placeholder="Enter zip code"  value="<?php echo set_value('zip'); ?>">
 					      		</div>
 						   </div>
 						   <!-- address end -->
@@ -77,7 +77,7 @@
 						   <div class="form-group">
 						      <label for="status" class="col-sm-2 control-label">Status</label>
 						      	<div class="col-sm-3">
-						      		<?php $options = array('1'  => 'Enable','0' => 'Disable'); 
+						      		<?php $options = array('' => 'Select Status', 1'  => 'Enable','0' => 'Disable'); 
 						      		 echo form_dropdown('status', $options,set_value('status'),'class="form-control"'); ?>
 						   		</div>
 						   </div>
@@ -86,7 +86,7 @@
 
 						    <div class="form-group">
 							    <div class="col-sm-offset-2 col-sm-10">
-							        <button type="submit" class="btn btn-success btn-sm" id="submit">Add</button>
+							        <button type="submit" class="btn btn-success btn-sm">Add</button>
 							        <button type="reset" class="btn btn-info btn-sm" id="reset">Reset</button>
 							    </div>
 							</div>

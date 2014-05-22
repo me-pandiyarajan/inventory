@@ -4,7 +4,6 @@
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/nav.css" rel="stylesheet">
 
-
 <script>
 	function startTime() {
 

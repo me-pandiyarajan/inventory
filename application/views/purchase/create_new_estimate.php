@@ -4,7 +4,7 @@
     <?php echo validation_errors();   
       if(!empty($success)) echo $success; ?>
     <?php 
-       $attributes = array('class' => 'form-horizontal');
+       $attributes = array('class' => 'form-horizontal', 'id' => 'new-estimate');
        echo form_open_multipart($form_action,$attributes);
     ?>
 	
@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-2" for="name">Name</label>
                 <div class="col-xs-3">
-                    <input type="text" required class="form-control typeahead" value="<?php echo set_value('name'); ?>" id="name" placeholder="Name" name= "product[]">
+                    <input type="text" class="form-control typeahead" value="<?php echo set_value('name'); ?>" id="name" placeholder="Name" name= "product[]">
                     <input type="hidden" name="sku" id="sku" value="" />
                     <input type="hidden" name="productId" id="productId" value="" />
                 </div>
@@ -62,18 +62,18 @@
             <div class="form-group">
                 <label class="control-label col-xs-2" for="quantity">Quantity</label>
                 <div class="col-xs-3">
-                    <input type="text" required class="form-control" value="<?php echo set_value('Quantity'); ?>" id="quantity" placeholder="Quantity" name= "Quantity[]">
+                    <input type="text" class="form-control" value="<?php echo set_value('Quantity'); ?>" id="quantity" placeholder="Quantity" name= "Quantity[]">
                 </div>
                 
                 <label class="control-label col-xs-2" for="shade">Shade</label>
                 <div class="col-xs-3">
-                    <input type="text" required class="form-control" value="<?php echo set_value('shade'); ?>" id="shade" placeholder="shade"  name= "shade[]">
+                    <input type="text"  class="form-control" value="<?php echo set_value('shade'); ?>" id="shade" placeholder="shade"  name= "shade[]">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-2"  for="description">Description</label>
                 <div class="col-xs-3">
-                    <textarea class="form-control" required row="3" value="<?php echo set_value('description'); ?>" id="description" placeholder="description" name= "description[]"></textarea>
+                    <textarea class="form-control" row="3" value="<?php echo set_value('description'); ?>" id="description" placeholder="description" name= "description[]"></textarea>
                 </div>
 
                 <label class="control-label col-xs-2" for="dimension">Dimension</label>
@@ -108,9 +108,46 @@
     </form>
 </div>
 
+
+<!-- Button trigger modal -->
+<button  class="hidden" data-toggle="modal" id="pop" data-target="#myModal"></button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 class="modal-title text-danger" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> <strong>ALERT<strong></h5>
+      </div>
+      <div class="modal-body">
+	  <p>Please add at least one product to estimate
+	  </p></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <link href="<?php echo base_url(); ?>assets/css/typeahead.css" rel="stylesheet">
 <script type="text/javascript"> var base_url = "<?php print base_url(); ?>";</script>
 <script src="<?php echo base_url(); ?>assets/jquery/core/jquery-1.11.0.js"></script>
 <script src="<?php echo base_url(); ?>assets/typeahead/typeahead.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/create_new_estimate.js"></script>
+<script type="text/javascript">
+$(function() {
+
+	$(document).on('submit','form#new-estimate',function(){
+	   var estimate_product_count = $('#mytable tbody').children().length;	
+	   if(estimate_product_count == 0) {
+		  $( "#pop" ).trigger( "click" );  
+			return false;
+		}
+	});
+	
+});
+</script>
+

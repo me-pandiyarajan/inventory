@@ -20,6 +20,7 @@
             <label class="control-label col-xs-3" for="productName">Product Id:</label>
             <div class="col-xs-4">
                 <input type="text" class="form-control"  value="<?php echo $product->getProductGenId();?>" id="productGenId" name="productGenId" placeholder="Product Name" >
+            <input type="hidden" name="editmode" value="<?php echo $editmode;?>">
             </div>
 	 </div> 
 	<legend>General</legend>
@@ -87,8 +88,8 @@
         </div>
         <label class="control-label col-xs-3" for="unit">Unit</label>
             <div class="dropdown col-xs-3">';
-             $options = array(''=>'Select Unit','pieces' => 'piece(s)','boxes'  => 'Box(s)','bags' => 'bags','rolls'=>'rolls','meter'=>'meter','feet'=>'feet','inches' => 'Inches'); 
-            echo form_dropdown('unit', $options,$product->getUnit(),'class="form-control"').'</div>
+             $options = array(''=>'Select Unit','pieces' => 'piece(s)','boxes'  => 'box(s)','bags' => 'bags','rolls'=>'rolls','meter'=>'meter','feet'=>'feet','inches' => 'Inches'); 
+             echo form_dropdown('unit',$options,$product->getUnit(),'class="form-control"').'</div>
             </div>';
         }
             ?>
@@ -97,10 +98,11 @@
           {
             echo '<div class="form-group">
             <label class="control-label col-xs-3" for="stock_availability">Stock Availability</label>
-            <div class="col-xs-3">
-             <input type="text" class="form-control"  id="stock_availability" name="stock_availability" value= "'.$product->getStockAvailability().'" placeholder="Stock Availability">
-            </div>
-         </div>
+             <div class="dropdown col-xs-3">';
+            $options = array(''=>'Select Stock Availability','1'  => 'In-Stock','0' => 'Out-Of-Stock'); 
+            echo form_dropdown('stock_availability', $options,$product->getStockAvailability(),'class="form-control"');
+           echo'</div>
+           </div>
         <div class="form-group">
             <label class="control-label col-xs-3" for="safety_stock_level">Safety Stock Level</label>
             <div class="col-xs-3">

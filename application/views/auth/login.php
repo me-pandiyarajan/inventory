@@ -10,9 +10,9 @@
 
 
         <div class="form-group control-group">
-            <label for="name" class="col-sm-2 control-label">User Name</label>
+            <label for="name" class="col-sm-2 control-label">Email Id</label>
                 <div class="col-sm-8">
-                    <input type="email" id="identity" name="identity" class="form-control" placeholder="User name" >
+                    <input type="email" id="identity" name="identity" class="form-control" placeholder="Email Id" >
                     <p class="help-block"></p>
                 </div>
         </div>
@@ -31,8 +31,8 @@
         </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-8">
-                <button class="btn btn-lg btn-block" type="submit" name="submit">Sign in</button>
+            <div class="col-sm-offset-2 col-sm-12">
+                <button class="btn btn-sm btn-success" type="submit" name="submit">Sign in</button>
               
             </div>
         </div>
