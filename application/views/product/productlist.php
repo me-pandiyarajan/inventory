@@ -31,7 +31,7 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
              <input type="text" class="form-control shade_typeahead" value="" id="Shade" name="Shade" placeholder="Shade">
             </div>
 	   <div class="col-xs-4">
-             <button type="submit" class="btn btn-primary btn-xs">Search</button>
+             <button type="submit"  class="btn btn-primary btn-sm col-xs-12">Search</button>
       </div>
 	  </div>
 	  </form>
@@ -88,7 +88,7 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							<td class="align-center"><div class="btn-group">
                            <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
                            <a class="btn btn-primary btn-xs" href="'.base_url().'purchase/addtoestimate/'.$datum->getproductGenId().'">Add to Estimate</a>
-                           <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'">Delete</a>
+                           <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'/pd">Delete</a>
                             <a class="btn btn-success btn-xs" href='.base_url().$datum->getBarcodeimage().'>Barcode <span class="glyphicon glyphicon-circle-arrow-down"></span></a>
                            </div>
                            </td>';

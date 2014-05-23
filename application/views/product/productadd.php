@@ -182,12 +182,12 @@
         
        
       <div class="form-group">
-            <div class="col-xs-offset-3 col-xs-9">
+            <div class="col-xs-offset-2 col-xs-3">
                  <button type="submit" class="btn btn-success btn-sm">Submit</button>
                   <input type="reset" class="btn btn-info btn-sm" value="Reset" >
                <!--  <a type="button" href="<?php echo base_url();?>Product/addProduct" class="btn btn-default btn-xs">Cancel</a>-->
                
             </div>
         </div>
-</form>
+  <?php echo form_close();?>
 </div>

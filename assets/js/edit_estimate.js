@@ -3,50 +3,57 @@
         var MaxInputs = 100; //maximum rows allowed
 
         var x = existing_p_count; //initlal text box count
-        var FieldCount = 1; //to keep track of text box added
+        var FieldCount = 0; //to keep track of text box added
+        var listed_products =  new Array();
         
         $("body").on("click","#addProd", function(){
 
             if(x <= MaxInputs) 
             {
                 FieldCount++; 
+
+                var p_name = $('#name').val();
+
+                if( jQuery.inArray( p_name , listed_products ) > -1 && FieldCount > 1 ){
+                    $( "#pop2" ).trigger( "click" ); 
+                    return false; 
+                }
     
-                var temp_p_id = "";
-                var p_id = $('#productId').val();
-                if(p_id.length > 0)
+                if(p_name.length > 0)
                 {
+                    var temp_p_id = "";
                     var sku = $('#sku').val();
-                    var p_name = $('#name').val();
+                    var p_id = $('#productId').val();
                     var desc = $('#description').val();
                     var quan = $('#quantity').val();
                     var design = $('#design').val();
                     var shade = $('#shade').val();
                     var dime = $('#dimension').val();
+                    listed_products[FieldCount-1] = p_name; 
 
                 newRow = '<tr>' +
                             '<td ><input type="hidden" name="temp_p_id[]" value="'+ temp_p_id +'" /><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
-                            '<td >'+ sku +' <input type="hidden" name="plu[]" value="'+ sku +'" /></td>' +
+                            '<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
                             '<td >'+ p_name +' <input type="hidden" name="product_names[]" value="'+ p_name +'" /> </td>' +
                             '<td ><textarea row="1" name="descriptions[]" >'+ desc +'</textarea> </td>' +
                             '<td ><input type="text" name="designShade[]" value="'+ design +'/'+ shade +'" /> </td>' +
                             '<td ><input type="text" name="dimensions[]" value="'+ dime +'" /> </td>' +
-                            '<td ><input type="text"  class="col-sm-5" name="quantities[]" value="'+ quan +'" /> </td>' +
+                            '<td ><input type="text" name="quantities[]" value="'+ quan +'" /> </td>' +
                         '</tr>';
                 
                 $('.table > tbody').append(newRow);
 
                 x++; 
                 }
-                
-                $('#productId').val(null);
-                $('#sku').val(null);     
             }
         });
 
+
+
         $( ".typeahead" ).focus(function(e) {
-               var param = ['productId','plu','description','quantity','design','dimension'];
+               var param = ['productId','sku','description','quantity','design','shade','dimension'];
                 $.each(param, function(i,variables){
-                    $('#'+variables).val('');
+                    $('#'+variables).val(null);
             });
         });
     

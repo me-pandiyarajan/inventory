@@ -9,7 +9,7 @@
         <li><a href="<?php echo base_url();?>Product/addProduct">Add Product</a></li>
 		    <li><a href="<?php echo base_url();?>Product/newproductlist">New Product list</a></li>
         <li><a href="<?php echo base_url();?>Product/updatedproductlist">Updated Product list</a></li>
-        <li><a href="<?php echo base_url();?>Product/addproductcategory">Product category</a></li>
+        <li><a href="<?php echo base_url();?>ProductCategory/listcategories">Product category</a></li>
        
       </ul>
 	   <ul class="nav nav-sidebar">

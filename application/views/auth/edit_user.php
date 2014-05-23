@@ -62,7 +62,7 @@
                <div class="form-group">
                   <label for="status" class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
-                      <?php $options = array('' => 'Select Status', 1'  => 'Enable','0' => 'Disable'); 
+                      <?php $options = array('' => 'Select Status', '1'  => 'Enable','0' => 'Disable'); 
                        echo form_dropdown('status', $options,$user->active,'class="form-control"'); ?>
                   </div>
                </div>

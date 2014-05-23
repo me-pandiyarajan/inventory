@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class product extends CI_Controller {
+class Product extends CI_Controller {
 
 /**
 * Index Page for this controller.
@@ -118,9 +118,8 @@ function __construct()  {
 		$group_id = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenu();
 	    $action['form_action'] = "product/addProduct";
-		$supplier_data = $this->em->getRepository('models\inventory\Suppliers')->findAll();
-		$TaxClass_data =  $this->em->getRepository('models\inventory\TaxClass')->findAll();
-		$Categories_data = $this->em->getRepository('models\inventory\Categories')->findAll();
+		$supplier_data = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('status'=>'1'));
+		$Categories_data = $this->em->getRepository('models\inventory\Categories')->findBy(array('status'=>'1'));
 		$supplier = array();
 		
 		if(!empty($supplier_data))
@@ -136,23 +135,8 @@ function __construct()  {
 		{
 			$supplier[0] = "No suppliers available";
 		}
-		
-		
-		if(!empty($TaxClass_data))
-		{
-			foreach($TaxClass_data as $tax)
-			{
-				$id = $tax->getTaxClassId();
-				$value = $tax->getTaxClassName();
-				$TaxClass[$id] = $value;
-			}
-		}
-		else
-		{
-			$TaxClass[0] = "No tax group available";
-		}
-		
-		
+
+				
 		if(!empty($Categories_data))
 		{
 			foreach($Categories_data as $cat)
@@ -168,7 +152,6 @@ function __construct()  {
 		}
 		
 		$action['supplier'] = $supplier;
-		$action['TaxClass'] = $TaxClass;
 		$action['Categories'] = $Categories;
 		
 		  if ($this->form_validation->run() == FALSE)
@@ -208,7 +191,6 @@ function __construct()  {
 					$header = $this->ion_auth->GetHeaderDetails();
 					$group_id = $this->ion_auth->GetUserGroupId();
 					$product = new models\inventory\Products;
-					$product->setStatus($this->input->post('status'));
 					$product->setPrice($this->input->post('price'));
 					$product->setGroupPrice($this->input->post('group_price'));
 					//$product->setSpecialPriceFrom($this->input->post('special_price_from'));
@@ -236,7 +218,15 @@ function __construct()  {
 					$product->setDesignName($design);
 					$shade = $this->input->post('shade');
 					$product->setShade($shade);
-					if($group_id != 1){$product->setStatus(0);}else{$product->setStatus(1);}
+					if($group_id  == 1)
+					{
+					  $product->setStatus($this->input->post('status'));
+                       
+					}
+					else
+					{
+                      $product->setStatus(0);
+					}
 					$create_date = new \DateTime("now");
 					$product->setCreatedDate($create_date);
 					$product->setProductActivated($create_date);
@@ -406,8 +396,9 @@ function __construct()  {
 			   $action = $this->image_upload();		   
 			   if(!empty($action['error']))
 			   {		
-                 $this->productDetails($id,'productedit');
-				 $image_path = 0;
+                $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
+				 $image_path = $data['product']->getUploadImage();
+
 			   }
 			   else
 			   {
@@ -424,22 +415,12 @@ function __construct()  {
 					$product->setDescription($this->input->post('description'));
 					$product->setShortDescription($this->input->post('short_description'));
 					$product->setCountryOfManufacture($this->input->post('country_of_manufacture'));
-					$product->setStatus($this->input->post('status'));
-					$product->setPrice($this->input->post('price'));
-					//$product->setGroupPrice($this->input->post('group_price'));
-					//$product->setSpecialPriceFrom($this->input->post('special_price_from'));
-					//$product->setSpecialPriceTo($this->input->post('special_price_to'));
-					$product->setInstallationCharges($this->input->post('installation_charges'));
-					//$product->setTotalCost($this->input->post('total_cost'));
-					//$product->setGrandTotal($this->input->post(''));
+					
 					$product->setUploadImage($image_path);
 					$product->setQuantity($this->input->post('quantity'));
 					$product->setUnit($this->input->post('unit'));
 					$product->setMaterial($this->input->post('material'));
 					$product->setDimenUnit($this->input->post('dimunit'));
-					$product->setStockAvailability($this->input->post('stock_availability'));
-					$product->setSafetyStockLevel($this->input->post('safety_stock_level'));
-					$product->setPosStockLevel($this->input->post('POS_stock_level'));
 					$product->setWeight($this->input->post('weight'));
 					$product->setWidth($this->input->post('width'));
 					$product->setLength($this->input->post('length'));
@@ -460,17 +441,28 @@ function __construct()  {
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
 					//$product->setTaxClassTaxClass($TaxClass);
-					if($group_id == 3){
-						$product->setApproved($group_id);
-						$product->setStatus(1);
-					}elseif ($group_id == 2) {
-						if ($editmode == 'ep') {
-							$product->setApproved(6);
-						}else{
-							$product->setApproved($group_id);
-						}
+					if($group_id  == 1)
+					{
+					  $product->setStatus($this->input->post('status'));
+                       
 					}
-					$product->setStatus($this->input->post('Status'));
+					else
+					{
+                      $product->setStatus(0);
+					}
+					if ($group_id == 2 && $editmode == 'ep') 
+					{
+						$product->setApproved(6);
+						
+					}
+					else
+					{
+						$product->setPrice($this->input->post('price'));
+						$product->setInstallationCharges($this->input->post('installation_charges'));
+						$product->setStockAvailability($this->input->post('stock_availability'));
+					    $product->setSafetyStockLevel($this->input->post('safety_stock_level'));
+					    $product->setPosStockLevel($this->input->post('POS_stock_level'));
+					}
 					$this->em->persist($product);
 					$this->em->flush();
 					$product_id = $product->getProductGenId();
@@ -533,7 +525,7 @@ function __construct()  {
 		$header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenu();
-		$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' => 6));
+		$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' => 6,'deleted' => 0));
 		$user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Price','Safetylevel','Action'); 
 		$user['visiblity'] = 1;
 		$this->load->view('general/header',$header);
@@ -579,7 +571,7 @@ function __construct()  {
    }
    
    /*
-	*	list Product List-Approved Product
+	*	 Product List-Approved Product
 	*	----------------------------------
 	*	
 	*/
@@ -742,7 +734,7 @@ function __construct()  {
 	$this->load->view('general/footer');
 	}
 
-    public function delete($id)
+    public function delete($id,$nav)
 	{
 		$header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
@@ -755,7 +747,18 @@ function __construct()  {
 		$this->em->persist($product);
 		$this->em->flush();
 		$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' Deleted </b></div>');
-		redirect('product/productlist'); 
+		if($nav == "pd") //product list delete
+			{
+               redirect('product/productlist');
+			}
+			elseif($nav == "ud") //Update product delete
+			{
+				redirect('product/updatedproductlist'); 
+			}
+			else
+			{
+				redirect('product/newproductlist'); //new product list delete
+			}
 	}
 
 	public function addproductcategory()
@@ -928,6 +931,7 @@ function __construct()  {
 												->setParameter('sku', '%'.$product.'%')
 												->orWhere('p.productName LIKE :name')
 												->setParameter('name', '%'.$product.'%')
+												->andWhere('p.approved = 1')
 												->getQuery()
    												->getResult();
 
@@ -1005,6 +1009,7 @@ function __construct()  {
 												->setParameter('id', '%'.$category.'%')
 												->orWhere('c.categoryName LIKE :name')
 												->setParameter('name', '%'.$category.'%')
+												->andWhere('c.status = 1')
 												->getQuery()
    												->getResult();
 
@@ -1058,6 +1063,7 @@ function __construct()  {
 										    ->select('DISTINCT d.designName')
 										    ->Where('d.designName LIKE :designName')
 										    ->setParameter('designName', '%'.$design.'%')
+										    ->andWhere('p.approved = 1')
 										    ->getQuery()
 										    ->getResult();
 										    
@@ -1111,6 +1117,7 @@ function __construct()  {
 										    ->select('DISTINCT sh.shade')
 										    ->Where('sh.shade LIKE :shade')
 										    ->setParameter('shade', '%'.$shade.'%')
+										    ->andWhere('p.approved = 1')
 										    ->getQuery()
 				                            ->getResult();
 

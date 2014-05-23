@@ -23,9 +23,13 @@
 					<h3>BELOW SAFTY LEVEL</h3>
 					<h2 class="txt-thick-big"> { <?php echo $belowSaftyLevel; ?> } </h2>
 				</div>	
-				<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-6 ">
 					<h3>TOTAL PRODUCTS</h3>
 					<h2 class="txt-thick-big"> { <?php echo $totalProducts; ?> } </h2>
+				</div>
+				<div class="col-md-6">
+					<h3>UPDATED PRODUCTS</h3>
+					<h2 class="txt-thick-big"> {<?php echo $updateproductcount; ?>} </h2>
 				</div>				
 		</div> 
 							

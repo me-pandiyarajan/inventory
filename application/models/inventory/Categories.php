@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace models\inventory;
 
 /**
@@ -68,6 +66,13 @@ class Categories
      * })
      */
     private $lastUpdatedBy;
+
+    /**
+     * @var boolean $status
+     *
+     * @Column(name="status", type="boolean")
+     */
+    private $status;
 
 
 
@@ -211,5 +216,27 @@ class Categories
     public function getLastUpdatedBy()
     {
         return $this->lastUpdatedBy;
+    }
+
+    /**
+     * Set categoryName
+     *
+     * @param boolean $status
+     * @return Status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

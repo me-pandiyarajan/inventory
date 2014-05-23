@@ -41,7 +41,7 @@
 <!-- header pannel -->		
 <div class="panel panel-default">
   <div class="panel-body">
-  		Inventory
+  		INVENTORY
 			<span class="pull-right">
 				<span id="timer">
 				

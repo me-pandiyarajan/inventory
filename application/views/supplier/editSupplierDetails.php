@@ -15,63 +15,54 @@
 						   
 						   <div class="form-group">
 						      <label for="supplier name" class="col-sm-2 control-label">Supplier Name</label>
-						      	<div class="col-sm-10">
+						      	<div class="col-sm-3">
 						      		<input type="hidden"  id="supplier_id" name="supplier_id"  value="<?php echo $supplier->getSupplierId(); ?>" >
-						      		<input type="text"  id="supplier_name" name="supplier_name"  value="<?php echo $supplier->getSupplierName(); ?>"  placeholder="Enter supplier name" >
+						      		<input type="text" class="form-control" id="supplier_name" name="supplier_name"  value="<?php echo $supplier->getSupplierName(); ?>"  placeholder="Enter supplier name" >
 						   	  	</div>
 						   </div>
 						   
 						   <div class="form-group">
 						      <label for="name" class="col-sm-2 control-label">Email</label>
-						      	<div class="col-sm-10">
-						      		<input type="email"  id="email" name="email" value="<?php echo $supplier->getEmail(); ?>" placeholder="Enter email">
+						      	<div class="col-sm-3">
+						      		<input type="email" class="form-control" id="email" name="email" value="<?php echo $supplier->getEmail(); ?>" placeholder="Enter email">
 						   		</div>
 						   </div>
 
 						   <div class="form-group">
 						      <label for="name" class="col-sm-2 control-label">Mobile</label>
-						      	<div class="col-sm-10">
-						      		<input type="text"  id="mobile" name="mobile" value="<?php echo $supplier->getTelephone(); ?>" placeholder="Enter mobile number">
+						      	<div class="col-sm-3">
+						      		<input type="text" class="form-control"  id="mobile" name="mobile" value="<?php echo $supplier->getTelephone(); ?>" placeholder="Enter mobile number">
 						   		</div>
 						   </div>
 						   
 						   <!-- address -->
 						   <div class="form-group">
 						      	<label for="Address" class="col-sm-2 control-label">Address</label>
-						      	<div class="col-sm-10">
-						      		<input type="text"  id="street" name="street" value="<?php echo $supplier->getStreet(); ?>" placeholder="Enter street">
+						      	<div class="col-sm-3">
+						      		<input type="text" class="form-control" id="street" name="street" value="<?php echo $supplier->getStreet(); ?>" placeholder="Enter street">
 						   		</div>
 						   </div>						   
 						 
 
 						    <div class="form-group">							   
 						     	<label for="city" class="col-sm-2 control-label">City</label>
-					      		<div class="col-sm-10">
-					      			<input type="text" id="city" name="city" value="<?php echo $supplier->getCity(); ?>" placeholder="Enter city name" />
+					      		<div class="col-sm-3">
+					      			<input type="text" class="form-control" id="city" name="city" value="<?php echo $supplier->getCity(); ?>" placeholder="Enter city name" />
 					      		</div>
 						   </div>
 
-						   <!-- <div class="form-group">
-							   
-						     	<label for="state" class="col-sm-2 control-label">state</label>						      		
-					      		<div class="col-sm-2">
-					      			<select class="form-control" name="state" value="<?php //echo set_value('state'); ?>" >
-					      			<option value=""></option>
-					      			</select>
-					      		</div>
- 							</div> -->
 
  							 <div class="form-group">
 						      	<label for="state" class="col-sm-2 control-label">State</label>
-						      	<div class="col-sm-10">
-						      		<input type="text"  id="state" name="state" value="<?php echo $supplier->getState(); ?>" placeholder="Enter state name" >
+						      	<div class="col-sm-3">
+						      		<input type="text" class="form-control" id="state" name="state" value="<?php echo $supplier->getState(); ?>" placeholder="Enter state name" >
 						   		</div>
 						   </div>
 
  							<div class="form-group">
 					      		<label for="zip" class="col-sm-2 control-label">Zip</label>
-					      		<div class="col-sm-2">
-					      			<input type="text" id="zip" name="zip" placeholder="Enter zip code" pattern="[0-9]{5,6}" value="<?php echo $supplier->getZipCode(); ?>">
+					      		<div class="col-sm-3">
+					      			<input type="text" class="form-control" id="zip" name="zip" placeholder="Enter zip code" pattern="[0-9]{5,6}" value="<?php echo $supplier->getZipCode(); ?>">
 					      		</div>
 						   </div>
 
@@ -82,7 +73,7 @@
 						   <div class="form-group">
 						      <label for="status" class="col-sm-2 control-label">Status</label>
 						      	<div class="col-sm-3">
-						      		<?php $options = array('' => 'Select Status', '1'  => 'Enable','0' => 'Disable'); 
+						      		<?php $options = array('' => 'Select Status','1'  => 'Enable','0' => 'Disable'); 
 						      		 echo form_dropdown('status', $options,$supplier->getStatus(),'class="form-control"'); ?>
 						   		</div>
 						   </div>

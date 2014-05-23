@@ -4,26 +4,33 @@
         var MaxInputs = 100;
 
         var x = 1; 
-        var FieldCount = 1; 
-
+        var FieldCount = 0; 
+        var listed_products =  new Array();
      
         $("body").on("click","#addProd", function(){
 
             if(x <= MaxInputs) 
             {
-                 FieldCount++; 
-              
+                FieldCount++;
+
                 var p_name = $('#name').val();
-                
+
+                if( jQuery.inArray( p_name , listed_products ) > -1 && FieldCount > 1 ){
+                    $( "#pop2" ).trigger( "click" ); 
+                    return false; 
+                }
+
                 if(p_name.length > 0)
                 {
                     var sku = $('#sku').val();
                     var p_id = $('#productId').val();
+                   
                     var desc = $('#description').val();
                     var quan = $('#quantity').val();
                     var design = $('#design').val();
                     var shade = $('#shade').val();
                     var dime = $('#dimension').val();
+                    listed_products[FieldCount-1] = p_name; 
 
                 newRow = '<tr>' +
                             '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
@@ -38,18 +45,16 @@
                 $('.table > tbody').append(newRow);
 
                 x++;
-                }
-                     
+                } 
+                
             }
         });
 
         $( ".typeahead" ).focus(function(e) {
-               var param = ['productId','sku','description','quantity','design','dimension'];
+               var param = ['productId','sku','description','quantity','design','shade','dimension'];
                 $.each(param, function(i,variables){
                     $('#'+variables).val('');
             });
-			//$('#productId').val(null);
-            //$('#sku').val(null);
         });
     
             
@@ -61,7 +66,15 @@
                     x--; //decrement textbox
             }
             return false;
-        });     
+        });
+
+        $(document).on('submit','form#new-estimate',function(){
+           var estimate_product_count = $('#mytable tbody').children().length;  
+           if(estimate_product_count == 0) {
+              $( "#pop" ).trigger( "click");  
+                    return false;
+                }
+        });
 
     });
 

@@ -580,11 +580,14 @@ class purchase extends CI_Controller {
 				 $damagedquantity = $this->input->post('damagedquantity');
 				 $comments = $this->input->post('comments');
 				try {
-					$data['estimate'] = $estimate = $this->em->getRepository('models\inventory\EstimatedProduct')->find($productid);
+					$header['user_data']=$this->ion_auth->GetHeaderDetails();
+					$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+     				$data['estimate'] = $estimate = $this->em->getRepository('models\inventory\EstimatedProduct')->find($productid);
 				    $estimate->setDeliveryStatus($deliveredstatus);
 					$estimate->setDeliveryQuality($deliveredquantity);
 					$estimate->setDamagedQuality($damagedquantity);
 					$estimate->setDeliveryComments($comments);
+					$estimate->setLastUpdatedBy($user);
 					$this->em->persist($estimate);
 					$this->em->flush();
                     

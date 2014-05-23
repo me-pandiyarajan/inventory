@@ -123,10 +123,22 @@ class Categories extends \models\inventory\Categories implements \Doctrine\ORM\P
         return parent::getLastUpdatedBy();
     }
 
+    public function setStatus($status)
+    {
+        $this->__load();
+        return parent::setStatus($status);
+    }
+
+    public function getStatus()
+    {
+        $this->__load();
+        return parent::getStatus();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'categoryId', 'categoryName', 'comments', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy');
+        return array('__isInitialized__', 'categoryId', 'categoryName', 'comments', 'createdDate', 'lastUpdatedDate', 'status', 'createdBy', 'lastUpdatedBy');
     }
 
     public function __clone()

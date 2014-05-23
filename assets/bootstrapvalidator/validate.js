@@ -15,7 +15,7 @@ $(document).ready(function() {
             identity: {
                 validators: {
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                     },
                     emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -26,7 +26,7 @@ $(document).ready(function() {
                 message: 'The Password is not valid',
                 validators: {
                     notEmpty: {
-                        message: 'The Password is required and cannot be empty'
+                        message: 'The Password is required '
                     },
                     stringLength: {
                         min: 5,
@@ -35,10 +35,7 @@ $(document).ready(function() {
                     }
                 }
             }
-        },
-        submitHandler: function(validator, form, submitButton) {
-                validator.defaultSubmit();
-            }
+        }
     });
 
 
@@ -46,7 +43,7 @@ $(document).ready(function() {
     *  deo add product 
     */
 
-    $('#deo-add-product').bootstrapValidator({
+    $('#deo-add-product,#deo-edit-product').bootstrapValidator({
         message: 'Please enter the appropriate value',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -61,7 +58,7 @@ $(document).ready(function() {
                         message: 'Please enter Product Name'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The product name can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -148,7 +145,7 @@ $(document).ready(function() {
             design_name: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Design can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -156,7 +153,7 @@ $(document).ready(function() {
             shade: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Shade can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -184,7 +181,7 @@ $(document).ready(function() {
                         message: 'Please enter Product Name'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The product name can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -287,7 +284,7 @@ $(document).ready(function() {
             design_name: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Design can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -295,7 +292,7 @@ $(document).ready(function() {
             shade: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Shade can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -306,11 +303,11 @@ $(document).ready(function() {
     });
 
 
-     /*
+    /*
     *  super admin add product 
     */
 
-    $('#superadmin-add-product').bootstrapValidator({
+    $('#superadmin-add-product , #superadmin-edit-product').bootstrapValidator({
         message: 'Please enter the appropriate value',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -324,7 +321,7 @@ $(document).ready(function() {
                         message: 'Please enter Product Name'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The product name can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -402,6 +399,14 @@ $(document).ready(function() {
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: 'The POS Stock Level can only consist of number'
+                    },
+                    callback: {
+                        message: 'pos stock level cannot be more than total quantity',
+                        callback: function(value, validator) {
+                            var pos_quantity = validator.getFieldElements('POS_stock_level').val();
+                            var quantity = validator.getFieldElements('quantity').val();
+                            return (pos_quantity <= quantity);
+                        }
                     }
                 }
             },
@@ -473,7 +478,7 @@ $(document).ready(function() {
             design_name: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Design can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -481,7 +486,7 @@ $(document).ready(function() {
             shade: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9\s_]+$/,
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
                         message: 'The Shade can only consist of alphabetical, number and underscore'
                     }
                 }
@@ -496,11 +501,11 @@ $(document).ready(function() {
     });
 
 
- /*
-    *  Add Category
+    /*
+    *  Add Category and edit category
     */
 
-    $('#add-category').bootstrapValidator({
+    $('#add-category,#edit-category').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -511,25 +516,39 @@ $(document).ready(function() {
             productcategory: {
                 validators: {
                     notEmpty: {
-                        message: 'The Category Name is required and cannot be empty'
+                        message: 'The Category name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
+                        message: 'The productcategory can only consist of alphabetical, number and underscore'
                     }
                 }
             },
             comments: {
                 validators: {
                     notEmpty: {
-                        message: 'The Comments is required and cannot be empty'
+                        message: 'The Comments is required '
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please choose status of product '
                     }
                 }
             }
         }
         
     });
-/*
-    * Add Supplier
+
+    
+    
+    /*
+    * Add Supplier and edit
     */
 
-     $('#add-supplier').bootstrapValidator({
+     $('#add-supplier,#edit-supplier').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -539,15 +558,16 @@ $(document).ready(function() {
         fields: {
             supplier_name: {
                 validators: {
-                    notEmpty: {
-                        message: 'The Supplier Name is required and cannot be empty'
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
+                        message: 'The supplier name can only consist of alphabetical, number and underscore'
                     }
                 }
             },
             email: {
                 validators: {           
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                         },
                      emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -567,21 +587,30 @@ $(document).ready(function() {
              street: {
                     validators: {
                         notEmpty: {
-                            message: 'The Address is required and cannot be empty'
+                            message: 'The Address is required '
                         }
                     }
                 },
             city: {
                     validators: {
                         notEmpty: {
-                            message: 'The City is required and cannot be empty'
+                            message: 'The City is required '
+                        },
+                        regexp: {
+                            regexp: /^([a-zA-Z_]+\s?)*$/,
+                            message: 'The city name can only consist of alphabets'
                         }
+
                     }
                 },
                 state: {
                     validators: {
                         notEmpty: {
-                            message: 'The State is required and cannot be empty'
+                            message: 'The State is required '
+                        },
+                        regexp: {
+                            regexp: /^([a-zA-Z_]+\s?)*$/,
+                            message: 'The state name can only consist of alphabets'
                         }
                     }
                 },
@@ -589,7 +618,7 @@ $(document).ready(function() {
                 zip: {
                     validators: {
                         notEmpty: {
-                            message: 'The Zip Code is required and cannot be empty'
+                            message: 'The Zip Code is required '
                         },
                         zipCode: {
                             message: 'The Zip Code is not valid'
@@ -605,95 +634,10 @@ $(document).ready(function() {
                 }
             
         }
-        
-        
-        
-        
+              
     });
     
-    /*
-    * Edit Supplier
-    */
-
-     $('#edit-supplier').bootstrapValidator({
-        message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            supplier_name: {
-                validators: {
-                    notEmpty: {
-                        message: 'The Supplier Name is required and cannot be empty'
-                    }
-                }
-            },
-            email: {
-                validators: {           
-                    notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
-                     },
-                      emailAddress: {
-                        message: 'The input is not a valid Email Address'
-                    }
-                     
-                }
-            },
-            mobile: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The Mobile Number is required'
-                        },
-                        phone: {
-                            message: 'The Mobile Number is not valid'
-                        }
-                    }
-                },
-             street: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The Address is required and cannot be empty'
-                        }
-                    }
-                },
-            city: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The City is required and cannot be empty'
-                        }
-                    }
-                },
-                state: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The State is required and cannot be empty'
-                        }
-                    }
-                },
-                
-                zip: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The Zip Code is required and cannot be empty'
-                        },
-                        zipCode: {
-                            message: 'The Zip Code is not valid'
-                        }
-                    }
-                },
-                status: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please choose the Status'
-                        }
-                    }
-                }
-            
-        }
-     });
-
+        
     /*
     * new estimate
     */
@@ -709,14 +653,14 @@ $(document).ready(function() {
             estimate_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Estimate Name is required and cannot be empty'
+                        message: 'The Estimate Name is required '
                     }
                 }
             },
             supplier_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Supplier Name is required and cannot be empty'
+                        message: 'The Supplier Name is required '
                     }
                 }
             },
@@ -734,7 +678,7 @@ $(document).ready(function() {
             email: {
                 validators: {           
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                      },
                       emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -744,7 +688,7 @@ $(document).ready(function() {
             address: {
                     validators: {
                         notEmpty: {
-                            message: 'The Address is required and cannot be empty'
+                            message: 'The Address is required '
                         }
                     }
                 }
@@ -752,7 +696,9 @@ $(document).ready(function() {
         }
         
     });
-/*
+    
+
+    /*
     * edit estimate
     */
 
@@ -767,14 +713,14 @@ $(document).ready(function() {
             estimate_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Estimate Name is required and cannot be empty'
+                        message: 'The Estimate Name is required '
                     }
                 }
             },
             supplier_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Supplier Name is required and cannot be empty'
+                        message: 'The Supplier Name is required '
                     }
                 }
             },
@@ -791,7 +737,7 @@ $(document).ready(function() {
             email: {
                 validators: {           
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                       },
                        emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -801,14 +747,16 @@ $(document).ready(function() {
             address: {
                     validators: {
                         notEmpty: {
-                            message: 'The Address is required and cannot be empty'
+                            message: 'The Address is required '
                         }
                     }
                 }
             }
         
     });
- /*
+    
+
+    /*
     *  order confirmation
     */
 
@@ -823,7 +771,7 @@ $(document).ready(function() {
             product: {
                 validators: {
                     notEmpty: {
-                        message: 'The Product Name is required and cannot be empty'
+                        message: 'The Product Name is required '
                     }
                 }
             },
@@ -855,6 +803,8 @@ $(document).ready(function() {
         }
         
     });
+    
+
     /*
     *  new estimate order
     */
@@ -870,21 +820,21 @@ $(document).ready(function() {
             order_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Order Name is required and cannot be empty'
+                        message: 'The Order Name is required '
                     }
                 }
             },
             SupplierName: {
                 validators: {
                     notEmpty: {
-                        message: 'The Supplier Name is required and cannot be empty'
+                        message: 'The Supplier Name is required '
                     }
                 }
             },
             supplieremail: {
                 validators: {
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                     },
                      emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -894,7 +844,7 @@ $(document).ready(function() {
             address: {
                     validators: {
                         notEmpty: {
-                            message: 'The Address is required and cannot be empty'
+                            message: 'The Address is required '
                         }
                     }
                 },  
@@ -911,7 +861,7 @@ $(document).ready(function() {
             estimatedate: {
                     validators: {
                         notEmpty: {
-                            message: 'The Estimate Date is required and cannot be empty'
+                            message: 'The Estimate Date is required '
                         }
                      }
                 }
@@ -919,7 +869,9 @@ $(document).ready(function() {
         }
         
     });
-        /*
+    
+
+    /*
     *  add user
     */
 
@@ -934,14 +886,14 @@ $(document).ready(function() {
                 first_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The First Name is required and cannot be empty'
+                        message: 'The First Name is required '
                     }
                 }
             },
             last_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Last Name is required and cannot be empty'
+                        message: 'The Last Name is required '
                     }
                 }
             },
@@ -949,7 +901,7 @@ $(document).ready(function() {
             email: {
                 validators: {
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                     },
                      emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -970,7 +922,7 @@ $(document).ready(function() {
             group: {
                     validators: {
                         notEmpty: {
-                            message: 'The Group is required and cannot be empty'
+                            message: 'The Group is required '
                         }
                      }
                 },
@@ -984,7 +936,8 @@ $(document).ready(function() {
         }
         
     });
-            /*
+    
+    /*
     *  edit user
     */
 
@@ -999,14 +952,14 @@ $(document).ready(function() {
             first_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The First Name is required and cannot be empty'
+                        message: 'The First Name is required '
                     }
                 }
             },
             last_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Last Name is required and cannot be empty'
+                        message: 'The Last Name is required '
                     }
                 }
             },
@@ -1014,7 +967,7 @@ $(document).ready(function() {
             email: {
                 validators: {
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                     },
                      emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -1034,7 +987,7 @@ $(document).ready(function() {
             group: {
                     validators: {
                         notEmpty: {
-                            message: 'The Group is required and cannot be empty'
+                            message: 'The Group is required '
                         }
                      }
                 },
@@ -1065,14 +1018,14 @@ $(document).ready(function() {
             first_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The First Name is required and cannot be empty'
+                        message: 'The First Name is required '
                     }
                 }
             },
             last_name: {
                 validators: {
                     notEmpty: {
-                        message: 'The Last Name is required and cannot be empty'
+                        message: 'The Last Name is required '
                     }
                 }
             },
@@ -1080,7 +1033,7 @@ $(document).ready(function() {
             email: {
                 validators: {
                     notEmpty: {
-                        message: 'The Email Address is required and cannot be empty'
+                        message: 'The Email Address is required '
                     },
                      emailAddress: {
                         message: 'The input is not a valid Email Address'
@@ -1092,7 +1045,7 @@ $(document).ready(function() {
                 message: 'The Password is not valid',
                 validators: {
                     notEmpty: {
-                        message: 'The Password is required and cannot be empty'
+                        message: 'The Password is required '
                     },
                     stringLength: {
                         min: 5,
@@ -1105,7 +1058,7 @@ $(document).ready(function() {
                 message: 'The Confirm Password is not valid',
                 validators: {
                     notEmpty: {
-                        message: 'The Confirm Password is required and cannot be empty'
+                        message: 'The Confirm Password is required '
                     },
                     stringLength: {
                         min: 5,

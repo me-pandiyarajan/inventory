@@ -125,10 +125,7 @@ class Supplier extends CI_Controller {
 			{
 				
 				echo $e->getMessage();
-				// $this->load->view('general/header', $header_data);
-				// $this->load->view('general/deomenu');
-				// $this->load->view('addsupplier');
-				// $this->load->view('general/footer');
+			
 			}
 			
 		}		
@@ -170,13 +167,7 @@ class Supplier extends CI_Controller {
 			}
 			catch(Exception $e)
 			{
-				$data['supplier'] = $this->em->getRepository('models\inventory\Suppliers')->findBy();
-
 				echo $e->getMessage();
-				// $this->load->view('general/header', $header_data);
-				// $this->load->view('general/deomenu');
-				// $this->load->view('addsupplier');
-				// $this->load->view('general/footer');
 			}
 	
 	}
@@ -220,10 +211,6 @@ class Supplier extends CI_Controller {
 			}catch(Exception $e){
 				
 				echo $e->getMessage();
-				// $this->load->view('general/header', $header_data);
-				// $this->load->view('general/deomenu');
-				// $this->load->view('addsupplier');
-				// $this->load->view('general/footer');
 			}
 		}
 		else
@@ -289,18 +276,7 @@ class Supplier extends CI_Controller {
 
 			if ($this->form_validation->run() === FALSE)
 			{
-				/*if($supplierid != null)
-				{	
-					$data['supplier'] = $this->em->getRepository('models\inventory\Suppliers')->find($supplierid);
-					$this->load->view('general/header', $header);
-					$this->load->view($menu);
-					$this->load->view('editSupplierDetails',$data);
-					$this->load->view('general/footer');
-				}
-				else
-				{
-					#error message
-				}*/
+				
 				show_error('Your not supposed to view this page! Bye');
 
 			}
@@ -358,22 +334,25 @@ class Supplier extends CI_Controller {
 			}			
 	
 	}
-/*
-supplier delete
-*/
-public function deletesupplier($id)
-	{
-		
-		$header['user_data']=$this->ion_auth->GetHeaderDetails();
-		$group = $this->ion_auth->GetUserGroupId();
-		$menu = $this->navigator->getMenu();
-		$data['supplier'] = $supplier = $this->em->getRepository('models\inventory\Suppliers')->find($id);
-		$supplier->setDeleted(1);
-		$this->em->persist($supplier);
-		$this->em->flush();
-		$this->session->set_flashdata('supplierdelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier Deleted successfuly</b></div>');
-		redirect('supplier/listsuppliers'); 
-	}
+
+
+	/*
+	* supplier delete
+	*/
+	public function deletesupplier($id)
+		{
+			
+			$header['user_data']=$this->ion_auth->GetHeaderDetails();
+			$group = $this->ion_auth->GetUserGroupId();
+			$menu = $this->navigator->getMenu();
+			$data['supplier'] = $supplier = $this->em->getRepository('models\inventory\Suppliers')->find($id);
+			$supplier->setDeleted(1);
+			$supplier->setStatus(0);
+			$this->em->persist($supplier);
+			$this->em->flush();
+			$this->session->set_flashdata('supplierdelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier Deleted successfuly</b></div>');
+			redirect('supplier/listsuppliers'); 
+		}
 
 
 	/*
@@ -390,6 +369,7 @@ public function deletesupplier($id)
 												->setParameter('id', '%'.$supplier.'%')
 												->orWhere('s.supplierName LIKE :name')
 												->setParameter('name', '%'.$supplier.'%')
+												->andWhere('s.status = 1')
 												->getQuery()
    												->getResult();
 

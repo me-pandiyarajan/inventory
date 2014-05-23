@@ -71,9 +71,9 @@
 		<div class="col-md-6 panel panel-default text-center">	
 			<p>DATA ENTRY OPERATOR</p>
 			<span class="text-success">ACTIVE</span>
-			<span class="size-medium"><?php echo $supplierCount['active']; ?></span>
+			<span class="size-medium"><?php echo $deoCount['active']; ?></span>
 			<span class="size-large">|</span>
-			<span class="size-medium"><?php echo $supplierCount['inactive']; ?></span>
+			<span class="size-medium"><?php echo $deoCount['inactive']; ?></span>
 			<span class="text-danger">INACTIVE</span>
 		</div>
 

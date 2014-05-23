@@ -52,7 +52,7 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							<td class="align-center"><div class="btn-group">
                            <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
                            <a class="btn btn-primary btn-xs" href="approveproduct/'.$datum->getproductGenId().'/up">Approve</a>
-						   <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'">Delete</a>
+						   <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'/ud">Delete</a>
                            </div>
                            </td>';
 							

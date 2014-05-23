@@ -57,8 +57,8 @@ class Doctrine {
         'dbname' =>   $db['default']['database']
     );
 
-
     // Create EntityManager
     $this->em = EntityManager::create($connectionOptions, $config);
+
   }
 }
