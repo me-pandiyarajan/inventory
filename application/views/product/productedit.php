@@ -110,7 +110,7 @@
             echo '<div class="form-group">
             <label class="control-label col-xs-2" for="stock_availability">Stock Availability</label>
              <div class="dropdown col-xs-3">';
-            $options = array(''=>'Select Stock Availability','1'  => 'In-Stock','0' => 'Out-Of-Stock'); 
+            $options = array(''=>'Select Stock Availability','1'  => 'In-Stock','2' => 'Out-Of-Stock'); 
             echo form_dropdown('stock_availability', $options,$product->getStockAvailability(),'class="form-control"');
            echo'</div>
            </div>

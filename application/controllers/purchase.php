@@ -99,6 +99,7 @@ class purchase extends CI_Controller {
 					$dimension = $this->input->post('dimensions');
 					$estimate_name = $this->input->post('estimate_name');
                    	$created_date = new\DateTime("now");
+                   	$emaildata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 					$emaildata['supplierdata'] = array('supplier_name'=>$supplier_name,'email'=>$email);
                     $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
 
@@ -151,7 +152,7 @@ class purchase extends CI_Controller {
 
 		            $html = $this->load->view('email_template/estimate_template', $emaildata, true);
 
-	 	    		$estimate_name = $estimate_name."_".date('Y_m_d').".pdf";
+	 	    		$estimate_name = $estimate_id."_".date('Y_m_d').".pdf";
 	 	    		$data = pdf_create($html, $estimate_name,false);
 
 					if(!write_file("assets/estimations/".$estimate_name, $data))
@@ -308,6 +309,7 @@ class purchase extends CI_Controller {
 					$estimate_id = $this->input->post('estimate_id');
 					$dimension = $this->input->post('dimensions');
 					$updated_date = new\DateTime("now");
+					$emaildata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 					$emaildata['estimate_id'] = $estimate_id;
                     $emaildata['supplierdata'] = array('supplier_name'=>$supplier_name,'email'=>$supplier_email);
                     $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
@@ -375,7 +377,7 @@ class purchase extends CI_Controller {
 		                    }
 		                     $this->load->helper(array('dompdf', 'file'));
 		                    $html =  $this->load->view('email_template/estimate_template',$emaildata,TRUE);
-		                     $estimate_name = $estimate_name."_".date('Y_m_d').".pdf";
+		                     $estimate_name = $estimate_id."_".date('Y_m_d').".pdf";
 			 	    		$data = pdf_create($html, $estimate_name,false);
 
 							if(!write_file("assets/estimations/".$estimate_name, $data))
@@ -618,20 +620,21 @@ class purchase extends CI_Controller {
 							$orderedattachment = "assets/estimations/".$OrderName;
 
 							/*email -order confirmation template and create order template to super admin*/
+							$orderdata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 							$orderdata['orderid'] = $orderid;
 							$orderdata['orderconfirm']= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$estimateid,'deliveryStatus'=> 1));
-							$confirmOrder_name = "orderconfirme_".$ordername."_".date('Y_m_d').".pdf";
+							$confirmOrder_name = "DR_".$orderid."_".date('Y_m_d').".pdf";
 						    $html =  $this->load->view('email_template/order_confirm_template',$orderdata,TRUE);
 		                	$pdfdata = pdf_create($html, $confirmOrder_name,false);
 
-							if(!write_file("assets/estimations/".$confirmOrder_name, $pdfdata))
+							if(!write_file("assets/orders/delivery_reports/".$confirmOrder_name, $pdfdata))
 							{
 							     echo 'Unable to write the file';
 							}
 
 							$msg = "confirm order";
                             $subject = "Confirm Order";
-							$confirmattachment = "assets/estimations/".$confirmOrder_name;
+							$confirmattachment = "assets/orders/delivery_reports/".$confirmOrder_name;
 							$user = $this->ion_auth_model->user(1)->row();
 							$user->email;
 						    $attachments = array($orderedattachment,$confirmattachment);
@@ -931,6 +934,7 @@ class purchase extends CI_Controller {
 		$dimension = $this->input->post('dimensions');
 		$desgin = NULL;
 		$dimension = $this->input->post('dimensions');
+		$emaildata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 		$emaildata['estimate_id'] = $estimate_id;
 		$emaildata['supplierdata'] = array('supplier_name'=>$SupplierName,'email'=>$supplieremail);
         $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
@@ -954,18 +958,18 @@ class purchase extends CI_Controller {
 					$emaildata['order_id'] = $order_id;
 					$this->load->helper(array('dompdf', 'file'));
      	            $html = $this->load->view('email_template/order_template', $emaildata, true);
-	 	    		$OrderName = $OrderName."_".date('Y_m_d').".pdf";
+	 	    		$OrderName = $order_id."_".date('Y_m_d').".pdf";
 	 	    		$data = pdf_create($html, $OrderName,false);
 
 
-					if(!write_file("assets/estimations/".$OrderName, $data))
+					if(!write_file("assets/orders/".$OrderName, $data))
 					{
 					     echo 'Unable to write the file';
 					}
 
 					$msg = "Ordered Product";
                     $subject = "Ordered Product";
-					$attachment = "assets/estimations/".$OrderName;
+					$attachment = "assets/orders/".$OrderName;
 					$attachments = array($attachment);
      				$this->email($supplieremail,$msg,$attachments,$subject);
 					$this->session->set_flashdata('ordersend','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Order has been sent successfully!</b></div>');

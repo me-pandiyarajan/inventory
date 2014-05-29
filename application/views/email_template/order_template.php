@@ -73,7 +73,7 @@
         <div >      
           <table width="100%" cellspacing="2">
           <tr>
-            <td> May 15, 2014</td>
+            <td><?php echo date('d M Y');?></td>
             <td style="font-weight:bold;text-align:right; line-height:5px">
                 <h1>ORDER</h1>
                 <i> #ORD<?php echo sprintf("%06s", $order_id); ?></i>
@@ -108,7 +108,7 @@
       <table class="table_style" style="width:50%">
       	<tr>
           <th style="text-align:left">Requisitioner</th>
-          <td>Admin</td> 
+          <td><?php echo $user_name;?></td> 
         </tr>
       </table>
     </div>

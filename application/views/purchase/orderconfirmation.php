@@ -13,9 +13,10 @@
 						   	  
 			     <label class="control-label col-sm-2" for="product">Product Name</label>
 			     <div class="dropdown col-xs-4">
-				  <?php    array_unshift($product, "Select Product"); 
-		           echo form_dropdown('product',$product,'','class="form-control"');
-				  ?>
+			     	 <?php  array_unshift($product, "Select Product");
+                     echo form_dropdown('product',$product,set_value('product'),'class="form-control" required');
+                     ?>
+				 
 	             </div>
 	  </div>
        	         <div class="form-group">

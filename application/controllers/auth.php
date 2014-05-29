@@ -462,7 +462,7 @@ class Auth extends CI_Controller {
 			   'first_name' => $this->input->post('first_name'),
 				'last_name'  => $this->input->post('last_name'),
 				'email'  => $this->input->post('email'),
-				'phone'      => $this->input->post('phone'),
+				'phone'      => $this->input->post('mobile'),
 				'active'	 => $this->input->post('status')
 			);
         	
@@ -474,7 +474,7 @@ class Auth extends CI_Controller {
 			//redirect them back to the admin page
 			$this->session->set_flashdata('message','<div class="alert alert-success alert-dismissable">
   									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  									User added successfuly!
+  									User added successfully!
   									</div>');
 			redirect("auth/list_users", 'refresh');
 		}
@@ -841,7 +841,7 @@ function edit_profile($id)
 
 				//check to see if we are creating the user
 				//redirect them back to the admin page
-				$this->session->set_flashdata('profileadd','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Your Profile has been updated successful!</b></div>');
+				$this->session->set_flashdata('profileadd','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Your Profile has been updated successfully!</b></div>');
 		//redirect('auth/list_users'); 
 
 				/* $this->session->set_flashdata('message','<div class="alert alert-success alert-dismissable">
@@ -911,7 +911,7 @@ function deleteuser($id)
 		 $this->ion_auth->delete_user($user->id, $data);
 			$this->session->set_flashdata('userdelect','<div class="alert alert-success alert-dismissable">
   									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  									deleted successful!
+  									deleted successfully!
   									</div>');
 				
 					redirect('auth/list_users', 'refresh');

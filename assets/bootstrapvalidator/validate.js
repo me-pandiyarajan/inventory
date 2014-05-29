@@ -167,7 +167,7 @@ $(document).ready(function() {
     *  admin add product 
     */
 
-    $('#admin-add-product').bootstrapValidator({
+    $('#admin-add-product,#admin-edit-product').bootstrapValidator({
         message: 'Please enter the appropriate value',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -236,9 +236,9 @@ $(document).ready(function() {
 
                             if(weight.length > 0 || width.length > 0 || length.length > 0 || height.length > 0) {
                                  if( options.length >= 1){
-                                     return false;
-                                }else{
                                      return true;
+                                }else{
+                                     return false;
                                 }
                             }
                             else {
@@ -430,9 +430,9 @@ $(document).ready(function() {
 
                             if(weight.length > 0 || width.length > 0 || length.length > 0 || height.length > 0) {
                                  if( options.length >= 1){
-                                     return false;
-                                }else{
                                      return true;
+                                }else{
+                                     return false;
                                 }
                             }
                             else {
@@ -615,14 +615,14 @@ $(document).ready(function() {
                     }
                 },
                 
-                zip: {
+                 zip: {
                     validators: {
-                        notEmpty: {
+                         notEmpty: {
                             message: 'The Zip Code is required '
                         },
-                        zipCode: {
-                            message: 'The Zip Code is not valid'
-                        }
+                        integer: {
+                                message: 'The Zip Code can only consist of numbers'
+                         }   
                     }
                 },
                 status: {
@@ -887,6 +887,10 @@ $(document).ready(function() {
                 validators: {
                     notEmpty: {
                         message: 'The First Name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z_]+\s?)*$/,
+                        message: 'The First Name can only consist of alphabets'
                     }
                 }
             },
@@ -894,6 +898,10 @@ $(document).ready(function() {
                 validators: {
                     notEmpty: {
                         message: 'The Last Name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z_]+\s?)*$/,
+                        message: 'The First Name can only consist of alphabets'
                     }
                 }
             },

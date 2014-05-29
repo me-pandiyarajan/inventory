@@ -54,7 +54,13 @@
 				
 				<tr class="odd"> 
 				<th> Stock Availability</th>
-				<th>'.$product->getStockAvailability().'</th>
+				<td>';
+				$StockAvailability = $product->getStockAvailability(); 
+					if($StockAvailability == 0)
+						echo $stock = "OUT-OF-STOCK";
+					else
+						echo $stock = "IN-STOCK";	
+				'</td>
 				</tr>
 				<tr class="odd"> 
 					<th> Safety Stock Level</th>

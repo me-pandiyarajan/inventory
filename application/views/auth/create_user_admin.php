@@ -23,29 +23,29 @@
 
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">First name</label>
-                    <div class="col-sm-10">
-                      <input type="text"  id="first_name" name="first_name" value="<?php echo set_value('first_name'); ?>" placeholder="Enter first name">
+                    <div class="col-sm-3">
+                      <input type="text"  id="first_name" name="first_name" value="<?php echo set_value('first_name'); ?>" placeholder="Enter first name" class="form-control">
                   </div>
                </div> 
 
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">Last name</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name'); ?>" placeholder="Enter Last name" >
+                    <div class="col-sm-3">
+                      <input type="text" id="last_name" name="last_name" value="<?php echo set_value('last_name'); ?>" placeholder="Enter Last name" class="form-control" >
                   </div>
                </div>               
                     
                <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email"  id="email" name="email" value="<?php echo set_value('email'); ?>" placeholder="Enter email">
+                    <div class="col-sm-3">
+                      <input type="email"  id="email" name="email" value="<?php echo set_value('email'); ?>" placeholder="Enter email" class="form-control">
                   </div>
                </div>
 
                <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Mobile</label>
-                    <div class="col-sm-10">
-                      <input type="text"  id="mobile" name="mobile" value="<?php echo set_value('mobile'); ?>" placeholder="Enter mobile number">
+                    <div class="col-sm-3">
+                      <input type="text"  id="mobile" name="mobile" value="<?php echo set_value('mobile'); ?>" placeholder="Enter mobile number" class="form-control">
                   </div>
                </div>
 
@@ -66,7 +66,7 @@
                   <label for="status" class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-3">
                       <select class="form-control" id="status" name="status" value="<?php echo set_value('status'); ?>">
-                        <option>--Secect Status--</option>
+                        <option value="">Select Status</option>
                         <option value="1">Enable</option>
                         <option value="0">Disable</option>
                       </select>
