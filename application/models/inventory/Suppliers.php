@@ -27,11 +27,11 @@ class Suppliers
     private $supplierName;
 
     /**
-     * @var integer $telephone
+     * @var string $mobile
      *
-     * @Column(name="telephone", type="integer", nullable=true)
+     * @Column(name="mobile", type="string", length=45, nullable=true)
      */
-    private $telephone;
+    private $mobile;
 
     /**
      * @var string $email
@@ -152,25 +152,25 @@ class Suppliers
     }
 
     /**
-     * Set telephone
+     * Set mobile
      *
-     * @param integer $telephone
+     * @param string $mobile
      * @return Suppliers
      */
-    public function setTelephone($telephone)
+    public function setMobile($mobile)
     {
-        $this->telephone = $telephone;
+        $this->mobile = $mobile;
         return $this;
     }
 
     /**
-     * Get telephone
+     * Get mobile
      *
      * @return integer 
      */
-    public function getTelephone()
+    public function getMobile()
     {
-        return $this->telephone;
+        return $this->mobile;
     }
 
     /**

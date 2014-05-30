@@ -1,0 +1,47 @@
+ /*
+ *	tile
+ *
+ */
+
+.tile-blue {
+ 	background-color: #3595C4;
+ 	color: #FFFFFF;
+ }
+
+.wd {
+	width: 500px;
+}
+
+.tile-orange {
+	background-color: #FF9999;
+	color: #FFFFFF;
+ }
+
+ .txt-thick-big {
+ 	font-weight: bolder;
+ }
+
+ .txt-thick-big {
+ 	font-weight: bolder;
+ }
+
+  .size-medium {
+ 	font-weight: 700;
+ 	font-size: 26px;
+ }
+
+  .size-large {
+ 	font-size: 32px;
+ }
+
+ .small-caps {
+ 	font-variant: small-caps;
+ }
+
+ .chart-dim {
+ 	max-width:800px;
+ 	height: 350px;
+ }
+
+
+

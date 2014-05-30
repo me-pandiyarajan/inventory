@@ -43,18 +43,18 @@ class Navigator extends Ion_auth
 	*	returns : String
 	*	Description : assigns view name according to the user's group
 	*/
-	public function getMenu()
+	public function getMenuInventory()
 	{
 		switch ($this->ion_auth->GetUserGroupId()) 
 		{
 			case 1:
-				return 'general/superadminmenu';
+				return 'inventory/general/superadminmenu';
 				break;
 			case 2:
-				return 'general/adminmenu';
+				return 'inventory/general/adminmenu';
 				break;
 			case 3:
-				return 'general/deomenu';
+				return 'inventory/general/deomenu';
 				break;
 			default:
 				# code...
@@ -88,7 +88,30 @@ class Navigator extends Ion_auth
 		}
 	}
 
+	/*
+	*	Description : check whether the user is inventory gang? continue : show error info
+	*/
+	public function inventoryUserOnly()
+	{
+		$group = $this->ion_auth->GetUserGroupId();
+		if ($group <= 3)
+		{
+			show_error('Your not supposed to view this page! Bye');
+		}
+	}
 
+	/*
+	*	Description : check whether the user is pos gang? continue : show error info
+	*/
+	public function posUserOnly()
+	{
+		$group = $this->ion_auth->GetUserGroupId();
+		$allowedGroup = array(1,22,23);
+		if (in_array($group, $allowedGroup))
+		{
+			show_error('Your not supposed to view this page! Bye');
+		}
+	}
 
 }
 /* End of file Navigate.php */

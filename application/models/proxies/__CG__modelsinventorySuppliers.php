@@ -63,16 +63,16 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getSupplierName();
     }
 
-    public function setTelephone($telephone)
+    public function setMobile($mobile)
     {
         $this->__load();
-        return parent::setTelephone($telephone);
+        return parent::setMobile($mobile);
     }
 
-    public function getTelephone()
+    public function getMobile()
     {
         $this->__load();
-        return parent::getTelephone();
+        return parent::getMobile();
     }
 
     public function setEmail($email)
@@ -222,7 +222,7 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'supplierId', 'supplierName', 'telephone', 'email', 'street', 'state', 'zipCode', 'city', 'country', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy', 'deleted');
+        return array('__isInitialized__', 'supplierId', 'supplierName', 'mobile', 'email', 'street', 'state', 'zipCode', 'city', 'country', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy', 'deleted');
     }
 
     public function __clone()

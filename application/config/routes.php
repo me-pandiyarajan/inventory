@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "auth/login";
+$route['default_controller'] = "inventory/auth/login";
 $route['404_override'] = '';
 
 
