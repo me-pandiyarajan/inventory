@@ -10,7 +10,7 @@
      switch ($visiblity) {
        case 1:
         $attributes = array('class' => 'form-horizontal','id' => 'superadmin-add-product'); 
-         break;
+        break;
        case 2:
         $attributes = array('class' => 'form-horizontal','id' => 'admin-add-product'); 
         break;

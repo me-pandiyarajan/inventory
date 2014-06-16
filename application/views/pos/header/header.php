@@ -19,6 +19,8 @@
     <!-- SB Admin CSS - Include with every page -->
     <link href="assets_pos/css/sb-admin.css" rel="stylesheet">
 
+    <base href="<?php echo base_url(); ?>" />
+
 </head>
 
 <body>
@@ -106,12 +108,12 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="<?php echo base_url();?>pos/auth/view_profile/<?php echo $user_data['id']; ?>"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="pos/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

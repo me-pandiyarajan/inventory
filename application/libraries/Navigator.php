@@ -62,6 +62,29 @@ class Navigator extends Ion_auth
 		}	
 	}
 
+	/*
+	*	returns : String
+	*	Description : assigns view name according to the user's group
+	*/
+	public function getMenuPos()
+	{
+		switch ($this->ion_auth->GetUserGroupId()) 
+		{
+			case 1:
+				return 'pos/menu/menu';
+				break;
+			case 12:
+				return 'pos/menu/menu';
+				break;
+			case 13:
+				return 'pos/menu/menu';
+				break;
+			default:
+				# code...
+				break;
+		}	
+	}
+
 
 	/*
 	*	Description : check whether the user is either admin or super admin? continue : show error info

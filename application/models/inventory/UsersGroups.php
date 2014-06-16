@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * UsersGroups
+ * models\inventory\UsersGroups
  *
  * @Table(name="users_groups")
  * @Entity
@@ -15,32 +14,31 @@ class UsersGroups
     /**
      * @var integer $id
      *
-     * @Column(name="id", type="integer", nullable=false)
+     * @Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var Groups
+     * @var models\inventory\Groups
      *
-     * @ManyToOne(targetEntity="Groups")
+     * @ManyToOne(targetEntity="models\inventory\Groups")
      * @JoinColumns({
-     *   @JoinColumn(name="group_id", referencedColumnName="id")
+     *   @JoinColumn(name="group_id", referencedColumnName="id", nullable=true)
      * })
      */
     private $group;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="user_id", referencedColumnName="id")
+     *   @JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      * })
      */
     private $user;
-
 
 
     /**
@@ -56,10 +54,10 @@ class UsersGroups
     /**
      * Set group
      *
-     * @param Groups $group
+     * @param models\inventory\Groups $group
      * @return UsersGroups
      */
-    public function setGroup(\Groups $group = null)
+    public function setGroup($group = null)
     {
         $this->group = $group;
         return $this;
@@ -68,7 +66,7 @@ class UsersGroups
     /**
      * Get group
      *
-     * @return Groups 
+     * @return models\inventory\Groups 
      */
     public function getGroup()
     {
@@ -78,10 +76,10 @@ class UsersGroups
     /**
      * Set user
      *
-     * @param Users $user
+     * @param models\inventory\Users $user
      * @return UsersGroups
      */
-    public function setUser(\Users $user = null)
+    public function setUser($user = null)
     {
         $this->user = $user;
         return $this;
@@ -90,7 +88,7 @@ class UsersGroups
     /**
      * Get user
      *
-     * @return Users 
+     * @return models\inventory\Users 
      */
     public function getUser()
     {

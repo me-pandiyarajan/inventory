@@ -40,6 +40,161 @@ $(document).ready(function() {
 
 
     /*
+    *  Add Tax Class form
+    */
+
+    $('#addtaxclass-form').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            taxclassname: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Tax Class Name'
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
+                        message: 'The tax class name can only consist of alphabetical and space'
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Status is required '
+                    },
+                }
+            }
+        }
+    });
+
+    /*
+    *  Edit Tax Class form
+    */
+
+    $('#edittaxclass-form').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            taxclassname: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Tax Class Name'
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
+                        message: 'The tax class name can only consist of alphabetical and space'
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Status is required '
+                    },
+                }
+            }
+        }
+    });    
+
+    /*
+    *  Add Customer Group form
+    */
+
+    $('#addcustomergroup-form').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            customergroupname: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Tax Class Name'
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9 ]+\s?)*$/,
+                        message: 'The tax class name can only consist of alphabetical and space'
+                    }
+                }
+            },
+            discountpercent: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Discount Percentage'
+                    },
+                    numeric: {
+                        separator: ".",
+                        message: 'The discount percentage can only consist of numbers and dot'
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Status is required '
+                    },
+                }
+            }
+        }
+    });
+
+    /*
+    *  Edit Customer Group form
+    */
+
+    $('#editcustomergroup-form').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            customergroupname: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Tax Class Name'
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9 ]+\s?)*$/,
+                        message: 'The tax class name can only consist of alphabetical and space'
+                    }
+                }
+            },
+            discountpercent: {
+                validators: {
+                     notEmpty: {
+                        message: 'Please enter Discount Percentage'
+                    },
+                    numeric: {
+                        separator: ".",
+                        message: 'The discount percentage can only consist of numbers and dot'
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Status is required '
+                    },
+                }
+            }
+        }
+    });      
+
+
+    /*
     *  deo add product 
     */
 

@@ -18,7 +18,7 @@
 				        </tr>
 				    </thead>
 					<div class="btn-group ">
-                     <a class="btn btn-success btn-xs" href="<?php echo base_url();?>auth/create_user">Add User</a> 
+                     <a class="btn btn-success btn-xs" href="<?php echo base_url();?>inventory/auth/create_user">Add User</a> 
 				
 					</div>
 

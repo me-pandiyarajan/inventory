@@ -690,8 +690,7 @@
     };
     var css = {
         wrapper: {
-            position: "relative",
-            display: "inline-block"
+            position: "relative"
         },
         hint: {
             position: "absolute",

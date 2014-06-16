@@ -11,7 +11,7 @@
     
      $supplier_id = $product->getSuppliersSupplier()->getSupplierId();
      $supplier_name = $product->getSuppliersSupplier()->getSupplierName();
-     $supplier_phone = $product->getSuppliersSupplier()->getTelephone();
+     $supplier_phone = $product->getSuppliersSupplier()->getMobile();
      $supplier_email = $product->getSuppliersSupplier()->getEmail();
      $supplier_address = $product->getSuppliersSupplier()->getStreet().','.$product->getSuppliersSupplier()->getState();
 

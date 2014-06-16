@@ -41,6 +41,8 @@
 $route['default_controller'] = "inventory/auth/login";
 $route['404_override'] = '';
 
+$route['pos'] = "pos/auth/login";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

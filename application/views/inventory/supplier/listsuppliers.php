@@ -29,9 +29,9 @@
 						    <?php foreach($suppliers as $supplier): ?> 
 							
 							<tr> 
-								<td><?php echo $supplier->getSupplierName();?></td>
-								<td><?php echo $supplier->getEmail();?></td>
-								<td><?php echo $supplier->getMobile();?></td>
+								<td><?php echo $supplier->getSupplierName(); ?></td>
+								<td><?php echo $supplier->getEmail(); ?></td>
+								<td><?php echo $supplier->getMobile(); ?></td>
 								<td><?php if($supplier->getStatus() == 1){echo "ACTIVE";} else {echo "INACTIVE";}?></td>
 								<td>
 									<div class="btn-group">

@@ -113,6 +113,8 @@ function __construct()  {
 
 	public function addProduct()
 	{
+	    
+
 	    $this->form_validation();
 		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$group_id = $this->ion_auth->GetUserGroupId();
@@ -159,8 +161,7 @@ function __construct()  {
 				switch($group_id)
 				{	   
 				case 1: 
-					$action['visiblity'] = 1;  
-	                
+					$action['visiblity'] = 1;   
 				   break;
 				case 2:
 					$action['visiblity'] = 2;  
@@ -176,28 +177,26 @@ function __construct()  {
 			}
 		 else
 			{  
+			   
 			   $image_action = $this->image_upload();
 			   if(!empty($image_action['error']))
 			   {	
-				  $image_path = 0;
+				  	$image_path = 0;
 			   }
 			   else
 			   {
-		       	$image_path = site_url()."assets_inv/product_images/".$image_action['upload_data']['file_name']; 
+		       		$image_path = site_url()."assets_inv/product_images/".$image_action['upload_data']['file_name']; 
 			   }
+			  	
 			  	$this->em->getConnection()->beginTransaction();
 				try
 			    {
+					
 					$header = $this->ion_auth->GetHeaderDetails();
 					$group_id = $this->ion_auth->GetUserGroupId();
 					$product = new models\inventory\Products;
 					$product->setPrice($this->input->post('price'));
-					$product->setGroupPrice($this->input->post('group_price'));
-					//$product->setSpecialPriceFrom($this->input->post('special_price_from'));
-					//$product->setSpecialPriceTo($this->input->post('special_price_to'));
 					$product->setInstallationCharges($this->input->post('installation_charges'));
-					$product->setTotalCost($this->input->post('total_cost'));
-					$product->setGrandTotal($this->input->post('grand_total'));
 					$product->setPosStockLevel($this->input->post('POS_stock_level'));
 					$product->setStockAvailability($this->input->post('stock_availability'));
 					$product->setSafetyStockLevel($this->input->post('safety_stock_level'));
@@ -214,41 +213,46 @@ function __construct()  {
 					$product->setWidth($this->input->post('width'));
 					$product->setLength($this->input->post('length'));
 					$product->setHeight($this->input->post('height'));
+
 					$design = $this->input->post('design_name');
 					$product->setDesignName($design);
 					$shade = $this->input->post('shade');
 					$product->setShade($shade);
-					if($group_id  == 1)
-					{
+					
+					if($group_id  == 1){
 					  $product->setStatus($this->input->post('status'));
-                       
-					}
-					else
-					{
+					}else{
                       $product->setStatus(0);
 					}
-					$create_date = new \DateTime("now");
-					$product->setCreatedDate($create_date);
-					$product->setProductActivated($create_date);
+
+					$now_date = new \DateTime("now");
+					$product->setCreatedDate($now_date->getTimestamp());
+					$product->setProductActivated($now_date->getTimestamp());
 					$product->setApproved($group_id);
-					$product->setApprovedDate($create_date);
-					$product->setCreatedBy($header['id']);
-					$product->setApprovedBy($header['id']); 
+					$product->setApprovedDate($now_date->getTimestamp());
+					$creator = $this->em->getRepository('models\inventory\Users')->find($header['id']);
+						
+					$product->setCreatedBy($creator);
+
+					$product->setApprovedBy($creator);
 				    $supplier_id = $this->input->post('supplier_id');
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
-					$TaxClass =  $this->em->getRepository('models\inventory\TaxClass')->find($this->input->post('tax_id'));
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
+
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
-					$product->setTaxClassTaxClass($TaxClass);
 					$product->setDeleted(0);
 					$this->em->persist($product);
-					$this->em->flush();					
+					$this->em->flush();
+
                     $product_id = $product->getProductGenId();
+
+
 					list($response,$barCodeImage,$PLU,$SKU) = $this->getSKU_PLU($product_id,$supplier_id,$inv_counrty="INDIA",$inv_city="CHENNAI",$category,$design,$shade);
 					$k = array($response,$barCodeImage,$PLU,$SKU);
+
 					if(!$response)
 					{
 						$this->em->getConnection()->rollback();
@@ -257,18 +261,19 @@ function __construct()  {
 					}
 					else
 					{
-					$product = $this->em->getRepository('models\inventory\Products')->find($product_id);
-					$product->setProductIdPlu($PLU);
-					$product->setSku($SKU);
-					$product->setBarcodeimage($barCodeImage);
-					$this->em->persist($product);
-					$this->em->flush();
-					$this->em->getConnection()->commit();
-					$this->session->set_flashdata('AddProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Added Successfully</b></div>');
-					redirect('inventory/product/addProduct'); 
+						$product = $this->em->getRepository('models\inventory\Products')->find($product_id);
+
+						$product->setProductIdPlu($PLU);
+						$product->setSku($SKU);
+						$product->setBarcodeimage($barCodeImage);
+						$this->em->persist($product);
+						$this->em->flush();
+						$this->em->getConnection()->commit();
+						$this->session->set_flashdata('AddProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Added Successfully</b></div>');
+						redirect('inventory/product/addProduct'); 
 					}
 			    }
-            catch(Exception $e)
+            	catch(Exception $e)
 				{
 				 $this->em->getConnection()->rollback();
                  throw $e; 
@@ -291,9 +296,8 @@ function __construct()  {
 				$action['product'] = $this->em->getRepository('models\inventory\products')->find($productid);
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				
-				$action['form_action'] = 'product/editProduct';
+				$action['form_action'] = 'inventory/product/editProduct';
                 $supplier_data = $this->em->getRepository('models\inventory\Suppliers')->findAll();
-				$TaxClass_data =  $this->em->getRepository('models\inventory\TaxClass')->findAll();
 				$Categories_data = $this->em->getRepository('models\inventory\Categories')->findAll();
 				$supplier = array();
 				
@@ -312,22 +316,7 @@ function __construct()  {
 					$supplier[0] = "No suppliers available";
 				}
 				
-				
-				if(!empty($TaxClass_data))
-				{
-					foreach($TaxClass_data as $tax)
-					{
-						$id = $tax->getTaxClassId();
-						$value = $tax->getTaxClassName();
-						$TaxClass[$id] = $value;
-					}
-				}
-				else
-				{
-					$TaxClass[0] = "No tax group available";
-				}
-				
-				
+						
 				if(!empty($Categories_data))
 				{
 					foreach($Categories_data as $cat)
@@ -343,7 +332,6 @@ function __construct()  {
 				}
 				
 				$action['supplier'] = $supplier;
-				$action['TaxClass'] = $TaxClass;
 				$action['Categories'] = $Categories;
 				$group = $this->ion_auth->GetUserGroupId();
 				$menu = $this->navigator->getMenuInventory();
@@ -387,17 +375,19 @@ function __construct()  {
 			$group_id = $this->ion_auth->GetUserGroupId();
 			$menu = $this->navigator->getMenuInventory();
 			$id = $this->input->post('productGenId');
+
 		   	if ($this->form_validation->run() == FALSE)
 			{
 				$this->productDetails($id,'productedit');
 			}
 		 	else
 			{  		
-			   $action = $this->image_upload();		   
+			   $action = $this->image_upload();
+
 			   if(!empty($action['error']))
 			   {		
                 $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
-				 $image_path = $data['product']->getUploadImage();
+				$image_path = $data['product']->getUploadImage();
 
 			   }
 			   else
@@ -429,18 +419,22 @@ function __construct()  {
 					$product->setDesignName($design);
 					$shade = $this->input->post('shade');
 					$product->setShade($shade);
+					
 					$update_date = new\DateTime("now");
-					$product->setLastUpdated($update_date);
-					$product->setLastUpdatedBy($header['user_data']['id']);
+
+					$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+					$product->setLastUpdatedDate($update_date->getTimestamp());
+					$product->setLastUpdatedBy($updator);
+
 					$supplier_id = $this->input->post('supplier_id');
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
-					//$TaxClass =  $this->em->getRepository('models\inventory\TaxClass')->find($this->input->post('tax_id'));
+					
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
-					//$product->setTaxClassTaxClass($TaxClass);
+					
 					if($group_id  == 1)
 					{
 					  $product->setStatus($this->input->post('status'));
@@ -546,21 +540,21 @@ function __construct()  {
 	$menu = $this->navigator->getMenuInventory();
 	if($group == 2)
 	{
-	$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' => 3));
+		$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' => 3));
     }
 	else
 	{
-	$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' =>array(2,3)));
+		$user['data'] = $this->em->getRepository('models\inventory\products')->findBy(array('approved' =>array(2,3)));
 	}
 	
 		switch($group)
 		{
 			case 1:
-			    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Price','Safetylevel','Action'); 
+			    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Supplier','Price','Safetylevel','Action'); 
 				$user['visiblity'] = 1;
 				break;
 			case 2:
-			    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Action'); 
+			    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Supplier','Action'); 
 				$user['visiblity'] = 2;
 				break;
 		}
@@ -641,11 +635,11 @@ function __construct()  {
 		switch($group)
 		{
 		case 1:
-		    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Status','Price','Safetylevel','Action'); 
+		    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Supplier','Status','Price','Safetylevel','Action'); 
 			$user['visiblity'] = 1;
 			break;
 		case 2:
-		    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Status','Action'); 
+		    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Supplier','Status','Action'); 
 			$user['visiblity'] = 2;
 			break;
 		}
@@ -670,9 +664,12 @@ function __construct()  {
 			if($group_id == 1){$product->setStatus(1);}
 			$product->setApproved($group_id);
 			$product->setApprovedDate($approve_date);
-			$product->setApprovedBy($header['user_data']['id']); 
-			$product->setLastUpdated($approve_date);
-			$product->setLastUpdatedBy($header['user_data']['id']);
+
+			$updater = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+
+			$product->setApprovedBy($updater); 
+			$product->setLastUpdatedDate($approve_date->getTimestamp());
+			$product->setLastUpdatedBy($updater);
 			$this->em->persist($product);
 			$this->em->flush();
 			$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' approved Successfully</b></div>');
@@ -741,9 +738,12 @@ function __construct()  {
 		$menu = $this->navigator->getMenuInventory();
 	    $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
 		$update_date = new\DateTime("now");
-		$product->setLastUpdated($update_date);
+		$product->setLastUpdated($update_date->getTimestamp());
 		$product->setDeleted(1);
-		$product->setLastUpdatedBy($id);
+
+		$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+		$product->setLastUpdatedBy($updator);
+
 		$this->em->persist($product);
 		$this->em->flush();
 		$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' Deleted </b></div>');
@@ -803,9 +803,10 @@ function __construct()  {
 			    $productcategory = new models\inventory\Categories;
 				$productcategory->setCategoryName($this->input->post('productcategory'));
 				$productcategory->setComments($this->input->post('comments'));
+
 				$productcategory->setCreatedBy($header['id']);
 				$created_date = new\DateTime("now");
-				$productcategory->setCreatedDate($created_date);
+				$productcategory->setCreatedDate($created_date->getTimestamp());
 				$this->em->persist($productcategory);
 	            $this->em->flush();
 				$this->session->set_flashdata('productcategory', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Category Successfully</b></div>');
@@ -840,7 +841,6 @@ function __construct()  {
 		if(isset($product_id,$supplier_id,$inv_counrty,$inv_city,$category,$design))
 		{
 			
-	
 		    $inv_counrty = substr($inv_counrty, 0, 3);
 		   
 		    $inv_city = substr($inv_city, 0, 3);

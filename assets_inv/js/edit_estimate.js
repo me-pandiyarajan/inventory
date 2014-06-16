@@ -2,8 +2,8 @@
 
         var MaxInputs = 100; //maximum rows allowed
 
-        var x = existing_p_count; //initlal text box count
-        var FieldCount = 0; //to keep track of text box added
+        var x = existing_p_count; //initlal row count
+        var FieldCount = 0; //to keep track of rows added
         var listed_products =  new Array();
         
         $("body").on("click","#addProd", function(){
@@ -34,7 +34,7 @@
                 newRow = '<tr>' +
                             '<td ><input type="hidden" name="temp_p_id[]" value="'+ temp_p_id +'" /><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
                             '<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
-                            '<td >'+ p_name +' <input type="hidden" name="product_names[]" value="'+ p_name +'" /> </td>' +
+                            '<td >'+ p_name +' <input type="hidden" id="product_names" name="product_names[]" value="'+ p_name +'" /> </td>' +
                             '<td ><textarea row="1" name="descriptions[]" >'+ desc +'</textarea> </td>' +
                             '<td ><input type="text" name="designShade[]" value="'+ design +'/'+ shade +'" /> </td>' +
                             '<td ><input type="text" name="dimensions[]" value="'+ dime +'" /> </td>' +
@@ -60,8 +60,10 @@
             
         $("table").on("click",".remover", function(e){  
             if( x > 1 ) {
-                    $(this).closest('tr').addClass('hidden'); 
-                    x--; 
+                var removeItem = $(this).closest('tr#product_names').val();
+                $(this).closest('tr').remove();
+                x--;
+                listed_products.splice( $.inArray(removeItem,listed_products) ,1 );
             }
             return false;
         });     

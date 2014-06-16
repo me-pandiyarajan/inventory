@@ -159,6 +159,18 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getStatus();
     }
 
+    public function setDeleted($deleted)
+    {
+        $this->__load();
+        return parent::setDeleted($deleted);
+    }
+
+    public function getDeleted()
+    {
+        $this->__load();
+        return parent::getDeleted();
+    }
+
     public function setCreatedDate($createdDate)
     {
         $this->__load();
@@ -183,7 +195,7 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getLastUpdatedDate();
     }
 
-    public function setCreatedBy($createdBy)
+    public function setCreatedBy($createdBy = NULL)
     {
         $this->__load();
         return parent::setCreatedBy($createdBy);
@@ -195,7 +207,7 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getCreatedBy();
     }
 
-    public function setLastUpdatedBy($lastUpdatedBy)
+    public function setLastUpdatedBy($lastUpdatedBy = NULL)
     {
         $this->__load();
         return parent::setLastUpdatedBy($lastUpdatedBy);
@@ -207,22 +219,10 @@ class Suppliers extends \models\inventory\Suppliers implements \Doctrine\ORM\Pro
         return parent::getLastUpdatedBy();
     }
 
-    public function setDeleted($deleted)
-    {
-        $this->__load();
-        return parent::setDeleted($deleted);
-    }
-
-    public function getDeleted()
-    {
-        $this->__load();
-        return parent::getDeleted();
-    }
-
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'supplierId', 'supplierName', 'mobile', 'email', 'street', 'state', 'zipCode', 'city', 'country', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy', 'deleted');
+        return array('__isInitialized__', 'supplierId', 'supplierName', 'mobile', 'email', 'street', 'state', 'zipCode', 'city', 'country', 'status', 'deleted', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy');
     }
 
     public function __clone()

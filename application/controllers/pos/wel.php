@@ -18,18 +18,25 @@ class Wel extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 
+	public $em;
+
 	function __construct()  
 	{
 		parent::__construct();
+
 		$this->load->helper('url');
+		$this->load->library('navigator');
+		$this->navigator->checkLogin();
 		
 	}
 
 	public function index()
 	{
-		$this->load->view('pos/header/header');
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+
+		$this->load->view('pos/header/header',$header);
 		$this->load->view('pos/menu/menu');
-		$this->load->view('pos/welcome');
+		$this->load->view('pos/content_base');
 		$this->load->view('pos/footer/footer');
 	}
 }

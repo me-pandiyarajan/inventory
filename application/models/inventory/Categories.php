@@ -2,8 +2,9 @@
 
 namespace models\inventory;
 
+
 /**
- * Categories
+ * models\inventory\Categories
  *
  * @Table(name="categories")
  * @Entity
@@ -13,7 +14,7 @@ class Categories
     /**
      * @var integer $categoryId
      *
-     * @Column(name="category_id", type="integer", nullable=false)
+     * @Column(name="category_id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -22,58 +23,57 @@ class Categories
     /**
      * @var string $categoryName
      *
-     * @Column(name="category_name", type="string", length=45, nullable=true)
+     * @Column(name="category_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $categoryName;
 
     /**
      * @var string $comments
      *
-     * @Column(name="comments", type="string", length=45, nullable=true)
+     * @Column(name="comments", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $comments;
 
     /**
-     * @var datetime $createdDate
+     * @var boolean $status
      *
-     * @Column(name="created_date", type="datetime", nullable=true)
+     * @Column(name="status", type="boolean", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $status;
+
+    /**
+     * @var integer $createdDate
+     *
+     * @Column(name="created_date", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $createdDate;
 
     /**
-     * @var datetime $lastUpdatedDate
+     * @var integer $lastUpdatedDate
      *
-     * @Column(name="last_updated_date", type="datetime", nullable=true)
+     * @Column(name="last_updated_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $lastUpdatedDate;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="created_by", referencedColumnName="id")
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $createdBy;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="last_updated_by", referencedColumnName="id")
+     *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $lastUpdatedBy;
-
-    /**
-     * @var boolean $status
-     *
-     * @Column(name="status", type="boolean")
-     */
-    private $status;
-
 
 
     /**
@@ -131,98 +131,10 @@ class Categories
     }
 
     /**
-     * Set createdDate
-     *
-     * @param datetime $createdDate
-     * @return Categories
-     */
-    public function setCreatedDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return datetime 
-     */
-    public function getCreatedDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set lastUpdatedDate
-     *
-     * @param datetime $lastUpdatedDate
-     * @return Categories
-     */
-    public function setLastUpdatedDate($lastUpdatedDate)
-    {
-        $this->lastUpdatedDate = $lastUpdatedDate;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedDate
-     *
-     * @return datetime 
-     */
-    public function getLastUpdatedDate()
-    {
-        return $this->lastUpdatedDate;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param Users $createdBy
-     * @return Categories
-     */
-    public function setCreatedBy($createdBy = null)
-    {
-        $this->createdBy = $createdBy;
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return Users 
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set lastUpdatedBy
-     *
-     * @param Users $lastUpdatedBy
-     * @return Categories
-     */
-    public function setLastUpdatedBy($lastUpdatedBy = null)
-    {
-        $this->lastUpdatedBy = $lastUpdatedBy;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedBy
-     *
-     * @return Users 
-     */
-    public function getLastUpdatedBy()
-    {
-        return $this->lastUpdatedBy;
-    }
-
-    /**
-     * Set categoryName
+     * Set status
      *
      * @param boolean $status
-     * @return Status
+     * @return Categories
      */
     public function setStatus($status)
     {
@@ -238,5 +150,93 @@ class Categories
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set createdDate
+     *
+     * @param integer $createdDate
+     * @return Categories
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return integer 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set lastUpdatedDate
+     *
+     * @param integer $lastUpdatedDate
+     * @return Categories
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedDate
+     *
+     * @return integer 
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param models\inventory\Users $createdBy
+     * @return Categories
+     */
+    public function setCreatedBy($createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set lastUpdatedBy
+     *
+     * @param models\inventory\Users $lastUpdatedBy
+     * @return Categories
+     */
+    public function setLastUpdatedBy($lastUpdatedBy = null)
+    {
+        $this->lastUpdatedBy = $lastUpdatedBy;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getLastUpdatedBy()
+    {
+        return $this->lastUpdatedBy;
     }
 }

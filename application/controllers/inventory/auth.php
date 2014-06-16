@@ -86,22 +86,21 @@ class Auth extends CI_Controller {
 				//if the login is successful
 				//redirect them back to the home page
 				$group = $this->ion_auth->GetUserGroupId();
-			switch($group)
-			{
-			case 1:
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('inventory/dashboard/superadmin', 'refresh');	
-				break;
-			case 2:
-				
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('inventory/dashboard/admin', 'refresh');	
-				break;
-				
-			case 3:
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('inventory/dashboard/deo', 'refresh');	
-				break;
+				switch($group)
+				{
+				case 1:
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					redirect('inventory/dashboard/superadmin', 'refresh');	
+					break;
+				case 2:			
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					redirect('inventory/dashboard/admin', 'refresh');	
+					break;
+					
+				case 3:
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					redirect('inventory/dashboard/deo', 'refresh');	
+					break;
 				}	
 			}
 			else
@@ -707,7 +706,7 @@ class Auth extends CI_Controller {
 	}
 
 
-function view_profile($id)
+	function view_profile($id)
 	{
 	$this->navigator->checkLogin(); 
 	$user = $this->ion_auth->user($id)->row();
@@ -776,7 +775,7 @@ function view_profile($id)
 		$this->_render_page('inventory/general/footer');
 	}
 	
-function edit_profile($id)
+	function edit_profile($id)
 	{
 	    $this->navigator->checkLogin(); 
      	$user = $this->ion_auth->user($id)->row();
@@ -886,8 +885,9 @@ function edit_profile($id)
 		$this->_render_page('inventory/auth/edit_Profile', $this->data);
 		$this->_render_page('inventory/general/footer');
 	}
-function deleteuser1($id)
-{
+
+	function deleteuser1($id)
+	{
         $header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
@@ -899,9 +899,10 @@ function deleteuser1($id)
 		$this->session->set_flashdata('userdelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>user cancelled</b></div>');
 		redirect('inventory/auth/list_users'); 
 
-}	
-function deleteuser($id)
-{
+	}
+
+	function deleteuser($id)
+	{
         $header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
@@ -914,13 +915,8 @@ function deleteuser($id)
   									deleted successfully!
   									</div>');
 				
-					redirect('inventory/auth/list_users', 'refresh');
-				
-						
-		
-		
-
-}	
+		redirect('inventory/auth/list_users', 'refresh');
+	}	
 
 
 	// create a new group

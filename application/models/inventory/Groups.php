@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * Groups
+ * models\inventory\Groups
  *
  * @Table(name="groups")
  * @Entity
@@ -15,7 +14,7 @@ class Groups
     /**
      * @var integer $id
      *
-     * @Column(name="id", type="integer", nullable=false)
+     * @Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,17 +23,16 @@ class Groups
     /**
      * @var string $name
      *
-     * @Column(name="name", type="string", length=20, nullable=false)
+     * @Column(name="name", type="string", length=20, precision=0, scale=0, nullable=false, unique=false)
      */
     private $name;
 
     /**
      * @var string $description
      *
-     * @Column(name="description", type="string", length=100, nullable=false)
+     * @Column(name="description", type="string", length=100, precision=0, scale=0, nullable=false, unique=false)
      */
     private $description;
-
 
 
     /**

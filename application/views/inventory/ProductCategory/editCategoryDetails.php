@@ -41,7 +41,7 @@
 					    <div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
 						        <button type="submit" class="btn btn-success btn-xs" >Update</button>
-						      <a type="button" href="<?php echo base_url();?>ProductCategory/listCategories" class="btn btn-default btn-xs">Cancel</a>
+						      <a type="button" href="<?php echo base_url();?>inventory/ProductCategory/listCategories" class="btn btn-default btn-xs">Cancel</a>
 						    </div>
 						</div>
 

@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * NewEstimation
+ * models\inventory\NewEstimation
  *
  * @Table(name="new_estimation")
  * @Entity
@@ -15,7 +14,7 @@ class NewEstimation
     /**
      * @var integer $estimateId
      *
-     * @Column(name="estimate_id", type="integer", nullable=false)
+     * @Column(name="estimate_id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,69 +23,74 @@ class NewEstimation
     /**
      * @var string $estimateName
      *
-     * @Column(name="estimate_name", type="string", length=225, nullable=true)
+     * @Column(name="estimate_name", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
      */
     private $estimateName;
 
     /**
-     * @var datetime $createdDate
-     *
-     * @Column(name="created_date", type="datetime", nullable=true)
-     */
-    private $createdDate;
-
-    /**
-     * @var datetime $lastUpdatedDate
-     *
-     * @Column(name="last_updated_date", type="datetime", nullable=true)
-     */
-    private $lastUpdatedDate;
-
-    /**
-     * @var integer $status
-     *
-     * @Column(name="status", type="integer", nullable=true)
-     */
-    private $status;
-
-    /**
      * @var integer $estimateNoProduct
      *
-     * @Column(name="estimate_no_product", type="integer", nullable=true)
+     * @Column(name="estimate_no_product", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $estimateNoProduct;
 
     /**
-     * @var integer $createdBy
+     * @var boolean $status
      *
-     * @Column(name="created_by", type="integer", nullable=false)
+     * @Column(name="status", type="boolean", precision=0, scale=0, nullable=true, unique=false)
      */
-    private $createdBy;
-
-    /**
-     * @var integer $lastUpdatedBy
-     *
-     * @Column(name="last_updated_by", type="integer", nullable=true)
-     */
-    private $lastUpdatedBy;
+    private $status;
 
     /**
      * @var integer $flag
      *
-     * @Column(name="flag", type="integer", nullable=false)
+     * @Column(name="flag", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $flag;
 
     /**
-     * @var Suppliers
+     * @var integer $createdDate
      *
-     * @ManyToOne(targetEntity="Suppliers")
+     * @Column(name="created_date", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $createdDate;
+
+    /**
+     * @var integer $lastUpdatedDate
+     *
+     * @Column(name="last_updated_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $lastUpdatedDate;
+
+    /**
+     * @var models\inventory\Suppliers
+     *
+     * @ManyToOne(targetEntity="models\inventory\Suppliers")
      * @JoinColumns({
-     *   @JoinColumn(name="supplier_id", referencedColumnName="supplier_id")
+     *   @JoinColumn(name="supplier_id", referencedColumnName="supplier_id", nullable=true)
      * })
      */
     private $supplier;
 
+    /**
+     * @var models\inventory\Users
+     *
+     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @JoinColumns({
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $createdBy;
+
+    /**
+     * @var models\inventory\Users
+     *
+     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @JoinColumns({
+     *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $lastUpdatedBy;
 
 
     /**
@@ -122,72 +126,6 @@ class NewEstimation
     }
 
     /**
-     * Set createdDate
-     *
-     * @param datetime $createdDate
-     * @return NewEstimation
-     */
-    public function setCreatedDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return datetime 
-     */
-    public function getCreatedDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set lastUpdatedDate
-     *
-     * @param datetime $lastUpdatedDate
-     * @return NewEstimation
-     */
-    public function setLastUpdatedDate($lastUpdatedDate)
-    {
-        $this->lastUpdatedDate = $lastUpdatedDate;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedDate
-     *
-     * @return datetime 
-     */
-    public function getLastUpdatedDate()
-    {
-        return $this->lastUpdatedDate;
-    }
-
-    /**
-     * Set status
-     *
-     * @param integer $status
-     * @return NewEstimation
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return integer 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * Set estimateNoProduct
      *
      * @param integer $estimateNoProduct
@@ -210,47 +148,25 @@ class NewEstimation
     }
 
     /**
-     * Set createdBy
+     * Set status
      *
-     * @param integer $createdBy
+     * @param boolean $status
      * @return NewEstimation
      */
-    public function setCreatedBy($createdBy)
+    public function setStatus($status)
     {
-        $this->createdBy = $createdBy;
+        $this->status = $status;
         return $this;
     }
 
     /**
-     * Get createdBy
+     * Get status
      *
-     * @return integer 
+     * @return boolean 
      */
-    public function getCreatedBy()
+    public function getStatus()
     {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set lastUpdatedBy
-     *
-     * @param integer $lastUpdatedBy
-     * @return NewEstimation
-     */
-    public function setLastUpdatedBy($lastUpdatedBy)
-    {
-        $this->lastUpdatedBy = $lastUpdatedBy;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedBy
-     *
-     * @return integer 
-     */
-    public function getLastUpdatedBy()
-    {
-        return $this->lastUpdatedBy;
+        return $this->status;
     }
 
     /**
@@ -276,9 +192,53 @@ class NewEstimation
     }
 
     /**
+     * Set createdDate
+     *
+     * @param integer $createdDate
+     * @return NewEstimation
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return integer 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set lastUpdatedDate
+     *
+     * @param integer $lastUpdatedDate
+     * @return NewEstimation
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedDate
+     *
+     * @return integer 
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
      * Set supplier
      *
-     * @param Suppliers $supplier
+     * @param models\inventory\Suppliers $supplier
      * @return NewEstimation
      */
     public function setSupplier($supplier = null)
@@ -290,10 +250,54 @@ class NewEstimation
     /**
      * Get supplier
      *
-     * @return Suppliers 
+     * @return models\inventory\Suppliers 
      */
     public function getSupplier()
     {
         return $this->supplier;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param models\inventory\Users $createdBy
+     * @return NewEstimation
+     */
+    public function setCreatedBy($createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set lastUpdatedBy
+     *
+     * @param models\inventory\Users $lastUpdatedBy
+     * @return NewEstimation
+     */
+    public function setLastUpdatedBy($lastUpdatedBy = null)
+    {
+        $this->lastUpdatedBy = $lastUpdatedBy;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getLastUpdatedBy()
+    {
+        return $this->lastUpdatedBy;
     }
 }

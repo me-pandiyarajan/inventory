@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * NewOrder
+ * models\inventory\NewOrder
  *
  * @Table(name="new_order")
  * @Entity
@@ -15,7 +14,7 @@ class NewOrder
     /**
      * @var integer $orderId
      *
-     * @Column(name="order_id", type="integer", nullable=false)
+     * @Column(name="order_id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,68 +23,67 @@ class NewOrder
     /**
      * @var string $orderName
      *
-     * @Column(name="order_name", type="string", length=45, nullable=true)
+     * @Column(name="order_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $orderName;
 
     /**
-     * @var datetime $createdDate
-     *
-     * @Column(name="created_date", type="datetime", nullable=true)
-     */
-    private $createdDate;
-
-    /**
-     * @var datetime $lastUpdatedDate
-     *
-     * @Column(name="last_updated_date", type="datetime", nullable=true)
-     */
-    private $lastUpdatedDate;
-
-    /**
      * @var string $orderComments
      *
-     * @Column(name="order_comments", type="string", length=45, nullable=true)
+     * @Column(name="order_comments", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $orderComments;
 
     /**
      * @var integer $deliveryStatus
      *
-     * @Column(name="delivery_status", type="integer", nullable=true)
+     * @Column(name="delivery_status", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $deliveryStatus;
 
     /**
-     * @var NewEstimation
+     * @var integer $createdDate
      *
-     * @ManyToOne(targetEntity="NewEstimation")
+     * @Column(name="created_date", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $createdDate;
+
+    /**
+     * @var integer $lastUpdatedDate
+     *
+     * @Column(name="last_updated_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $lastUpdatedDate;
+
+    /**
+     * @var models\inventory\NewEstimation
+     *
+     * @ManyToOne(targetEntity="models\inventory\NewEstimation")
      * @JoinColumns({
-     *   @JoinColumn(name="estimate_id", referencedColumnName="estimate_id")
+     *   @JoinColumn(name="estimate_id", referencedColumnName="estimate_id", nullable=true)
      * })
      */
     private $estimate;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="created_by", referencedColumnName="id")
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $createdBy;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="last_updated_by", referencedColumnName="id")
+     *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $lastUpdatedBy;
-
 
 
     /**
@@ -118,50 +116,6 @@ class NewOrder
     public function getOrderName()
     {
         return $this->orderName;
-    }
-
-    /**
-     * Set createdDate
-     *
-     * @param datetime $createdDate
-     * @return NewOrder
-     */
-    public function setCreatedDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return datetime 
-     */
-    public function getCreatedDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set lastUpdatedDate
-     *
-     * @param datetime $lastUpdatedDate
-     * @return NewOrder
-     */
-    public function setLastUpdatedDate($lastUpdatedDate)
-    {
-        $this->lastUpdatedDate = $lastUpdatedDate;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedDate
-     *
-     * @return datetime 
-     */
-    public function getLastUpdatedDate()
-    {
-        return $this->lastUpdatedDate;
     }
 
     /**
@@ -209,9 +163,53 @@ class NewOrder
     }
 
     /**
+     * Set createdDate
+     *
+     * @param integer $createdDate
+     * @return NewOrder
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return integer 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set lastUpdatedDate
+     *
+     * @param integer $lastUpdatedDate
+     * @return NewOrder
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedDate
+     *
+     * @return integer 
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
      * Set estimate
      *
-     * @param NewEstimation $estimate
+     * @param models\inventory\NewEstimation $estimate
      * @return NewOrder
      */
     public function setEstimate($estimate = null)
@@ -223,7 +221,7 @@ class NewOrder
     /**
      * Get estimate
      *
-     * @return NewEstimation 
+     * @return models\inventory\NewEstimation 
      */
     public function getEstimate()
     {
@@ -233,7 +231,7 @@ class NewOrder
     /**
      * Set createdBy
      *
-     * @param Users $createdBy
+     * @param models\inventory\Users $createdBy
      * @return NewOrder
      */
     public function setCreatedBy($createdBy = null)
@@ -245,7 +243,7 @@ class NewOrder
     /**
      * Get createdBy
      *
-     * @return Users 
+     * @return models\inventory\Users 
      */
     public function getCreatedBy()
     {
@@ -255,7 +253,7 @@ class NewOrder
     /**
      * Set lastUpdatedBy
      *
-     * @param Users $lastUpdatedBy
+     * @param models\inventory\Users $lastUpdatedBy
      * @return NewOrder
      */
     public function setLastUpdatedBy($lastUpdatedBy = null)
@@ -267,7 +265,7 @@ class NewOrder
     /**
      * Get lastUpdatedBy
      *
-     * @return Users 
+     * @return models\inventory\Users 
      */
     public function getLastUpdatedBy()
     {

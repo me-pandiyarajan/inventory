@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * Products
+ * models\inventory\Products
  *
  * @Table(name="products")
  * @Entity
@@ -15,7 +14,7 @@ class Products
     /**
      * @var integer $productGenId
      *
-     * @Column(name="product_gen_id", type="integer", nullable=false)
+     * @Column(name="product_gen_id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,299 +23,286 @@ class Products
     /**
      * @var string $productIdPlu
      *
-     * @Column(name="Product_ID_PLU", type="string", length=45, nullable=true)
+     * @Column(name="Product_ID_PLU", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
      */
     private $productIdPlu;
 
     /**
      * @var string $sku
      *
-     * @Column(name="sku", type="string", length=45, nullable=true)
+     * @Column(name="sku", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
      */
     private $sku;
 
     /**
      * @var string $barcodeimage
      *
-     * @Column(name="barCodeImage", type="string", length=255, nullable=true)
+     * @Column(name="barCodeImage", type="string", length=255, precision=0, scale=0, nullable=true, unique=false)
      */
     private $barcodeimage;
 
     /**
      * @var string $productName
      *
-     * @Column(name="product_name", type="string", length=45, nullable=true)
+     * @Column(name="product_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $productName;
 
     /**
      * @var string $description
      *
-     * @Column(name="description", type="string", length=45, nullable=true)
+     * @Column(name="description", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $description;
 
     /**
      * @var string $shortDescription
      *
-     * @Column(name="short_description", type="string", length=45, nullable=true)
+     * @Column(name="short_description", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $shortDescription;
 
     /**
      * @var string $status
      *
-     * @Column(name="status", type="string", length=45, nullable=true)
+     * @Column(name="status", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $status;
 
     /**
      * @var string $countryOfManufacture
      *
-     * @Column(name="country_of_manufacture", type="string", length=45, nullable=true)
+     * @Column(name="country_of_manufacture", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $countryOfManufacture;
 
     /**
      * @var float $price
      *
-     * @Column(name="price", type="float", nullable=true)
+     * @Column(name="price", type="float", precision=0, scale=0, nullable=true, unique=false)
      */
     private $price;
 
     /**
-     * @var float $groupPrice
+     * @var integer $specialPriceFrom
      *
-     * @Column(name="group_price", type="float", nullable=true)
-     */
-    private $groupPrice;
-
-    /**
-     * @var datetime $specialPriceFrom
-     *
-     * @Column(name="special_price_from", type="datetime", nullable=true)
+     * @Column(name="special_price_from", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $specialPriceFrom;
 
     /**
-     * @var datetime $specialPriceTo
+     * @var integer $specialPriceTo
      *
-     * @Column(name="special_price_to", type="datetime", nullable=true)
+     * @Column(name="special_price_to", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $specialPriceTo;
 
     /**
      * @var integer $installationCharges
      *
-     * @Column(name="installation_charges", type="integer", nullable=true)
+     * @Column(name="installation_charges", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $installationCharges;
 
     /**
-     * @var float $totalCost
-     *
-     * @Column(name="total_cost", type="float", nullable=true)
-     */
-    private $totalCost;
-
-    /**
-     * @var float $grandTotal
-     *
-     * @Column(name="grand_total", type="float", nullable=true)
-     */
-    private $grandTotal;
-
-    /**
      * @var string $uploadImage
      *
-     * @Column(name="upload_image", type="string", length=100, nullable=true)
+     * @Column(name="upload_image", type="string", length=100, precision=0, scale=0, nullable=true, unique=false)
      */
     private $uploadImage;
 
     /**
      * @var integer $quantity
      *
-     * @Column(name="quantity", type="integer", nullable=true)
+     * @Column(name="quantity", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $quantity;
 
     /**
      * @var string $unit
      *
-     * @Column(name="unit", type="string", length=45, nullable=true)
+     * @Column(name="unit", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $unit;
 
     /**
      * @var string $material
      *
-     * @Column(name="material", type="string", length=225, nullable=true)
+     * @Column(name="material", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
      */
     private $material;
 
     /**
      * @var boolean $stockAvailability
      *
-     * @Column(name="stock_availability", type="boolean", nullable=true)
+     * @Column(name="stock_availability", type="boolean", precision=0, scale=0, nullable=true, unique=false)
      */
     private $stockAvailability;
 
     /**
      * @var integer $safetyStockLevel
      *
-     * @Column(name="safety_stock_level", type="integer", nullable=true)
+     * @Column(name="safety_stock_level", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $safetyStockLevel;
 
     /**
      * @var integer $posStockLevel
      *
-     * @Column(name="pos_stock_level", type="integer", nullable=true)
+     * @Column(name="pos_stock_level", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $posStockLevel;
 
     /**
      * @var string $dimenUnit
      *
-     * @Column(name="dimen_unit", type="string", length=225, nullable=true)
+     * @Column(name="dimen_unit", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
      */
     private $dimenUnit;
 
     /**
      * @var float $weight
      *
-     * @Column(name="weight", type="float", nullable=true)
+     * @Column(name="weight", type="float", precision=0, scale=0, nullable=true, unique=false)
      */
     private $weight;
 
     /**
      * @var float $width
      *
-     * @Column(name="width", type="float", nullable=true)
+     * @Column(name="width", type="float", precision=0, scale=0, nullable=true, unique=false)
      */
     private $width;
 
     /**
      * @var float $length
      *
-     * @Column(name="length", type="float", nullable=true)
+     * @Column(name="length", type="float", precision=0, scale=0, nullable=true, unique=false)
      */
     private $length;
 
     /**
      * @var float $height
      *
-     * @Column(name="height", type="float", nullable=true)
+     * @Column(name="height", type="float", precision=0, scale=0, nullable=true, unique=false)
      */
     private $height;
 
     /**
      * @var string $designName
      *
-     * @Column(name="design_name", type="string", length=45, nullable=true)
+     * @Column(name="design_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $designName;
 
     /**
      * @var string $shade
      *
-     * @Column(name="shade", type="string", length=45, nullable=true)
+     * @Column(name="shade", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $shade;
 
     /**
-     * @var datetime $createdDate
+     * @var integer $productActivated
      *
-     * @Column(name="created_date", type="datetime", nullable=true)
-     */
-    private $createdDate;
-
-    /**
-     * @var datetime $lastUpdated
-     *
-     * @Column(name="last_updated", type="datetime", nullable=true)
-     */
-    private $lastUpdated;
-
-    /**
-     * @var datetime $productActivated
-     *
-     * @Column(name="product_activated", type="datetime", nullable=true)
+     * @Column(name="product_activated", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $productActivated;
 
     /**
      * @var integer $approved
      *
-     * @Column(name="approved", type="integer", nullable=true)
+     * @Column(name="approved", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $approved;
 
     /**
-     * @var datetime $approvedDate
+     * @var integer $approvedDate
      *
-     * @Column(name="approved_date", type="datetime", nullable=true)
+     * @Column(name="approved_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $approvedDate;
 
     /**
-     * @var integer $createdBy
-     *
-     * @Column(name="created_by", type="integer", nullable=true)
-     */
-    private $createdBy;
-
-    /**
-     * @var integer $lastUpdatedBy
-     *
-     * @Column(name="last_updated_by", type="integer", nullable=true)
-     */
-    private $lastUpdatedBy;
-
-    /**
-     * @var integer $approvedBy
-     *
-     * @Column(name="approved_by", type="integer", nullable=true)
-     */
-    private $approvedBy;
-
-    /**
      * @var integer $deleted
      *
-     * @Column(name="deleted", type="integer", nullable=true)
+     * @Column(name="deleted", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $deleted;
 
     /**
-     * @var Categories
+     * @var integer $createdDate
      *
-     * @ManyToOne(targetEntity="Categories")
+     * @Column(name="created_date", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $createdDate;
+
+    /**
+     * @var integer $lastUpdatedDate
+     *
+     * @Column(name="last_updated_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $lastUpdatedDate;
+
+    /**
+     * @var models\inventory\Categories
+     *
+     * @ManyToOne(targetEntity="models\inventory\Categories")
      * @JoinColumns({
-     *   @JoinColumn(name="categories_category_id", referencedColumnName="category_id")
+     *   @JoinColumn(name="categories_category_id", referencedColumnName="category_id", nullable=true)
      * })
      */
     private $categoriesCategory;
 
     /**
-     * @var Suppliers
+     * @var models\pos\PosTax
      *
-     * @ManyToOne(targetEntity="Suppliers")
+     * @ManyToOne(targetEntity="models\pos\PosTax")
      * @JoinColumns({
-     *   @JoinColumn(name="suppliers_supplier_id", referencedColumnName="supplier_id")
+     *   @JoinColumn(name="pos_tax_tax_class_id", referencedColumnName="tax_class_id", nullable=true)
+     * })
+     */
+    private $posTaxTaxClass;
+
+    /**
+     * @var models\inventory\Suppliers
+     *
+     * @ManyToOne(targetEntity="models\inventory\Suppliers")
+     * @JoinColumns({
+     *   @JoinColumn(name="suppliers_supplier_id", referencedColumnName="supplier_id", nullable=true)
      * })
      */
     private $suppliersSupplier;
 
     /**
-     * @var TaxClass
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="TaxClass")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="tax_class_tax_class_id", referencedColumnName="tax_class_id")
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
-    private $taxClassTaxClass;
+    private $createdBy;
 
+    /**
+     * @var models\inventory\Users
+     *
+     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @JoinColumns({
+     *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $lastUpdatedBy;
+
+    /**
+     * @var models\inventory\Users
+     *
+     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @JoinColumns({
+     *   @JoinColumn(name="approved_by", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $approvedBy;
 
 
     /**
@@ -528,31 +514,9 @@ class Products
     }
 
     /**
-     * Set groupPrice
-     *
-     * @param float $groupPrice
-     * @return Products
-     */
-    public function setGroupPrice($groupPrice)
-    {
-        $this->groupPrice = $groupPrice;
-        return $this;
-    }
-
-    /**
-     * Get groupPrice
-     *
-     * @return float 
-     */
-    public function getGroupPrice()
-    {
-        return $this->groupPrice;
-    }
-
-    /**
      * Set specialPriceFrom
      *
-     * @param datetime $specialPriceFrom
+     * @param integer $specialPriceFrom
      * @return Products
      */
     public function setSpecialPriceFrom($specialPriceFrom)
@@ -564,7 +528,7 @@ class Products
     /**
      * Get specialPriceFrom
      *
-     * @return datetime 
+     * @return integer 
      */
     public function getSpecialPriceFrom()
     {
@@ -574,7 +538,7 @@ class Products
     /**
      * Set specialPriceTo
      *
-     * @param datetime $specialPriceTo
+     * @param integer $specialPriceTo
      * @return Products
      */
     public function setSpecialPriceTo($specialPriceTo)
@@ -586,7 +550,7 @@ class Products
     /**
      * Get specialPriceTo
      *
-     * @return datetime 
+     * @return integer 
      */
     public function getSpecialPriceTo()
     {
@@ -613,50 +577,6 @@ class Products
     public function getInstallationCharges()
     {
         return $this->installationCharges;
-    }
-
-    /**
-     * Set totalCost
-     *
-     * @param float $totalCost
-     * @return Products
-     */
-    public function setTotalCost($totalCost)
-    {
-        $this->totalCost = $totalCost;
-        return $this;
-    }
-
-    /**
-     * Get totalCost
-     *
-     * @return float 
-     */
-    public function getTotalCost()
-    {
-        return $this->totalCost;
-    }
-
-    /**
-     * Set grandTotal
-     *
-     * @param float $grandTotal
-     * @return Products
-     */
-    public function setGrandTotal($grandTotal)
-    {
-        $this->grandTotal = $grandTotal;
-        return $this;
-    }
-
-    /**
-     * Get grandTotal
-     *
-     * @return float 
-     */
-    public function getGrandTotal()
-    {
-        return $this->grandTotal;
     }
 
     /**
@@ -968,53 +888,9 @@ class Products
     }
 
     /**
-     * Set createdDate
-     *
-     * @param datetime $createdDate
-     * @return Products
-     */
-    public function setCreatedDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return datetime 
-     */
-    public function getCreatedDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set lastUpdated
-     *
-     * @param datetime $lastUpdated
-     * @return Products
-     */
-    public function setLastUpdated($lastUpdated)
-    {
-        $this->lastUpdated = $lastUpdated;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdated
-     *
-     * @return datetime 
-     */
-    public function getLastUpdated()
-    {
-        return $this->lastUpdated;
-    }
-
-    /**
      * Set productActivated
      *
-     * @param datetime $productActivated
+     * @param integer $productActivated
      * @return Products
      */
     public function setProductActivated($productActivated)
@@ -1026,7 +902,7 @@ class Products
     /**
      * Get productActivated
      *
-     * @return datetime 
+     * @return integer 
      */
     public function getProductActivated()
     {
@@ -1058,7 +934,7 @@ class Products
     /**
      * Set approvedDate
      *
-     * @param datetime $approvedDate
+     * @param integer $approvedDate
      * @return Products
      */
     public function setApprovedDate($approvedDate)
@@ -1070,77 +946,11 @@ class Products
     /**
      * Get approvedDate
      *
-     * @return datetime 
+     * @return integer 
      */
     public function getApprovedDate()
     {
         return $this->approvedDate;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     * @return Products
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return integer 
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set lastUpdatedBy
-     *
-     * @param integer $lastUpdatedBy
-     * @return Products
-     */
-    public function setLastUpdatedBy($lastUpdatedBy)
-    {
-        $this->lastUpdatedBy = $lastUpdatedBy;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedBy
-     *
-     * @return integer 
-     */
-    public function getLastUpdatedBy()
-    {
-        return $this->lastUpdatedBy;
-    }
-
-    /**
-     * Set approvedBy
-     *
-     * @param integer $approvedBy
-     * @return Products
-     */
-    public function setApprovedBy($approvedBy)
-    {
-        $this->approvedBy = $approvedBy;
-        return $this;
-    }
-
-    /**
-     * Get approvedBy
-     *
-     * @return integer 
-     */
-    public function getApprovedBy()
-    {
-        return $this->approvedBy;
     }
 
     /**
@@ -1166,12 +976,56 @@ class Products
     }
 
     /**
-     * Set categoriesCategory
+     * Set createdDate
      *
-     * @param Categories $categoriesCategory
+     * @param integer $createdDate
      * @return Products
      */
-    public function setCategoriesCategory(\Categories $categoriesCategory = null)
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return integer 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set lastUpdatedDate
+     *
+     * @param integer $lastUpdatedDate
+     * @return Products
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedDate
+     *
+     * @return integer 
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
+     * Set categoriesCategory
+     *
+     * @param models\inventory\Categories $categoriesCategory
+     * @return Products
+     */
+    public function setCategoriesCategory($categoriesCategory = null)
     {
         $this->categoriesCategory = $categoriesCategory;
         return $this;
@@ -1180,7 +1034,7 @@ class Products
     /**
      * Get categoriesCategory
      *
-     * @return Categories 
+     * @return models\inventory\Categories 
      */
     public function getCategoriesCategory()
     {
@@ -1188,12 +1042,34 @@ class Products
     }
 
     /**
-     * Set suppliersSupplier
+     * Set posTaxTaxClass
      *
-     * @param Suppliers $suppliersSupplier
+     * @param models\pos\PosTax $posTaxTaxClass
      * @return Products
      */
-    public function setSuppliersSupplier(\Suppliers $suppliersSupplier = null)
+    public function setPosTaxTaxClass($posTaxTaxClass = null)
+    {
+        $this->posTaxTaxClass = $posTaxTaxClass;
+        return $this;
+    }
+
+    /**
+     * Get posTaxTaxClass
+     *
+     * @return models\inventory\PosTax 
+     */
+    public function getPosTaxTaxClass()
+    {
+        return $this->posTaxTaxClass;
+    }
+
+    /**
+     * Set suppliersSupplier
+     *
+     * @param models\inventory\Suppliers $suppliersSupplier
+     * @return Products
+     */
+    public function setSuppliersSupplier($suppliersSupplier = null)
     {
         $this->suppliersSupplier = $suppliersSupplier;
         return $this;
@@ -1202,7 +1078,7 @@ class Products
     /**
      * Get suppliersSupplier
      *
-     * @return Suppliers 
+     * @return models\inventory\Suppliers 
      */
     public function getSuppliersSupplier()
     {
@@ -1210,24 +1086,68 @@ class Products
     }
 
     /**
-     * Set taxClassTaxClass
+     * Set createdBy
      *
-     * @param TaxClass $taxClassTaxClass
+     * @param models\inventory\Users $createdBy
      * @return Products
      */
-    public function setTaxClassTaxClass(\TaxClass $taxClassTaxClass = null)
+    public function setCreatedBy($createdBy = null)
     {
-        $this->taxClassTaxClass = $taxClassTaxClass;
+        $this->createdBy = $createdBy;
         return $this;
     }
 
     /**
-     * Get taxClassTaxClass
+     * Get createdBy
      *
-     * @return TaxClass 
+     * @return models\inventory\Users 
      */
-    public function getTaxClassTaxClass()
+    public function getCreatedBy()
     {
-        return $this->taxClassTaxClass;
+        return $this->createdBy;
+    }
+
+    /**
+     * Set lastUpdatedBy
+     *
+     * @param models\inventory\Users $lastUpdatedBy
+     * @return Products
+     */
+    public function setLastUpdatedBy($lastUpdatedBy = null)
+    {
+        $this->lastUpdatedBy = $lastUpdatedBy;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getLastUpdatedBy()
+    {
+        return $this->lastUpdatedBy;
+    }
+
+    /**
+     * Set approvedBy
+     *
+     * @param models\inventory\Users $approvedBy
+     * @return Products
+     */
+    public function setApprovedBy($approvedBy = null)
+    {
+        $this->approvedBy = $approvedBy;
+        return $this;
+    }
+
+    /**
+     * Get approvedBy
+     *
+     * @return models\inventory\Users 
+     */
+    public function getApprovedBy()
+    {
+        return $this->approvedBy;
     }
 }

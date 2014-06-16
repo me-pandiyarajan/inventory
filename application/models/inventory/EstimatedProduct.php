@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * EstimatedProduct
+ * models\inventory\EstimatedProduct
  *
  * @Table(name="estimated_product")
  * @Entity
@@ -15,7 +14,7 @@ class EstimatedProduct
     /**
      * @var integer $tempProductId
      *
-     * @Column(name="temp_product_id", type="integer", nullable=false)
+     * @Column(name="temp_product_id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,139 +23,130 @@ class EstimatedProduct
     /**
      * @var string $productName
      *
-     * @Column(name="product_name", type="string", length=45, nullable=true)
+     * @Column(name="product_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $productName;
 
     /**
      * @var string $quantity
      *
-     * @Column(name="quantity", type="string", length=50, nullable=true)
+     * @Column(name="quantity", type="string", length=50, precision=0, scale=0, nullable=true, unique=false)
      */
     private $quantity;
 
     /**
      * @var string $designName
      *
-     * @Column(name="design_name", type="string", length=45, nullable=true)
+     * @Column(name="design_name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $designName;
 
     /**
      * @var string $description
      *
-     * @Column(name="description", type="string", length=45, nullable=true)
+     * @Column(name="description", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $description;
 
     /**
      * @var string $dimensions
      *
-     * @Column(name="dimensions", type="string", length=45, nullable=true)
+     * @Column(name="dimensions", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $dimensions;
 
     /**
-     * @var datetime $createdDate
-     *
-     * @Column(name="created_date", type="datetime", nullable=true)
-     */
-    private $createdDate;
-
-    /**
-     * @var datetime $lastUpdatedDate
-     *
-     * @Column(name="last_updated_date", type="datetime", nullable=true)
-     */
-    private $lastUpdatedDate;
-
-    /**
      * @var boolean $ifref
      *
-     * @Column(name="Ifref", type="boolean", nullable=true)
+     * @Column(name="Ifref", type="boolean", precision=0, scale=0, nullable=true, unique=false)
      */
     private $ifref;
 
     /**
-     * @var integer $productId
-     *
-     * @Column(name="product_id", type="integer", nullable=true)
-     */
-    private $productId;
-
-    /**
      * @var integer $deliveryQuality
      *
-     * @Column(name="Delivery_Quality", type="integer", nullable=true)
+     * @Column(name="Delivery_Quality", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $deliveryQuality;
 
     /**
      * @var integer $damagedQuality
      *
-     * @Column(name="Damaged_Quality", type="integer", nullable=true)
+     * @Column(name="Damaged_Quality", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $damagedQuality;
 
     /**
      * @var string $deliveryComments
      *
-     * @Column(name="Delivery_Comments", type="string", length=225, nullable=true)
+     * @Column(name="Delivery_Comments", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
      */
     private $deliveryComments;
 
     /**
      * @var integer $orderProduct
      *
-     * @Column(name="order_product", type="integer", nullable=false)
+     * @Column(name="order_product", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $orderProduct;
 
     /**
      * @var integer $deliveryStatus
      *
-     * @Column(name="delivery_status", type="integer", nullable=false)
+     * @Column(name="delivery_status", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $deliveryStatus;
 
-      /**
-     * @var string $productPlu
+    /**
+     * @var string $productSku
      *
-     * @Column(name="product_sku", type="string", length=225, nullable=false)
+     * @Column(name="product_sku", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
      */
     private $productSku;
 
+    /**
+     * @var integer $createdDate
+     *
+     * @Column(name="created_date", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $createdDate;
 
     /**
-     * @var NewEstimation
+     * @var integer $lastUpdatedDate
      *
-     * @ManyToOne(targetEntity="NewEstimation")
+     * @Column(name="last_updated_date", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $lastUpdatedDate;
+
+    /**
+     * @var models\inventory\NewEstimation
+     *
+     * @ManyToOne(targetEntity="models\inventory\NewEstimation")
      * @JoinColumns({
-     *   @JoinColumn(name="estimate_id", referencedColumnName="estimate_id")
+     *   @JoinColumn(name="new_estimation_estimate_id", referencedColumnName="estimate_id", nullable=true)
      * })
      */
-    private $estimate;
+    private $newEstimationEstimate;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="created_by", referencedColumnName="id")
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $createdBy;
 
     /**
-     * @var Users
+     * @var models\inventory\Users
      *
-     * @ManyToOne(targetEntity="Users")
+     * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="last_updated_by", referencedColumnName="id")
+     *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $lastUpdatedBy;
-
 
 
     /**
@@ -280,50 +270,6 @@ class EstimatedProduct
     }
 
     /**
-     * Set createdDate
-     *
-     * @param datetime $createdDate
-     * @return EstimatedProduct
-     */
-    public function setCreatedDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return datetime 
-     */
-    public function getCreatedDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set lastUpdatedDate
-     *
-     * @param datetime $lastUpdatedDate
-     * @return EstimatedProduct
-     */
-    public function setLastUpdatedDate($lastUpdatedDate)
-    {
-        $this->lastUpdatedDate = $lastUpdatedDate;
-        return $this;
-    }
-
-    /**
-     * Get lastUpdatedDate
-     *
-     * @return datetime 
-     */
-    public function getLastUpdatedDate()
-    {
-        return $this->lastUpdatedDate;
-    }
-
-    /**
      * Set ifref
      *
      * @param boolean $ifref
@@ -345,27 +291,6 @@ class EstimatedProduct
         return $this->ifref;
     }
 
-    /**
-     * Set productPlu
-     *
-     * @param string $productPlu
-     * @return EstimatedProduct
-     */
-    public function setProductSku($productSku)
-    {
-        $this->productSku = $productSku;
-        return $this;
-    }
-
-    /**
-     * Get productPlu
-     *
-     * @return string 
-     */
-    public function getProductSku()
-    {
-        return $this->productSku;
-    }
     /**
      * Set deliveryQuality
      *
@@ -477,53 +402,97 @@ class EstimatedProduct
     }
 
     /**
-     * Set productPlu
+     * Set productSku
      *
-     * @param string $productPlu
+     * @param string $productSku
      * @return EstimatedProduct
      */
-    public function setProductPlu($productPlu)
+    public function setProductSku($productSku)
     {
-        $this->productPlu = $productPlu;
+        $this->productSku = $productSku;
         return $this;
     }
 
     /**
-     * Get productPlu
+     * Get productSku
      *
      * @return string 
      */
-    public function getProductPlu()
+    public function getProductSku()
     {
-        return $this->productPlu;
+        return $this->productSku;
     }
 
     /**
-     * Set estimate
+     * Set createdDate
      *
-     * @param NewEstimation $estimate
+     * @param integer $createdDate
      * @return EstimatedProduct
      */
-    public function setEstimate($estimate = null)
+    public function setCreatedDate($createdDate)
     {
-        $this->estimate = $estimate;
+        $this->createdDate = $createdDate;
         return $this;
     }
 
     /**
-     * Get estimate
+     * Get createdDate
      *
-     * @return NewEstimation 
+     * @return integer 
      */
-    public function getEstimate()
+    public function getCreatedDate()
     {
-        return $this->estimate;
+        return $this->createdDate;
+    }
+
+    /**
+     * Set lastUpdatedDate
+     *
+     * @param integer $lastUpdatedDate
+     * @return EstimatedProduct
+     */
+    public function setLastUpdatedDate($lastUpdatedDate)
+    {
+        $this->lastUpdatedDate = $lastUpdatedDate;
+        return $this;
+    }
+
+    /**
+     * Get lastUpdatedDate
+     *
+     * @return integer 
+     */
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    /**
+     * Set newEstimationEstimate
+     *
+     * @param models\inventory\NewEstimation $newEstimationEstimate
+     * @return EstimatedProduct
+     */
+    public function setNewEstimationEstimate($newEstimationEstimate = null)
+    {
+        $this->newEstimationEstimate = $newEstimationEstimate;
+        return $this;
+    }
+
+    /**
+     * Get newEstimationEstimate
+     *
+     * @return models\inventory\NewEstimation 
+     */
+    public function getNewEstimationEstimate()
+    {
+        return $this->newEstimationEstimate;
     }
 
     /**
      * Set createdBy
      *
-     * @param Users $createdBy
+     * @param models\inventory\Users $createdBy
      * @return EstimatedProduct
      */
     public function setCreatedBy($createdBy = null)
@@ -535,7 +504,7 @@ class EstimatedProduct
     /**
      * Get createdBy
      *
-     * @return Users 
+     * @return models\inventory\Users 
      */
     public function getCreatedBy()
     {
@@ -545,7 +514,7 @@ class EstimatedProduct
     /**
      * Set lastUpdatedBy
      *
-     * @param Users $lastUpdatedBy
+     * @param models\inventory\Users $lastUpdatedBy
      * @return EstimatedProduct
      */
     public function setLastUpdatedBy($lastUpdatedBy = null)
@@ -557,7 +526,7 @@ class EstimatedProduct
     /**
      * Get lastUpdatedBy
      *
-     * @return Users 
+     * @return models\inventory\Users 
      */
     public function getLastUpdatedBy()
     {

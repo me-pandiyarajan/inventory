@@ -23,7 +23,7 @@
 		 			      <label for="status" class="col-sm-2 control-label">Delivery Status:</label>
 						   <div class="col-sm-4">
 							  <select name="status" size="1" id="status" class="form-control" >
-							  <option value=" " selected="selected">--Select Status-- </option>
+							  <option value=" ">--Select Status-- </option>
 							  <option value="1">Completed</option>
 							  <option value="0">In-Progress</option>
 							</select>  

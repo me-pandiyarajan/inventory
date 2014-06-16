@@ -98,7 +98,10 @@ class purchase extends CI_Controller {
 					$quantity = $this->input->post('quantities');
 					$dimension = $this->input->post('dimensions');
 					$estimate_name = $this->input->post('estimate_name');
+
                    	$created_date = new\DateTime("now");
+                   	$creator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+
                    	$emaildata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 					$emaildata['supplierdata'] = array('supplier_name'=>$supplier_name,'email'=>$email);
                     $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
@@ -106,10 +109,12 @@ class purchase extends CI_Controller {
                     $estimate = new models\inventory\NewEstimation;
 					$estimate->setEstimateName($estimate_name);
 					$estimate->setFlag(0);
-					$estimate->setCreatedDate($created_date);
+					$estimate->setCreatedDate($created_date->getTimestamp());
 					$estimate->setStatus(2);
 					$estimate->setEstimateNoProduct(count($product_ids));
-					$estimate->setCreatedBy($header['user_data']['id']);
+
+					$estimate->setCreatedBy($creator);
+					
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
 					$estimate->setSupplier($supplier);
 					$this->em->persist($estimate);
@@ -135,17 +140,18 @@ class purchase extends CI_Controller {
 					$estimate_product->setDimensions($dimension[$i]);
 					$estimate_product->setDesignName($designShade[$i]);					
 					$estimate_product->setOrderProduct(1);
-					$estimate_product->setCreatedDate($created_date);
+					$estimate_product->setCreatedDate($created_date->getTimestamp());
 					$estimate_product->setIfref($Ifref);
 					$estimate_product->setProductSku($product_ids[$i]);
 					$Estimatid = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
-					$estimate_product->setEstimate($Estimatid);
-					$User = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
-				    $estimate_product->setCreatedBy($User);
+					$estimate_product->setNewEstimationEstimate($Estimatid);
+					
+				    $estimate_product->setCreatedBy($creator);
 				    $estimate_product->setDeliveryStatus(0);
 				    $estimate_product->setProductSku($sku[$i]);
 					$this->em->persist($estimate_product);
 		            $this->em->flush();
+
                      $emaildata['estimate_id'] = $estimate_id;
 		            /* create estimate pdf and send mail*/
 		            $this->load->helper(array('dompdf', 'file'));
@@ -419,7 +425,6 @@ class purchase extends CI_Controller {
    public function addtoestimate($id)
 	{
 	    
-
 		$data['form_action'] = "inventory/purchase/create_new_estimate";
 		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$group_id = $this->ion_auth->GetUserGroupId();
@@ -429,7 +434,6 @@ class purchase extends CI_Controller {
 			$this->load->view($menu);
 			$this->load->view('inventory/purchase/productestimate',$data);
 			 $this->load->view('inventory/general/footer');
-		
 	
 	}
 

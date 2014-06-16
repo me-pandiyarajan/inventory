@@ -18,8 +18,8 @@ class Supplier extends CI_Controller {
 		$this->em = $this->doctrine->em;
 		$this->load->library('navigator');
 		
-		$this->navigator->checkLogin(); 
-		
+		$this->navigator->checkLogin();
+		$this->navigator->posUserOnly();
 	}
 
 	public function index()
@@ -65,7 +65,7 @@ class Supplier extends CI_Controller {
 		/*
 		*	set fields here, that to be re-populating the form
 		*/
-		$fields = array('street','city','zip','state[]');
+		$fields = array('street','city','zip','state');
 		foreach ($fields as $field) {
 			$this->form_validation->set_rules($field);
 		}
@@ -108,6 +108,13 @@ class Supplier extends CI_Controller {
 				$supplier->setZipCode($zip);
 				$supplier->setStatus($status);
 				$supplier->setDeleted(0);
+
+				$creator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+				$create_date = new \DateTime("now");
+				
+				$supplier->setCreatedBy($creator);
+				$supplier->setCreatedDate($create_date->getTimestamp());
+				
 				$this->em->persist($supplier);
 				$this->em->flush();
 
@@ -141,7 +148,7 @@ class Supplier extends CI_Controller {
 
 		try {
 				//$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findAll();
-				$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('deleted' =>0));
+				$data['suppliers'] = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('deleted' => 0));
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				$group = $this->ion_auth->GetUserGroupId();
 				$menu = $this->navigator->getMenuInventory();
@@ -153,10 +160,6 @@ class Supplier extends CI_Controller {
 					case 2:
 						$data['tablehead'] = array('Supplier Name','Email','Mobile','Status','Action');
 						$data['visiblity'] = 0;
-						break;
-					case 3:
-						break;
-					default:
 						break;
 				}
 
@@ -304,9 +307,16 @@ class Supplier extends CI_Controller {
 					$supplier->setZipCode($zip);
 					$supplier->setStatus($status);
 					$this->em->persist($supplier);
+
+					$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+					$create_date = new \DateTime("now");
+					
+					$supplier->setCreatedBy($creator);
+					$supplier->setCreatedDate($create_date->getTimestamp());
+
 					$this->em->flush();
                    
-		          // redirect('inventory/supplier/listsuppliers'); 
+		          	// redirect('inventory/supplier/listsuppliers'); 
 					$group = $this->ion_auth->GetUserGroupId();
 					$menu = $this->navigator->getMenuInventory();
 					switch ($group) {
@@ -321,7 +331,7 @@ class Supplier extends CI_Controller {
 					$this->load->view('inventory/general/header', $header);
 					$this->load->view($menu);
 					$this->load->view('inventory/general/footer');
-					 $this->session->set_flashdata('supplieredit','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier detail updated successfuly!</b></div>');
+					$this->session->set_flashdata('supplieredit','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier detail updated successfuly!</b></div>');
 					redirect('inventory/supplier/listsuppliers');
 					
 

@@ -68,13 +68,17 @@ class ProductCategory extends CI_Controller {
 			    $productcategory = new models\inventory\Categories;
 				$productcategory->setCategoryName($this->input->post('productcategory'));
 				$productcategory->setComments($this->input->post('comments'));
-				$productcategory->setCreatedBy($header['id']);
+
 				$created_date = new\DateTime("now");
-				$productcategory->setCreatedDate($created_date);
+				$creator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+				$productcategory->setCreatedBy($creator);
+				$productcategory->setCreatedDate($created_date->getTimestamp());
+				
 				$productcategory->setStatus($this->input->post('status'));
 				$this->em->persist($productcategory);
 	            $this->em->flush();
-				$this->session->set_flashdata('productcategory', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Category Successfully</b></div>');
+				$this->session->set_flashdata('productcategory', '<div class="alert alert-success alert-dismissable">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Category Successfully</b></div>');
 				redirect('inventory/ProductCategory/addproductcategory');
 				
 	        }
@@ -140,7 +144,7 @@ class ProductCategory extends CI_Controller {
 				$data['category'] = $this->em->getRepository('models\inventory\Categories')->find($categoryid);
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				
-				$data['form_action'] = 'ProductCategory/updateCategory';
+				$data['form_action'] = 'inventory/ProductCategory/updateCategory';
 
 				$group = $this->ion_auth->GetUserGroupId();
 				$menu = $this->navigator->getMenuInventory();
@@ -219,10 +223,11 @@ class ProductCategory extends CI_Controller {
 				$productcategory->setCategoryName($this->input->post('productcategory'));
 				$productcategory->setComments($this->input->post('comments'));
 				$productcategory->setStatus($this->input->post('status'));
+
 				$updated_date = new\DateTime("now");
+				$updater = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+				$productcategory->setLastUpdatedBy($updater);
 				$productcategory->setLastUpdatedDate($updated_date);
-				$updatingUser = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
-				$productcategory->setLastUpdatedBy($updatingUser);
 				$this->em->persist($productcategory);
 				$this->em->flush();
                
@@ -257,17 +262,20 @@ class ProductCategory extends CI_Controller {
 	/*
 	* 	Category delete
 	*/
-	public function deleteCateory($id)
-		{
-			
+	public function deleteCategory($id)
+		{		
 			$header['user_data']=$this->ion_auth->GetHeaderDetails();
 			$group = $this->ion_auth->GetUserGroupId();
 			$menu = $this->navigator->getMenuInventory();
+
 			$data['category'] = $category = $this->em->getRepository('models\inventory\Categories')->find($id);
 			$category->setStatus(0);
+
+
+
 			$this->em->persist($category);
 			$this->em->flush();
-			$this->session->set_flashdata('categorydelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Category Deleted successfuly</b></div>');
+			$this->session->set_flashdata('categorydelete','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Category Deleted successfuly</b></div>');
 			redirect('inventory/ProductCategory/listcategory'); 
 		}	
 

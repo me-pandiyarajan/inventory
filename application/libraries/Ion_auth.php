@@ -524,10 +524,13 @@ class Ion_auth
 		/*  var_dump($user_groups);exit; */
 		return $user_groups[0]->id;
 	}
+	
 	function GetHeaderDetails()
 	{
 		$user = $this->ion_auth_model->user()->row();
 		return array('id'=>$user->id,'firstName'=>$user->first_name,'lastName'=>$user->last_name,'lastlogin'=>$user->last_login);
 	}
+
+	
 
 }

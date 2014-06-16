@@ -1,12 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
 
 /**
- * Users
+ * models\inventory\Users
  *
  * @Table(name="users")
  * @Entity
@@ -16,7 +14,7 @@ class Users
     /**
      * @var integer $id
      *
-     * @Column(name="id", type="integer", nullable=false)
+     * @Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -25,122 +23,121 @@ class Users
     /**
      * @var string $ipAddress
      *
-     * @Column(name="ip_address", type="string", length=15, nullable=false)
+     * @Column(name="ip_address", type="string", length=15, precision=0, scale=0, nullable=false, unique=false)
      */
     private $ipAddress;
 
     /**
      * @var string $username
      *
-     * @Column(name="username", type="string", length=100, nullable=false)
+     * @Column(name="username", type="string", length=100, precision=0, scale=0, nullable=false, unique=false)
      */
     private $username;
 
     /**
      * @var string $password
      *
-     * @Column(name="password", type="string", length=255, nullable=false)
+     * @Column(name="password", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
     private $password;
 
     /**
      * @var string $salt
      *
-     * @Column(name="salt", type="string", length=40, nullable=true)
+     * @Column(name="salt", type="string", length=40, precision=0, scale=0, nullable=true, unique=false)
      */
     private $salt;
 
     /**
      * @var string $email
      *
-     * @Column(name="email", type="string", length=100, nullable=false)
+     * @Column(name="email", type="string", length=100, precision=0, scale=0, nullable=false, unique=false)
      */
     private $email;
 
     /**
      * @var string $activationCode
      *
-     * @Column(name="activation_code", type="string", length=40, nullable=true)
+     * @Column(name="activation_code", type="string", length=40, precision=0, scale=0, nullable=true, unique=false)
      */
     private $activationCode;
 
     /**
      * @var string $forgottenPasswordCode
      *
-     * @Column(name="forgotten_password_code", type="string", length=40, nullable=true)
+     * @Column(name="forgotten_password_code", type="string", length=40, precision=0, scale=0, nullable=true, unique=false)
      */
     private $forgottenPasswordCode;
 
     /**
      * @var integer $forgottenPasswordTime
      *
-     * @Column(name="forgotten_password_time", type="integer", nullable=true)
+     * @Column(name="forgotten_password_time", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $forgottenPasswordTime;
 
     /**
      * @var string $rememberCode
      *
-     * @Column(name="remember_code", type="string", length=40, nullable=true)
+     * @Column(name="remember_code", type="string", length=40, precision=0, scale=0, nullable=true, unique=false)
      */
     private $rememberCode;
 
     /**
      * @var integer $createdOn
      *
-     * @Column(name="created_on", type="integer", nullable=false)
+     * @Column(name="created_on", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $createdOn;
 
     /**
      * @var integer $lastLogin
      *
-     * @Column(name="last_login", type="integer", nullable=true)
+     * @Column(name="last_login", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $lastLogin;
 
     /**
      * @var integer $active
      *
-     * @Column(name="active", type="integer", nullable=true)
+     * @Column(name="active", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $active;
 
     /**
      * @var string $firstName
      *
-     * @Column(name="first_name", type="string", length=50, nullable=true)
+     * @Column(name="first_name", type="string", length=50, precision=0, scale=0, nullable=true, unique=false)
      */
     private $firstName;
 
     /**
      * @var string $lastName
      *
-     * @Column(name="last_name", type="string", length=50, nullable=true)
+     * @Column(name="last_name", type="string", length=50, precision=0, scale=0, nullable=true, unique=false)
      */
     private $lastName;
 
     /**
      * @var string $company
      *
-     * @Column(name="company", type="string", length=100, nullable=true)
+     * @Column(name="company", type="string", length=100, precision=0, scale=0, nullable=true, unique=false)
      */
     private $company;
 
     /**
      * @var string $phone
      *
-     * @Column(name="phone", type="string", length=20, nullable=true)
+     * @Column(name="phone", type="string", length=20, precision=0, scale=0, nullable=true, unique=false)
      */
     private $phone;
 
     /**
      * @var boolean $deleted
      *
-     * @Column(name="deleted", type="boolean", nullable=false)
+     * @Column(name="deleted", type="boolean", precision=0, scale=0, nullable=true, unique=false)
      */
     private $deleted;
-
 
 
     /**
@@ -398,7 +395,7 @@ class Users
     /**
      * Set active
      *
-     * @param boolean $active
+     * @param integer $active
      * @return Users
      */
     public function setActive($active)
@@ -410,7 +407,7 @@ class Users
     /**
      * Get active
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getActive()
     {

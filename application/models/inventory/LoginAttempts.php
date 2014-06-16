@@ -1,11 +1,10 @@
 <?php
 
-
-
 namespace models\inventory;
 
+
 /**
- * LoginAttempts
+ * models\inventory\LoginAttempts
  *
  * @Table(name="login_attempts")
  * @Entity
@@ -15,7 +14,7 @@ class LoginAttempts
     /**
      * @var integer $id
      *
-     * @Column(name="id", type="integer", nullable=false)
+     * @Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
@@ -24,24 +23,23 @@ class LoginAttempts
     /**
      * @var string $ipAddress
      *
-     * @Column(name="ip_address", type="string", length=15, nullable=false)
+     * @Column(name="ip_address", type="string", length=15, precision=0, scale=0, nullable=false, unique=false)
      */
     private $ipAddress;
 
     /**
      * @var string $login
      *
-     * @Column(name="login", type="string", length=100, nullable=false)
+     * @Column(name="login", type="string", length=100, precision=0, scale=0, nullable=false, unique=false)
      */
     private $login;
 
     /**
      * @var integer $time
      *
-     * @Column(name="time", type="integer", nullable=true)
+     * @Column(name="time", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $time;
-
 
 
     /**

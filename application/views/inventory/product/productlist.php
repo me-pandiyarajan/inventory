@@ -62,12 +62,6 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 							$Category = "N/A";
 						}
 						
-						if(!$datum->getTaxClassTaxClass() == null){
-							$tax = $datum->getTaxClassTaxClass()->getTaxClassName();
-						}else{
-							$tax = "N/A";
-						}
-						
 													
                         ?>			
 				<tr class="odd"> 
