@@ -26,11 +26,11 @@
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="estimatedate"><b>EstimateDate:</b></label>
-			  <p><?php echo $estimationlist->getCreatedDate()->format('d-m-y H:i:s'); ?></p>
+			  <p><?php echo $estimationlist->getCreatedDate(); ?></p>
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="createdby"><b>Created by:</b></label>
-			  <p><?php echo $estimationlist->getCreatedBy(); ?></p>
+			  <p><?php echo $estimationlist->getCreatedBy()->getFirstName()." ".$estimationlist->getCreatedBy()->getLastName(); ?></p>
         </div>
 		
 <?php endforeach; ?>	

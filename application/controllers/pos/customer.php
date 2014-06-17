@@ -357,7 +357,6 @@ class Customer extends CI_Controller {
 				$customerid = $this->input->post('customer_id');
 
 				try {
-
 					$data['customer'] = $customer = $this->em->getRepository('models\pos\PosCustomer')->find($customerid);
 					$customer->setCustomerName($customer_name);
 					$customer->setEmail($email);
@@ -391,9 +390,6 @@ class Customer extends CI_Controller {
 							break;
 					}
 
-					//$this->load->view('pos/header/header', $header);
-					//$this->load->view($menu);
-					//$this->load->view('pos/footer/footer');
 					 $this->session->set_flashdata('customeredit','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Customer detail updated successfuly!</b></div>');
 					redirect('pos/customer/listCustomers');
 				}
@@ -408,10 +404,10 @@ class Customer extends CI_Controller {
 	}
 
 
-	/*
-	* customer delete
-	*/
-	public function deletecustomer($id)
+		/*
+		* customer delete
+		*/
+		public function deletecustomer($id)
 		{
 			
 			$header['user_data']=$this->ion_auth->GetHeaderDetails();
@@ -466,6 +462,7 @@ class Customer extends CI_Controller {
 				}
 		}
 
+
 		/*
 		*	AjaxCall: get customer Details  
 		*	---------------------
@@ -491,11 +488,23 @@ class Customer extends CI_Controller {
 					$customer_detail['customer_d_address']['dstate'] = $customers->getDState();
 					$customer_detail['customer_d_address']['dzipcode'] = $customers->getDZipCode();
 
-					$customer_detail['customer_group']['cg_id'] = $customers->getGroupCustomerCustomerGroup()->getCustomerGroupId();
-					$customer_detail['customer_group']['cg_name'] = $customers->getGroupCustomerCustomerGroup()->getCustomerGroupName();
-					$customer_detail['customer_group']['cg_discount_percent'] = $customers->getGroupCustomerCustomerGroup()->getDiscountpercent();
+					if($customers->getGroupCustomerCustomerGroup() != NULL)
+					{
+						$customer_detail['customer_group']['cg_id'] = $customers->getGroupCustomerCustomerGroup()->getCustomerGroupId();
+						$customer_detail['customer_group']['cg_name'] = $customers->getGroupCustomerCustomerGroup()->getCustomerGroupName();
+						$customer_detail['customer_group']['cg_discount_percent'] = $customers->getGroupCustomerCustomerGroup()->getDiscountpercent();
+					}
+					else
+					{
+						$customer_detail['customer_group']['cg_id'] = null;
+						$customer_detail['customer_group']['cg_name'] = "General";
+						$customer_detail['customer_group']['cg_discount_percent'] = 1;
+					}
+
+
 
 					echo json_encode($customer_detail);
+				
 				}
 				catch(Exception $e)
 				{

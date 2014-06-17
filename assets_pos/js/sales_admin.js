@@ -1,5 +1,5 @@
 
- /*Fetch product list and product details*/    
+/*Fetch product list and product details*/    
 
 var products = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -112,8 +112,6 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
    
     function addProduct(product)
     {
-
-    
         if(x <= MaxInputs) 
         {
             FieldCount++;
@@ -128,7 +126,8 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 var plu = product.plu;
                 var p_id = product.productId;
                 var quan = 1;
-                var price = product.price;
+                var price = product.price + (product.price * (parseFloat(product.tax.percent)/100));
+
                 listed_products[FieldCount-1] = product.p_name; 
 
             newRow = '<tr>' +

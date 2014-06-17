@@ -205,7 +205,7 @@ class purchase extends CI_Controller {
 		{
 			try{
 				$data['estimationlist'] = $this->em->getRepository('models\inventory\NewEstimation')->find($estimateid);
-				$data['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$estimateid));
+				$data['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$estimateid));
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				
 				$data['title'] = "View Estimate";			
@@ -322,10 +322,11 @@ class purchase extends CI_Controller {
 					$estimatedata['estimationlist'] = $estimate = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
 					$estimate->setEstimateName($estimate_name);
 					$estimate->setFlag(0);
-					$estimate->setLastUpdatedDate($updated_date);
+					$estimate->setLastUpdatedDate($updated_date->getTimestamp());
 					$estimate->setStatus(2);
 					$estimate->setEstimateNoProduct(count($product_ids));
-					$estimate->setLastUpdatedBy($header['user_data']['id']);
+					$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+					$estimate->setLastUpdatedBy($updator);
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
 					$estimate->setSupplier($supplier);
 					$this->em->persist($estimate);
@@ -458,7 +459,7 @@ class purchase extends CI_Controller {
 				$id = $ord->getEstimate()->getEstimateId();
 				$estimate_data = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' =>$id));
 			    $action['supplier_name'] = $estimate_data[0]->getSupplier()->getSupplierName();
-               $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' => $id));
+               $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' => $id));
 			}
 		$action['tablehead'] = array('Order Id','Order Name','Order Date','Status','Action'); 
 		$this->load->view('inventory/general/header',$header);
@@ -475,41 +476,42 @@ class purchase extends CI_Controller {
 	*	
     */
 	 
-	  public function orderlist()
-		{
-		$header['user_data']=$this->ion_auth->GetHeaderDetails();
-		$user['data']=$this->em->getRepository('models\inventory\NewOrder')->findBy(array("deliveryStatus" =>2));
-					if(!empty($user['data']))
+  	public function orderlist()
+	{
+
+	$header['user_data']=$this->ion_auth->GetHeaderDetails();
+	$user['data']=$this->em->getRepository('models\inventory\NewOrder')->findBy(array("deliveryStatus" =>2));
+				if(!empty($user['data']))
+					{
+					foreach($user['data'] as $datum)
 						{
-						foreach($user['data'] as $datum)
-							{
-							$id = $datum->getEstimate()->getEstimateId();
-							$estimate_data = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' =>$id));
-							$user['supplier_name'] = $estimate_data[0]->getSupplier()->getSupplierName();
-							}
+						$id = $datum->getEstimate()->getEstimateId();
+						$estimate_data = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' =>$id));
+						$user['supplier_name'] = $estimate_data[0]->getSupplier()->getSupplierName();
 						}
+					}
 					else
-							{
-									$estimate[0] = "No tax group available";
-							}
-			$group = $this->ion_auth->GetUserGroupId();
-			$menu = $this->navigator->getMenuInventory();
-			switch($group)
-			{
-			case 1:
-				$user['tablehead'] = array('Order ID','Order Name','Supplier Name','Order Date','Status','Action'); 
-				$user['visiblity'] = 1;
-				break;
-			case 2:
-				$user['tablehead'] = array('Order ID','Order Name','Supplier Name','Order Date','Status','Action'); 
-				$user['visiblity'] = 2;
-				break;
-				}
-				$this->load->view('inventory/general/header',$header);
-				$this->load->view($menu);
-				$this->load->view('inventory/purchase/orderlist',$user);
-				$this->load->view('inventory/general/footer');
-			}	
+					{
+						$estimate[0] = "No tax group available";
+					}
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenuInventory();
+		switch($group)
+		{
+		case 1:
+			$user['tablehead'] = array('Order ID','Order Name','Supplier Name','Order Date','Status','Action'); 
+			$user['visiblity'] = 1;
+			break;
+		case 2:
+			$user['tablehead'] = array('Order ID','Order Name','Supplier Name','Order Date','Status','Action'); 
+			$user['visiblity'] = 2;
+			break;
+			}
+		$this->load->view('inventory/general/header',$header);
+		$this->load->view($menu);
+		$this->load->view('inventory/purchase/orderlist',$user);
+		$this->load->view('inventory/general/footer');
+	}	
 		
       
 
@@ -552,7 +554,7 @@ class purchase extends CI_Controller {
 		$header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
-		$product_data= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array("estimate" =>$estimateid,'deliveryStatus' => 0));
+		$product_data= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array("newEstimationEstimate" =>$estimateid,'deliveryStatus' => 0));
 	
 		$product = array();
 			if(!empty($product_data))
@@ -598,7 +600,7 @@ class purchase extends CI_Controller {
 					$this->em->flush();
                     
                     /* check if all product in estimate_product table is completed then change status in new order as delivered else inprogress*/
-   					  $estimated_products = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$estimateid,'deliveryStatus'=> 0));
+   					  $estimated_products = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$estimateid,'deliveryStatus'=> 0));
                      
                       $neworders = $this->em->getRepository('models\inventory\NewOrder')->findByEstimate($estimateid);
                       foreach($neworders as $neworder)
@@ -612,7 +614,7 @@ class purchase extends CI_Controller {
            
                         $data['neworder'] = $neworder = $this->em->getRepository('models\inventory\NewOrder')->find($orderid);
 					    $update_date = new\DateTime("now");
-					    $neworder->setLastUpdatedDate($update_date);
+					    $neworder->setLastUpdatedDate($update_date->getTimestamp());
 
                     	if( count($estimated_products) == 0)
                     	{  
@@ -626,7 +628,7 @@ class purchase extends CI_Controller {
 							/*email -order confirmation template and create order template to super admin*/
 							$orderdata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
 							$orderdata['orderid'] = $orderid;
-							$orderdata['orderconfirm']= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$estimateid,'deliveryStatus'=> 1));
+							$orderdata['orderconfirm']= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$estimateid,'deliveryStatus'=> 1));
 							$confirmOrder_name = "DR_".$orderid."_".date('Y_m_d').".pdf";
 						    $html =  $this->load->view('inventory/email_template/order_confirm_template',$orderdata,TRUE);
 		                	$pdfdata = pdf_create($html, $confirmOrder_name,false);
@@ -655,9 +657,9 @@ class purchase extends CI_Controller {
 
 					
 					$data['success'] ='<div class="alert alert-success alert-dismissable">
-										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+										 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 										 Confirm successfuly!
-										</div>';
+									 	</div>';
 
 					$this->load->view('inventory/general/header', $header);
 					$this->load->view($menu);
@@ -690,7 +692,7 @@ class purchase extends CI_Controller {
 			{
 			$id = $ord->getEstimate()->getEstimateId();
 			$action['supplier_name'] = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' => $id));
-			$action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$id));
+			$action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$id));
 			}
 	$this->load->view('inventory/general/header',$header);
 	$this->load->view($menu);
@@ -719,7 +721,7 @@ class purchase extends CI_Controller {
 				{
 				$id = $ord->getEstimate()->getEstimateId();
 				$action['supplier_name'] = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' => $id));
-				$action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$id));
+				$action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$id));
 				}
 		$this->load->view('inventory/general/header',$header);
 		$this->load->view($menu);
@@ -798,8 +800,7 @@ class purchase extends CI_Controller {
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
 		$action['estimation_list'] = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' => $id));
-		//var_dump($action['estimation_list']);exit;
-	    $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$id));	
+	    $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$id));	
 		$this->load->view('inventory/general/header',$header);
 		$this->load->view($menu);
 		$this->load->view('inventory/purchase/viewestimate',$action);
@@ -814,7 +815,7 @@ class purchase extends CI_Controller {
 	*	
     */
 
- public function deleteestimate($id)
+ 	public function deleteestimate($id)
 	{
 		$header['user_data']=$this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
@@ -830,30 +831,30 @@ class purchase extends CI_Controller {
 	/* create_order */
 	public function newestimateorder($id) 
 	{   
-        $this->load->library('form_validation');
-		$config = array(
-			     array(
-						 'field'   => 'order_name',
-						 'label'   => 'Order Name ',
-						 'rules'   => 'required'
-					  ),
-					array(
-						 'field'   => 'SupplierName',
-						 'label'   => 'Supplier Name',
-						 'rules'   => 'required'
-					  ),
-				   array(
-						 'field'   => 'supplieremail',
-						 'label'   => 'Supplier Email',
-						 'rules'   => 'required'
-					  ),
-				   array(
-						 'field'   => 'address',
-						 'label'   => 'Address',
-						 'rules'   => 'required'
-					  ), 
-								  
-				   );
+	        $this->load->library('form_validation');
+			$config = array(
+				     array(
+							 'field'   => 'order_name',
+							 'label'   => 'Order Name ',
+							 'rules'   => 'required'
+						  ),
+						array(
+							 'field'   => 'SupplierName',
+							 'label'   => 'Supplier Name',
+							 'rules'   => 'required'
+						  ),
+					   array(
+							 'field'   => 'supplieremail',
+							 'label'   => 'Supplier Email',
+							 'rules'   => 'required'
+						  ),
+					   array(
+							 'field'   => 'address',
+							 'label'   => 'Address',
+							 'rules'   => 'required'
+						  ), 
+									  
+					   );
 
 		$this->form_validation->set_rules($config);
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable">
@@ -865,10 +866,9 @@ class purchase extends CI_Controller {
 			$menu = $this->navigator->getMenuInventory();
 			$action['tablehead'] = array('SKU','Product Name','Decription','Design/Shade','Dimensions','Quantity');
 		   $action['estimation_list'] = $this->em->getRepository('models\inventory\NewEstimation')->findBy(array('estimateId' => $id));
-	       $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('estimate' =>$id,'orderProduct'=>1));	
-       if ($this->form_validation->run() === FALSE)
+	       $action['estimated_product'] = $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array('newEstimationEstimate' =>$id,'orderProduct'=>1));	
+       	if ($this->form_validation->run() === FALSE)
 		{	
-	
 			$this->load->view('inventory/general/header',$header);
 			$this->load->view($menu);
 			$this->load->view('inventory/purchase/newestimateorder',$action);
@@ -876,12 +876,11 @@ class purchase extends CI_Controller {
 		}
 		else
 		{  
-	    
-		$this->load->view('inventory/general/header',$header);
-		$this->load->view($menu);
-		$this->load->view('inventory/purchase/newestimateorder',$action);
-		$this->load->view('inventory/general/footer'); 
-	}
+			$this->load->view('inventory/general/header',$header);
+			$this->load->view($menu);
+			$this->load->view('inventory/purchase/newestimateorder',$action);
+			$this->load->view('inventory/general/footer'); 
+		}
   } 
 	
 
@@ -942,46 +941,48 @@ class purchase extends CI_Controller {
 		$emaildata['estimate_id'] = $estimate_id;
 		$emaildata['supplierdata'] = array('supplier_name'=>$SupplierName,'email'=>$supplieremail);
         $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
-				try {
-				    $estimate = $this->em->getRepository('models\inventory\NewEstimation')->find($estimateid);
-				    $estimate->setStatus(1);
-				    $this->em->persist($estimate);
-					$this->em->flush();
-                  
-					$user = $this->em->getRepository('models\inventory\Users')->find($header['id']);
-					$order = new models\inventory\NewOrder;
-					$order->setOrderName($OrderName);
-					$order->setEstimate($estimate);
-					$order->setDeliveryStatus(2);
-					$order->setCreatedBy($user);
-					$create_date = new \DateTime("now");
-					$order->setCreatedDate($create_date);
-					$this->em->persist($order);
-					$this->em->flush();
-					$order_id = $order->getOrderId();
-					$emaildata['order_id'] = $order_id;
-					$this->load->helper(array('dompdf', 'file'));
-     	            $html = $this->load->view('inventory/email_template/order_template', $emaildata, true);
-	 	    		$OrderName = $order_id."_".date('Y_m_d').".pdf";
-	 	    		$data = pdf_create($html, $OrderName,false);
+			
+			try {
+			    $estimate = $this->em->getRepository('models\inventory\NewEstimation')->find($estimateid);
+			    $estimate->setStatus(1);
+			    $this->em->persist($estimate);
+				$this->em->flush();
+              
+				$user = $this->em->getRepository('models\inventory\Users')->find($header['id']);
+				$order = new models\inventory\NewOrder;
+				$order->setOrderName($OrderName);
+				$order->setEstimate($estimate);
+				$order->setDeliveryStatus(2);
+				$order->setCreatedBy($user);
+				$create_date = new \DateTime("now");
+				$order->setCreatedDate($create_date);
+				$this->em->persist($order);
+				$this->em->flush();
+				$order_id = $order->getOrderId();
+				$emaildata['order_id'] = $order_id;
+				$this->load->helper(array('dompdf', 'file'));
+ 	            $html = $this->load->view('inventory/email_template/order_template', $emaildata, true);
+ 	    		$OrderName = $order_id."_".date('Y_m_d').".pdf";
+ 	    		$data = pdf_create($html, $OrderName,false);
 
-
-					if(!write_file("assets_inv/orders/".$OrderName, $data))
-					{
-					     echo 'Unable to write the file';
-					}
-
-					$msg = "Ordered Product";
-                    $subject = "Ordered Product";
-					$attachment = "assets_inv/orders/".$OrderName;
-					$attachments = array($attachment);
-     				$this->email($supplieremail,$msg,$attachments,$subject);
-					$this->session->set_flashdata('ordersend','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Order has been sent successfully!</b></div>');
-	              	redirect('inventory/purchase/estimatelist'); 
+				if(!write_file("assets_inv/orders/".$OrderName, $data))
+				{
+				     echo 'Unable to write the file';
 				}
-				catch(Exception $e) {
-				   echo $e->getMessage();
-					}
+
+				$msg = "Ordered Product";
+                $subject = "Ordered Product";
+				$attachment = "assets_inv/orders/".$OrderName;
+				$attachments = array($attachment);
+ 				$this->email($supplieremail,$msg,$attachments,$subject);
+				$this->session->set_flashdata('ordersend','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Order has been sent successfully!</b></div>');
+              	redirect('inventory/purchase/estimatelist'); 
+			}
+			catch(Exception $e) 
+			{
+			   echo $e->getMessage();
+			}
+
        	}
     /*
     *	Email
@@ -994,13 +995,13 @@ class purchase extends CI_Controller {
    public function email($to,$message,$attachments,$subject)
    {
 	     $config = Array(
-	    'protocol' => 'smtp',
-	    'smtp_host' => 'ssl://smtp.gmail.com',
-	    'smtp_port' => 465,
-	    'smtp_user' => 'kirubadebo89@gmail.com',
-	    'smtp_pass' => 'glory11589',
-	    'mailtype'  => 'html', 
-	    'charset'   => 'iso-8859-1'
+		    'protocol' => 'smtp',
+		    'smtp_host' => 'ssl://smtp.gmail.com',
+		    'smtp_port' => 465,
+		    'smtp_user' => 'kirubadebo89@gmail.com',
+		    'smtp_pass' => 'glory11589',
+		    'mailtype'  => 'html', 
+		    'charset'   => 'iso-8859-1'
 		);
 
 		$this->load->library('email');
@@ -1012,7 +1013,6 @@ class purchase extends CI_Controller {
 		foreach ($attachments as $attachment) {
 			$this->email->attach($attachment);
 		}
-		
 		$this->email->message($message);
 		$this->email->send();  
     }

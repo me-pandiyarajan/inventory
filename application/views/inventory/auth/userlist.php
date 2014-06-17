@@ -4,9 +4,8 @@
  <?php if ( $this->session->flashdata('userdelect') ) echo $this->session->flashdata('userdelect'); ?>       
 <div id="infoMessage"><?php echo $message;?></div>
        
-       <div class="row placeholders">
 
-        	<div class="table-responsive">
+      <div class="table-responsive">
         <table cellpadding="0" cellspacing="0" border="0" id="table" name="table1" width="100%" class="table table-striped table-bordered">
 			
 
@@ -41,14 +40,11 @@
 					if ($activated == 0) 
 					{ 
 					   $acti = '<span class="label label-info">In-Active</span>';
-					
 					}
 					elseif ($activated == 1)
 					{
-					$acti = '<span class="label label-success">Active</span>';
-				
+						$acti = '<span class="label label-success">Active</span>';
 					}
-					
 				
 					
 					?> 
@@ -56,10 +52,10 @@
 					<td class="align-center "><?php echo $acti;?></td>
 
 							<td class="align-center">
-								<div class="btn-group"><a class="btn btn-primary btn-xs" href="<?php echo base_url();?>auth/edit_user/<?php echo $datum->id; ?>">Edit</a>
+								<div class="btn-group"><a class="btn btn-primary btn-xs" href="<?php echo base_url();?>inventory/auth/edit_user/<?php echo $datum->id; ?>">Edit</a>
 
                         <?php if( $visiblity == 2 ): ?>
-		                      <a type="button" href="<?php echo site_url()."auth/deleteuser/".$datum->id;?>" class="btn btn-primary btn-xs">Delete</a>
+		                      <a type="button" href="<?php echo site_url()."inventory/auth/deleteuser/".$datum->id;?>" class="btn btn-primary btn-xs">Delete</a>
 										
 						<?php endif;	?>
 
@@ -74,8 +70,6 @@
 				</table>
 
 			</div>
-	 </div>
-
 <!-- dynamic view content end-->
 
 </div>

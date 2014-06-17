@@ -90,6 +90,19 @@ function __construct()  {
 				$product_detail['price'] = $product->getPrice();
 				$product_detail['unit'] = $product->getUnit();
 
+
+					if($product->getPosTaxTaxClass() != NULL)
+					{
+						$product_detail['tax']['id'] = $product->getPosTaxTaxClass()->getTaxClassId();
+						$product_detail['tax']['name'] = $product->getPosTaxTaxClass()->getTaxClassName();
+						$product_detail['tax']['percent'] = $product->getPosTaxTaxClass()->getTaxPercent();
+					}
+					else
+					{
+						$product_detail['tax']['id'] = null;
+						$product_detail['tax']['name'] = null;
+						$product_detail['tax']['percent'] = 0;
+					}
 				
 				// $product_detail['design'] = $product->getDesignName();
 				// $product_detail['shade'] = $product->getShade();
@@ -103,13 +116,13 @@ function __construct()  {
 				// $product_detail['dimension'] = array();
 
 				// if($width != 0)
-				// 	$product_detail['dimension'][] = " ".$width."W ";
+				// $product_detail['dimension'][] = " ".$width."W ";
 
 				// if($length != 0)
-				// 	$product_detail['dimension'][] = " ".$length."L ";
+				// $product_detail['dimension'][] = " ".$length."L ";
 
 				// if($height != 0)
-				// 	$product_detail['dimension'][] = " ".$height."H ";
+				// $product_detail['dimension'][] = " ".$height."H ";
 
 
 				// $product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();

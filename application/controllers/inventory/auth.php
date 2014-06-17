@@ -435,7 +435,7 @@ class Auth extends CI_Controller {
 	{
 		
 		$this->navigator->checkLogin(); 
-		$this->data['form_action'] = 'auth/create_user';
+		$this->data['form_action'] = 'inventory/auth/create_user';
 		/*if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
 		{
 			redirect('inventory/auth', 'refresh');
@@ -482,32 +482,6 @@ class Auth extends CI_Controller {
 			//display the create user form
 			//set the flash data error message if there is one
 			$this->data['message'] = ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'));
-
-			/*$this->data['first_name'] = array(
-				'name'  => 'first_name',
-				'id'    => 'first_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('first_name'),
-			);
-			$this->data['last_name'] = array(
-				'name'  => 'last_name',
-				'id'    => 'last_name',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('last_name'),
-			);
-			$this->data['email'] = array(
-				'name'  => 'email',
-				'id'    => 'email',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('email'),
-			);
-			$this->data['phone'] = array(
-				'name'  => 'phone',
-				'id'    => 'phone',
-				'type'  => 'text',
-				'value' => $this->form_validation->set_value('phone'),
-			);
-			*/
 
 			$group = $this->ion_auth->GetUserGroupId();
 			switch($group)
@@ -563,11 +537,11 @@ class Auth extends CI_Controller {
 		switch($group)
 		{
 		case 1: 
-			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Status','Role','Action');
+			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Role','Status','Action');
 			$this->data['visiblity'] = 2;
 			break;
 		case 2:
-			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Status','Role','Action');
+			$this->data['tablehead'] = array('UserName','FirstName','LastName','Email','Mobile','Role','Status','Action');
 			$this->data['visiblity'] = 1;
 			break;
 		case 3:
@@ -625,17 +599,10 @@ class Auth extends CI_Controller {
 				//Update the groups user belongs to
 				$groupData = $this->input->post('group');
 
-				if (isset($groupData) && !empty($groupData)) {
-
+				if (isset($groupData) && !empty($groupData)) 
+				{
 					$this->ion_auth->remove_from_group('', $id);
-
-					// for single user in multiple groups
-					/*foreach ($groupData as $grp) {
-						$this->ion_auth->add_to_group($grp, $id);
-					}*/
-
 					$this->ion_auth->add_to_group($groupData, $id);
-
 				}
 			}
 
@@ -654,11 +621,11 @@ class Auth extends CI_Controller {
 
 				//check to see if we are creating the user
 				//redirect them back to the admin page
-					$this->session->set_flashdata('message','<div class="alert alert-success alert-dismissable">
+				$this->session->set_flashdata('message','<div class="alert alert-success alert-dismissable">
   									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   									User Edited successfuly!
   									</div>');
-			//redirect("inventory/auth/list_users", 'refresh');
+				//redirect("inventory/auth/list_users", 'refresh');
 				
 				//$this->session->set_flashdata('message', "User Saved");
 				if ($this->ion_auth->is_admin())
@@ -721,6 +688,7 @@ class Auth extends CI_Controller {
 			$data = array(
 				'first_name' => $this->input->post('first_name'),
 				'last_name'  => $this->input->post('last_name'),
+				'email'      => $this->input->post('email'),
 				'phone'      => $this->input->post('phone'),
 				'active'	 => $this->input->post('status')
 			);
@@ -787,6 +755,7 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
 		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
 		$this->form_validation->set_rules('email', $this->lang->line('edit_user_validation_email_label'), 'required|xss_clean');
+		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable">
   			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>', '</b></div>');
 		if (isset($_POST) && !empty($_POST))
@@ -802,6 +771,7 @@ class Auth extends CI_Controller {
 				'first_name' => $this->input->post('first_name'),
 				'last_name'  => $this->input->post('last_name'),
 				'email'      => $this->input->post('email'),
+				'phone'      => $this->input->post('phone'),
 				'password'      => $this->input->post('password')
 				
 			);

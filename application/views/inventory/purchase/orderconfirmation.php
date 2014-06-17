@@ -14,7 +14,7 @@
 			     <label class="control-label col-sm-2" for="product">Product Name</label>
 			     <div class="dropdown col-xs-4">
 			     	 <?php  array_unshift($product, "Select Product");
-                     echo form_dropdown('product',$product,set_value('product'),'class="form-control" required');
+                     	echo form_dropdown('product',$product,set_value('product'),'class="form-control" required');
                      ?>
 				 
 	             </div>
@@ -32,26 +32,26 @@
 						  
 						   <div class="form-group">
 						      <label for="Delivered Quantity" class="col-sm-2 control-label">Delivery Quantity:</label>
-						      	<div class="col-sm-10">
-						      		<input type="text"  id="deliveredquantity" name="deliveredquantity"  value="<?php echo set_value('deliveredquantity'); ?>"  placeholder="Enter Delivery Quantity">
+						      	<div class="col-sm-4">
+						      		<input type="text" class="form-control"  id="deliveredquantity" required name="deliveredquantity"  value="<?php echo set_value('deliveredquantity'); ?>"  placeholder="Enter Delivery Quantity">
 						   	  	</div>
 						   </div>
 						    <div class="form-group" id="Other" >
 						<label for="Damaged Quantity" class="col-sm-2 control-label">Damaged Quantity:</label>
 						
-						      	<div class="col-sm-10">
-						      		<input type="text"  id="damagedquantity" name="damagedquantity" value="<?php echo set_value('damagedquantity'); ?>" placeholder="Enter Damaged Quantity">
+						      	<div class="col-sm-4">
+						      		<input type="text" class="form-control"  id="damagedquantity" name="damagedquantity" value="<?php echo set_value('damagedquantity'); ?>" placeholder="Enter Damaged Quantity">
 						   		</div>
 						   </div>
 						   	 <div class="form-group">
 						      <label for="name" class="col-sm-2 control-label">Comments:</label>
-						      	<div class="col-sm-10">
+						      	<div class="col-sm-4">
 								
-								  <textarea rows="3" class="form-control" value="<?php echo set_value('comments'); ?>" id="comments" placeholder="Comments" name="comments" ></textarea>
+							<textarea rows="4" class="form-control" value="<?php echo set_value('comments'); ?>" id="comments" placeholder="Comments" name="comments" ></textarea>
 						      		</div>
 						   </div>
 						   <div class="form-group">
-							    <div class="col-sm-offset-2 col-sm-10">
+							    <div class="col-sm-offset-2 col-sm-4">
 							    	  <button type="submit" class="btn btn-success btn-xs">Confirm</button>
 							    	     <input type="reset" class="btn btn-default btn-xs" value="Reset" >
 							         <!---<a type="button" href="<?php echo base_url();?>inventory/purchase/orderlist" class="btn btn-default btn-xs">Cancel</a>-->

@@ -31,7 +31,7 @@
 		
 		<div class="form-group" >
             <label class="control-label col-xs-3" for="Address"><b>Address:</b></label>
-			 <input id="address" name="address" value="<?php echo $estimationlist->getSupplier()->getStreet().','. $estimationlist->getSupplier()->getCity().','. $estimationlist->getSupplier()->getState().'-'. $estimationlist->getSupplier()->getZipCode();?>">
+			 <textarea id="address" name="address"><?php echo $estimationlist->getSupplier()->getStreet().','. $estimationlist->getSupplier()->getCity().','. $estimationlist->getSupplier()->getState().'-'. $estimationlist->getSupplier()->getZipCode();?> </textarea>
         </div>
 		<div class="form-group" >
            <label class="control-label col-xs-3" for="supplierTelephone"><b>SupplierTelephone:</b></label>
@@ -39,7 +39,7 @@
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="estimatedate"><b>EstimateDate:</b></label>
-			  <input value="<?php echo $estimationlist->getCreatedDate()->format('d-m-y H:i:s'); ?>" name="estimatedate" id="estimatedate" >
+           <label class="control-label" for="estimatedate"><?php echo $estimationlist->getCreatedDate(); ?></label>
         </div>
 		 
 <?php endforeach; ?>	
@@ -57,7 +57,6 @@
 				<tbody role="alert" aria-live="polite" aria-relevant="all">
 				<?php foreach($estimated_product as $product):?>
                     <tr>
-    					
     					<td><input type="hidden" name="product_sku[]" value="<?php echo $product->getProductSku(); ?>" /> <?php echo $product->getProductSku(); ?>
 </td>
     					<td ><input type="hidden" name="product_names[]" value="<?php echo $product->getProductName(); ?>" /><?php echo $product->getProductName(); ?></td>
@@ -68,7 +67,7 @@
 					
 				<!--    <td class="align-center">
 					<div class="btn-group">
-					<a title="Delete" class="button align-center "  href="<?php echo site_url()."purchase/deleteorderproduct/".$product->getTempProductId();?>">Delete</a>
+					<a title="Delete" class="button align-center "  href="<?php //echo site_url()."purchase/deleteorderproduct/".$product->getTempProductId();?>">Delete</a>
 					
                          </div>
                     </td> -->

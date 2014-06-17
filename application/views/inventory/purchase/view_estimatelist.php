@@ -36,7 +36,7 @@
 					?> 
 					<td ><?php echo $stat;?></td>
 					
-					<td ><?php echo $datum->getCreatedDate()->format('d-m-y H:i:s');?></td>
+					<td ><?php echo $datum->getCreatedDate();?></td>
 					<!--<td >'.$datum->getCreatedBy().'</td>-->
 					
 						<td class="align-center">
@@ -44,39 +44,39 @@
 						<?php 
 							if($visiblity == 1 && $status == 1)
 							{
-							echo '
-							<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
-                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
-							<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
-							<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
-							';
+								echo '
+								<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
+	                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
+								<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
+								<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
+								';
 							}
 							elseif($visiblity == 1 && $status == 2)
 							{
-							echo'						
-                            <a class="btn btn-success btn-xs" href="newestimateorder/'.$datum->getEstimateId().'" >Order Now</a>
-                            <a class="btn btn-warning btn-xs" href="estimateDetails/'.$datum->getEstimateId().'/edit_estimate">Edit</a>
-							<a class="btn btn-info btn-xs" href="viewestimate/'.$datum->getEstimateId().'">view</a>
-							<a class="btn btn-danger btn-xs" href="deleteestimate/'.$datum->getEstimateId().'">Cancel</a>
-							 ';
+								echo'						
+	                            <a class="btn btn-success btn-xs" href="newestimateorder/'.$datum->getEstimateId().'" >Order Now</a>
+	                            <a class="btn btn-warning btn-xs" href="estimateDetails/'.$datum->getEstimateId().'/edit_estimate">Edit</a>
+								<a class="btn btn-info btn-xs" href="viewestimate/'.$datum->getEstimateId().'">view</a>
+								<a class="btn btn-danger btn-xs" href="deleteestimate/'.$datum->getEstimateId().'">Cancel</a>
+								 ';
 							}
 							elseif($visiblity == 1)
 							{ 
-							echo '
-							<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
-                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
-							<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
-							<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
-							';
+								echo '
+								<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
+	                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
+								<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
+								<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
+								';
 							}
 							if($visiblity == 2)
 							{
-							echo'
-							<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
-                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
-							<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
-							<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
-							';
+								echo'
+								<a class="btn btn-default btn-xs disabled" href="#" >Order Now</a>
+	                            <a class="btn btn-default btn-xs disabled" href="#">Edit</a>
+								<a class="btn btn-info btn-xs " href="viewestimate/'.$datum->getEstimateId().'">view</a>
+								<a class="btn btn-default btn-xs disabled" href="#">Cancel</a>
+								';
 							}
 							?>
 							 </div>

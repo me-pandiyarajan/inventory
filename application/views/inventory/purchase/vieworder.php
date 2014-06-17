@@ -24,7 +24,7 @@
 		
       <div class="form-group" >
            <label class="control-label col-xs-3" for="OrderDate"><b>OrderDate:</b></label>
-			  <p><?php echo $ord->getCreatedDate()->format('d-m-y H:i:s'); ?></p>
+			  <p><?php echo $ord->getCreatedDate(); ?></p>
         </div>
 <?php endforeach; ?>		
 	 <br>

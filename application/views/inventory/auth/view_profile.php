@@ -13,14 +13,7 @@
                 echo form_open(uri_string(),$attributes); 
                 ?>
            
-               
-               <div class="form-group">
-                  <label for="user name" class="col-sm-2 control-label">User Name</label>
-                    <div class="col-sm-10">
-                     <p><?php echo $user->username; ?></p>
-                    </div>
-               </div>
-
+              
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">First name</label>
                     <div class="col-sm-10">
@@ -50,20 +43,17 @@
                 						
                
               
-			   <?php 
-					$activated = $user->active;
-					
-					if ($activated == 0) 
-					{ 
-					   $acti = 'In-Active';
-					
-					}
-					elseif ($activated == 1)
-					{
-					$acti = 'Active';
-				
-					}
-					?> 
+      			    <?php 
+      					$activated = $user->active;
+      					if ($activated == 0) 
+      					{ 
+      					   $acti = 'In-Active';
+      					}
+      					elseif ($activated == 1)
+      					{
+      					   $acti = 'Active';
+      					}
+      					?> 
 			   
 			   
               <div class="form-group">
@@ -80,7 +70,7 @@
 
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-				  <a class="btn btn-success btn-sm" href="<?php echo base_url();?>auth/edit_profile/<?php echo $user->id; ?>">Edit</a >
+				  <a class="btn btn-success btn-sm" href="<?php echo base_url();?>inventory/auth/edit_profile/<?php echo $user->id; ?>">Edit</a >
                               
                   </div>
               </div>

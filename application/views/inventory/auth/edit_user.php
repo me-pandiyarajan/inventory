@@ -14,39 +14,31 @@
                 echo form_open(uri_string(),$attributes); 
                 ?>
 
-               
-              <!-- <div class="form-group">
-                  <label for="user name" class="col-sm-2 control-label">User Name</label>
-                    <div class="col-sm-10">
-                      <input type="text"  id="username" name="username"  value="<?php echo $user->username; ?>"  placeholder="Enter user name">
-                    </div>
-               </div>-->
-
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">First name</label>
-                    <div class="col-sm-10">
-                      <input type="text"  id="first_name" name="first_name" value="<?php echo $user->first_name; ?>" placeholder="Enter first name" >
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control"  id="first_name" name="first_name" value="<?php echo $user->first_name; ?>" placeholder="Enter first name" >
                   </div>
                </div> 
 
                <div class="form-group">
                     <label for="first_name" class="col-sm-2 control-label">Last name</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="last_name" name="last_name" value="<?php echo $user->last_name; ?>" placeholder="Enter Last name">
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user->last_name; ?>" placeholder="Enter Last name">
                   </div>
                </div>               
                     
                <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email"  id="email" name="email" value="<?php echo $user->email; ?>" placeholder="Enter email">
+                    <div class="col-sm-3">
+                      <input type="email" class="form-control" id="email" name="email" value="<?php echo $user->email; ?>" placeholder="Enter email">
                   </div>
                </div>
 
                <div class="form-group">
                   <label for="name" class="col-sm-2 control-label">Mobile</label>
-                    <div class="col-sm-10">
-                      <input type="text"  id="phone" name="phone" value="<?php echo $user->phone; ?>" placeholder="Enter mobile number">
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $user->phone; ?>" placeholder="Enter mobile number">
                   </div>
                </div>
 
@@ -74,8 +66,8 @@
 
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-success btn-xs">Update</button>
-                      <a type="button" href="<?php echo base_url();?>auth/list_users" class="btn btn-default btn-xs">Cancel</a>
+                      <input type="submit" class="btn btn-success btn-xs" value="Update" />
+                      <a type="button" href="<?php echo base_url();?>inventory/auth/list_users" class="btn btn-default btn-xs">Cancel</a>
                       
                   </div>
               </div>

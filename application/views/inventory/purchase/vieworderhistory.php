@@ -24,7 +24,7 @@
 		
       <div class="form-group" >
            <label class="control-label col-xs-3" for="OrderDate"><b>OrderDate:</b></label>
-			  <p><?php echo $ord->getCreatedDate()->format('d-m-y H:i:s'); ?></p>
+			  <p><?php echo $ord->getCreatedDate(); ?></p>
         </div>
 <?php endforeach; ?>		
 	 <br>
@@ -32,11 +32,11 @@
 <div class="table-responsive">
 <table class="table table-bordered">
                  <thead> 
-							<tr>
-								<?php  foreach($tablehead as $table_head):?>	   
-								<th><?php echo $table_head;?></th>
-								<?php endforeach; ?>
-							</tr>
+						<tr>
+							<?php  foreach($tablehead as $table_head):?>	   
+							<th><?php echo $table_head;?></th>
+							<?php endforeach; ?>
+						</tr>
 				 </thead>
            		 
 				<tbody role="alert" aria-live="polite" aria-relevant="all">

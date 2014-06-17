@@ -35,9 +35,9 @@ class NewEstimation
     private $estimateNoProduct;
 
     /**
-     * @var boolean $status
+     * @var integer $status
      *
-     * @Column(name="status", type="boolean", precision=0, scale=0, nullable=true, unique=false)
+     * @Column(name="status", type="integer", precision=0, scale=0, nullable=true, unique=false)
      */
     private $status;
 
@@ -150,7 +150,7 @@ class NewEstimation
     /**
      * Set status
      *
-     * @param boolean $status
+     * @param integer $status
      * @return NewEstimation
      */
     public function setStatus($status)
@@ -162,7 +162,7 @@ class NewEstimation
     /**
      * Get status
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getStatus()
     {

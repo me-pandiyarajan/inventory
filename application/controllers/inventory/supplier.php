@@ -311,7 +311,7 @@ class Supplier extends CI_Controller {
 					$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
 					$create_date = new \DateTime("now");
 					
-					$supplier->setCreatedBy($creator);
+					$supplier->setCreatedBy($updator);
 					$supplier->setCreatedDate($create_date->getTimestamp());
 
 					$this->em->flush();
