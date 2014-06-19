@@ -11,7 +11,8 @@
        
     <div class="col-lg-12">
         <?php echo validation_errors();   
-          if(!empty($success)) echo $success; ?>
+          if(!empty($success)) echo $success; 
+          ?>
         <?php 
            $attributes = array('class' => 'form-horizontal', 'id' => 'general');
            echo form_open_multipart($form_action,$attributes);
@@ -20,7 +21,7 @@
         <div class="form-group">
             <label class="control-label col-xs-1" for="customer_name">Customer</label>
             <div class="col-xs-3">
-                <input type="text" class="form-control customer_typeahead" value="<?php echo set_value('customer_name'); ?>" id="customer_name_id_fetch" placeholder="Customer Name/id" name="customer_name_id_fetch" >
+                <input type="text" class="form-control customer_typeahead" value="<?php echo set_value('customer_name'); ?>" id="customer_name_id_fetch" placeholder="Customer Name/id" >
             </div>
             <div class="col-xs-3">
                  <button class="btn btn-success btn-circle btn-default btn-outline" type="button">
@@ -31,7 +32,7 @@
        
         <div class="form-group has-success">
             <div class="col-xs-12">  
-                <input type="text" class="form-control input-lg typeahead" value="<?php echo set_value('product_name_id'); ?>" id="product_name_id" placeholder="Product Name or PLU" name="product_name_id" >
+                <input type="text" class="form-control input-lg typeahead" value="<?php echo set_value('product_name_id'); ?>" id="product_name_id" placeholder="Product Name or PLU"  >
             </div>
         </div>
 
@@ -41,8 +42,8 @@
                     <th>Remove</th>
                     <th>PLU</th>
                     <th>Product name</th>
-                    <th>Quantity</th>
-                    <th>Unit</th>
+                    <th colspan="2">Quantity</th>
+                    <th>Tax</th>
                     <th>Price</th>
                     <th>Amount</th>
                 </thead>    
@@ -69,25 +70,65 @@
         <div class="row col-xs-5 pull-right">
             <table class="table table-bordered" id='sales_price_cal'>
                 <tr>
-                    <th>Sub Total</th>
-                    <td id="subTotal">0.00</td>
+                    <th class="col-xs-4">Sub Total</th>
+                    <td><i class="fa fa-inr"></i> <span id="subTotal">0.00</span></td>
                 </tr>
                 <tr>
                     <th>Discount</th>
                     <td><span id="dis_per">0</span>%</td>
                 </tr>
-                <tr>
+               <!--  <tr>
                     <th>Tax Total</th>
                     <td>0.00</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <th>Grand Total</th>
-                    <td><span id="grandTotal">0.00</span></td>
+                    <td><i class="fa fa-inr"></i> <span id="grandTotal">0.00</span></td>
                 </tr>
             </table>
         </div>
 
     </div>
+
+        
+
+        <div class="row col-xs-5 col-xs-offset-7 pull-right">
+            <table class="table table-bordered" id='sales_payment'>
+                <tr >
+                    <th class="col-xs-4" >Transaction mode</th>
+                    <td class="form-group">      
+                        <label class="radio-inline">
+                            <input id="transac_mode1" type="radio" required value="1" name="transac_mode" checked >General</label>
+                        <label class="radio-inline">
+                            <input id="transac_mode2" type="radio" required value="2" name="transac_mode">Demo</label>
+                        <label class="radio-inline">
+                            <input id="transac_mode3" type="radio" required value="3" name="transac_mode">Gift</label> 
+                    </td>
+                </tr>
+                <tr>
+                    <th>Tendered by</th>
+                    <td class="col-xs-6 control-group"> 
+                        <?php 
+                            $options = array(''=>'Select payment type','1'  => 'Cash','2' => 'Cheque','3'=>'DD','Card'); 
+                            echo form_dropdown('paymentType', $options,'class="form-control" required');
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="form-group text-center">
+                            
+                    <label class="radio-inline">
+                        <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
+                    <label class="radio-inline">
+                        <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row col-xs-5 col-xs-offset-7 pull-right">
+            <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button>
+        <div>
 
         <!-- data to post -->
             
@@ -115,34 +156,7 @@
             <input type="hidden" id="cg_discount_percent" name="discount" value="0.00" />
             
 
-        <!-- /. data -->
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right">
-            <table class="table table-bordered" id='sales_payment'>
-                <tr>
-                    <th>Tendered by</th>
-                    <td class="col-xs-6 control-group"> 
-                        <?php 
-                            $options = array(''=>'Select payment type','1'  => 'Cash','2' => 'Cheque','3'=>'DD','4'=>'Credit'); 
-                            echo form_dropdown('paymentType', $options,'class="form-control" required');
-                        ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="form-group text-center">
-                            
-                    <label class="radio-inline">
-                        <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
-                    <label class="radio-inline">
-                        <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right">
-            <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button>
-        <div>                 
+        <!-- /. data -->                 
                  
     </form>
 </div>

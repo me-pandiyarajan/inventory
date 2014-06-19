@@ -4,7 +4,7 @@
 
 body {
     padding-top: 100px;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
 }
 
 @media(min-width:768px) {
@@ -327,3 +327,14 @@ table.dataTable thead .sorting:after {
 .show-grid {
     margin: 15px 0;
 }
+
+
+#side-menu {
+    background-color: #f8f8f8;
+}
+
+
+.glyphicon {
+    cursor: pointer;
+}
+

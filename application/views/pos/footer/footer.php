@@ -3,6 +3,7 @@
     <script src="assets_pos/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets_pos/plugins/metisMenu/jquery.metisMenu.js"></script>
 
+
     <!-- Plugin Script - form validation -->
     <script type="text/javascript" src="assets_pos/plugins/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
     <script src="assets_pos/plugins/bootstrapvalidator/validate.js"></script>

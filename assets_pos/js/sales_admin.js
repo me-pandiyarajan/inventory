@@ -126,7 +126,7 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 var plu = product.plu;
                 var p_id = product.productId;
                 var quan = 1;
-                var price = product.price + (product.price * (parseFloat(product.tax.percent)/100));
+                var price = ( product.price + (product.price * (parseFloat(product.tax.percent)/100)) ).toFixed(2);
 
                 listed_products[FieldCount-1] = product.p_name; 
 
@@ -136,8 +136,9 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                         '<td >'+ product.p_name +' <input type="hidden"  id="product_names" name="product_names[]" value="'+ product.p_name +'" /></td>' +
                         '<td ><input type="text" class="form-control quantity" price-id="'+ p_id +'" actual-unit-price="'+ price +'" name="quantities[]" value="'+ quan +'" /> </td>' +
                         '<td >'+ product.unit +' <input type="hidden"  id="unit" name="unit[]" value="'+ product.unit +'" /></td>' +
-                        '<td >'+ price +'<input type="hidden" actual-unit-price="'+ price +'" name="price[]" class="price" value="'+ price +'" /> </td>' +
-                        '<td class="showAmount"> <span>'+ price +'</span><input type="hidden" id="'+ p_id +'" name="amount[]" class="amount" value="'+ price +'" /> </td>' +
+                        '<td >'+ product.tax.percent +' %<input type="hidden"  id="tax" name="tax[]" value="'+ product.tax.percent +'" /></td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ price +'<input type="hidden" actual-unit-price="'+ price +'" name="price[]" class="price" value="'+ price +'" /> </td>' +
+                        '<td class="showAmount"> <i class="fa fa-inr"></i> <span>'+ price +'</span><input type="hidden" id="'+ p_id +'" name="amount[]" class="amount" value="'+ price +'" /> </td>' +
                      '</tr>';
             
             $('.table > tbody#itemsList').append(newRow);
@@ -161,7 +162,7 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
         if($('#sales tbody').children().length > 0) {
 
             $(".amount").each(function() {
-                subTotal = parseFloat($(this).val()) + subTotal;
+                subTotal = ( parseFloat($(this).val()) + subTotal ).toFixed(2);
                 $('#subTotal').html( subTotal +' <input type="hidden" name="subTotal" value="'+ subTotal +'" />');
             });
         }
@@ -180,7 +181,7 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
         
         var grandTotal;
 
-        grandTotal = subTotal - ( subTotal * ( parseFloat($('#cg_discount_percent').val()) / 100 ) );
+        grandTotal = ( subTotal - ( subTotal * ( parseFloat($('#cg_discount_percent').val()) / 100 ) ) ).toFixed(2);
         $('#grandTotal').html( grandTotal +' <input type="hidden" name="grandTotal" value="'+ grandTotal +'" />');
 
     }
@@ -201,12 +202,12 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     $( "table#sales" ).on( "keyup",".quantity", function() {
         
         if($(this).val() != ""){
-            var quanPrice = parseFloat($(this).val()) * parseFloat($(this).attr('actual-unit-price'));
+            var quanPrice = ( parseFloat($(this).val()) * parseFloat($(this).attr('actual-unit-price')) ).toFixed(2);
             $('#'+ $(this).attr('price-id')).val(quanPrice);
             $('#'+ $(this).attr('price-id')).siblings("span").text(quanPrice);
         }
         else{
-            var quanPrice = 0;
+            var quanPrice = (0).toFixed(2);
             $('#'+ $(this).attr('price-id')).val(quanPrice);
             $('#'+ $(this).attr('price-id')).siblings("span").text(quanPrice);
         }

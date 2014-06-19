@@ -21,6 +21,14 @@ class PosInvoices
     private $invoiceid;
 
     /**
+     * @var string $invoice_number
+     *
+     * @Column(name="invoice_number", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
+     */
+    private $invoiceNumber;
+
+    
+    /**
      * @var boolean $transacMode
      *
      * @Column(name="transac_mode", type="boolean", precision=0, scale=0, nullable=false, unique=false)
@@ -28,9 +36,9 @@ class PosInvoices
     private $transacMode;
 
     /**
-     * @var string $tenderedby
+     * @var integer $tenderedby
      *
-     * @Column(name="tenderedBy", type="string", length=45, precision=0, scale=0, nullable=false, unique=false)
+     * @Column(name="tenderedBy", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $tenderedby;
 
@@ -111,6 +119,28 @@ class PosInvoices
     }
 
     /**
+     * Set invoiceNumber
+     *
+     * @param string $invoiceNumber
+     * @return PosInvoices
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = $invoiceNumber;
+        return $this;
+    }
+
+    /**
+     * Get invoiceNumber
+     *
+     * @return string 
+     */
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
+    }
+
+    /**
      * Set transacMode
      *
      * @param boolean $transacMode
@@ -135,7 +165,7 @@ class PosInvoices
     /**
      * Set tenderedby
      *
-     * @param string $tenderedby
+     * @param integer $tenderedby
      * @return PosInvoices
      */
     public function setTenderedby($tenderedby)
@@ -147,7 +177,7 @@ class PosInvoices
     /**
      * Get tenderedby
      *
-     * @return string 
+     * @return integer 
      */
     public function getTenderedby()
     {
