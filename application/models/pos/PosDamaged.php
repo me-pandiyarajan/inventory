@@ -90,9 +90,9 @@ class PosDamaged
     private $posInvoicesInvoiceid;
 
     /**
-     * @var models\pos\Products
+     * @var models\inventory\Products
      *
-     * @ManyToOne(targetEntity="models\pos\Products")
+     * @ManyToOne(targetEntity="models\inventory\Products")
      * @JoinColumns({
      *   @JoinColumn(name="products_product_gen_id", referencedColumnName="product_gen_id", nullable=true)
      * })
@@ -311,7 +311,7 @@ class PosDamaged
     /**
      * Set productsProductGen
      *
-     * @param models\pos\Products $productsProductGen
+     * @param models\inventory\Products $productsProductGen
      * @return PosDamaged
      */
     public function setProductsProductGen($productsProductGen = null)
@@ -323,7 +323,7 @@ class PosDamaged
     /**
      * Get productsProductGen
      *
-     * @return models\pos\Products 
+     * @return models\inventory\Products 
      */
     public function getProductsProductGen()
     {

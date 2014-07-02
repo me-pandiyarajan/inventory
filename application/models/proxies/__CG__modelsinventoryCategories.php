@@ -111,7 +111,7 @@ class Categories extends \models\inventory\Categories implements \Doctrine\ORM\P
         return parent::getLastUpdatedDate();
     }
 
-    public function setCreatedBy($createdBy = NULL)
+    public function setCreatedBy(\models\inventory\Users $createdBy = NULL)
     {
         $this->__load();
         return parent::setCreatedBy($createdBy);
@@ -123,7 +123,7 @@ class Categories extends \models\inventory\Categories implements \Doctrine\ORM\P
         return parent::getCreatedBy();
     }
 
-    public function setLastUpdatedBy($lastUpdatedBy = NULL)
+    public function setLastUpdatedBy(\models\inventory\Users $lastUpdatedBy = NULL)
     {
         $this->__load();
         return parent::setLastUpdatedBy($lastUpdatedBy);
@@ -135,10 +135,22 @@ class Categories extends \models\inventory\Categories implements \Doctrine\ORM\P
         return parent::getLastUpdatedBy();
     }
 
+    public function setIsdeleted($isdeleted)
+    {
+        $this->__load();
+        return parent::setIsdeleted($isdeleted);
+    }
+
+    public function getIsdeleted()
+    {
+        $this->__load();
+        return parent::getIsdeleted();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'categoryId', 'categoryName', 'comments', 'status', 'createdDate', 'lastUpdatedDate', 'createdBy', 'lastUpdatedBy');
+        return array('__isInitialized__', 'categoryId', 'categoryName', 'comments', 'status', 'createdDate', 'lastUpdatedDate', 'isdeleted', 'createdBy', 'lastUpdatedBy');
     }
 
     public function __clone()

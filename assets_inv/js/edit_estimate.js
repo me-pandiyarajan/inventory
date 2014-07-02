@@ -32,7 +32,7 @@
                     listed_products[FieldCount-1] = p_name; 
 
                 newRow = '<tr>' +
-                            '<td ><input type="hidden" name="temp_p_id[]" value="'+ temp_p_id +'" /><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
+                            '<td style="cursor: pointer;"><input type="hidden" name="temp_p_id[]" value="'+ temp_p_id +'" /><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
                             '<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
                             '<td >'+ p_name +' <input type="hidden" id="product_names" name="product_names[]" value="'+ p_name +'" /> </td>' +
                             '<td ><textarea row="1" name="descriptions[]" >'+ desc +'</textarea> </td>' +

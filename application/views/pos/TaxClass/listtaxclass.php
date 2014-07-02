@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">List Tax Class</h1>
+            <h1 class="page-header">List Tax Classes</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,9 +11,9 @@
          <!-- /.dynamic content -->
        
         <div class="col-lg-12">
-<?php if ( $this->session->flashdata('taxadd') ) echo $this->session->flashdata('taxadd'); ?>
-<?php if ( $this->session->flashdata('taxedit') ) echo $this->session->flashdata('taxedit'); ?>
-<?php if ( $this->session->flashdata('taxdelect') ) echo $this->session->flashdata('taxdelect'); ?>
+        <?php if ( $this->session->flashdata('taxadd') ) echo $this->session->flashdata('taxadd'); ?>
+        <?php if ( $this->session->flashdata('taxedit') ) echo $this->session->flashdata('taxedit'); ?>
+        <?php if ( $this->session->flashdata('taxdelect') ) echo $this->session->flashdata('taxdelect'); ?>
                <!-- add tax class -->
 
                         <a href="<?php echo site_url()."pos/TaxClass/addtaxclass"?>" class="btn btn-success btn-sm">Add Tax Class</a>
@@ -35,9 +35,16 @@
                             
                             <?php foreach($taxclass as $taxclass): ?>                         
                             <tr> 
-                                <td><?php echo $taxclass->getTaxClassName();?></td>
-                                <td><?php if($taxclass->getStatus() == 1){echo "ACTIVE";} else {echo "INACTIVE";}?>
-                                <td><?php echo date_format($taxclass->getCreatedDate(), 'Y-m-d');?></td>
+                                <td><?php echo $taxclass->getTaxClassName(); ?></td>
+                                <td><?php echo $taxclass->getTaxPercent(); ?></td>
+                                <td><?php 
+                                        if($taxclass->getStatus() == 1) {
+                                            echo "ACTIVE";
+                                        } else {
+                                            echo "INACTIVE";
+                                        }
+                                    ?>
+                                <td><?php echo gmdate('d-m-Y', $taxclass->getCreatedDate() ); ?></td>
                                 <td>
                                     <div class="btn-group">
                                         <a type="button"  href="<?php echo site_url()."pos/TaxClass/editTaxClass/".$taxclass->getTaxClassId();?>" class="btn btn-primary btn-xs btn-outline">Edit</a>

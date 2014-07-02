@@ -66,9 +66,9 @@ class PosEstimateProducts
     private $posEstimatesEstimateid;
 
     /**
-     * @var models\pos\Products
+     * @var models\inventory\Products
      *
-     * @ManyToOne(targetEntity="models\pos\Products")
+     * @ManyToOne(targetEntity="models\inventory\Products")
      * @JoinColumns({
      *   @JoinColumn(name="products_product_gen_id", referencedColumnName="product_gen_id", nullable=true)
      * })
@@ -241,7 +241,7 @@ class PosEstimateProducts
     /**
      * Set productsProductGen
      *
-     * @param models\pos\Products $productsProductGen
+     * @param models\inventory\Products $productsProductGen
      * @return PosEstimateProducts
      */
     public function setProductsProductGen($productsProductGen = null)
@@ -253,7 +253,7 @@ class PosEstimateProducts
     /**
      * Get productsProductGen
      *
-     * @return models\pos\Products 
+     * @return models\inventory\Products 
      */
     public function getProductsProductGen()
     {

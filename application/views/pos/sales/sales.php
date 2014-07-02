@@ -10,9 +10,7 @@
         <!-- /.dynamic content -->
        
     <div class="col-lg-12">
-        <?php echo validation_errors();   
-          if(!empty($success)) echo $success; 
-          ?>
+        <?php if ( $this->session->flashdata('sale_status') ) echo $this->session->flashdata('sale_status'); ?>
         <?php 
            $attributes = array('class' => 'form-horizontal', 'id' => 'general');
            echo form_open_multipart($form_action,$attributes);
@@ -36,27 +34,34 @@
             </div>
         </div>
 
-       
+        <div class="table-responsive">
             <table class="table table-bordered" id='sales'>
                 <thead>
-                    <th>Remove</th>
-                    <th>PLU</th>
-                    <th>Product name</th>
-                    <th colspan="2">Quantity</th>
-                    <th>Tax</th>
-                    <th>Price</th>
-                    <th>Amount</th>
+                    <tr>
+                        <th rowspan="2">Remove</th>
+                        <th rowspan="2">Description</th>
+                        <th rowspan="2" colspan="2">Quantity</th>
+                        <th rowspan="2">Unit Price</th>
+                        <th rowspan="2">Amount</th>
+                        <th rowspan="2">Discount</th>
+                        <th colspan="2">Total</th>
+                    </tr>
+                    <tr>
+                        <th >Tax</th>
+                        <th >Tax Total</th>
+                    </tr>
                 </thead>    
                 <tbody id="itemsList">
-                
+               
                 </tbody>
             </table>
+        </div>
 
-
-    <div>
+    
+    <div >
         
-        <div class="row col-xs-6 col-xs-offset-0">
-            <address>
+        <div class="row col-xs-7">
+            <address >
               <strong>To:</strong><br>
               <strong><span id="customer_name_show"></span></strong><br>
               <span id="street_show"></span><br>
@@ -68,72 +73,70 @@
         </div>
 
         <div class="row col-xs-5 pull-right">
-            <table class="table table-bordered" id='sales_price_cal'>
-                <tr>
-                    <th class="col-xs-4">Sub Total</th>
-                    <td><i class="fa fa-inr"></i> <span id="subTotal">0.00</span></td>
-                </tr>
-                <tr>
-                    <th>Discount</th>
-                    <td><span id="dis_per">0</span>%</td>
-                </tr>
-               <!--  <tr>
-                    <th>Tax Total</th>
-                    <td>0.00</td>
-                </tr> -->
-                <tr>
-                    <th>Grand Total</th>
-                    <td><i class="fa fa-inr"></i> <span id="grandTotal">0.00</span></td>
-                </tr>
-            </table>
-        </div>
 
+                <table class="table table-bordered" id='sales_price_cal'>
+                    <!-- <tr>
+                        <th class="col-xs-4">Sub Total</th>
+                        <td><i class="fa fa-inr"></i> <span id="subTotal">0.00</span></td>
+                    </tr> -->
+                   <!-- <tr>
+                        <th>Discount</th>
+                        <td><span id="dis_per">0</span>%</td>
+                    </tr>
+                     <tr>
+                        <th>Tax Total</th>
+                        <td>0.00</td>
+                    </tr> -->
+                    <tr>
+                        <th>Grand Total</th>
+                        <td><i class="fa fa-inr"></i> <span id="grandTotal">0.00</span></td>
+                    </tr>
+                </table>
+            
+
+           
+                <table class="table table-bordered" id='sales_payment'>
+                    <tr >
+                        <th >Transaction mode</th>
+                        <td class="form-group">      
+                            <label class="radio-inline">
+                                <input id="transac_mode1" type="radio" required value="1" name="transac_mode" checked >General</label>
+                            <!-- <label class="radio-inline">
+                                <input id="transac_mode2" type="radio" required value="2" name="transac_mode">Demo</label> -->
+                            <!-- <label class="radio-inline">
+                                <input id="transac_mode3" type="radio" required value="3" name="transac_mode">Gift</label> --> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tendered by</th>
+                        <td class="control-group"> 
+                            <?php 
+                                $options = array(' '=>'Select payment type','1' => 'Cash','2' => 'Cheque', '3' => 'DD', '4' => 'Card'); 
+                                echo form_dropdown('paymentType', $options,set_value('paymentType'),'class="form-control"');
+                            ?>
+                        </td>
+                    </tr>
+             <!-- <tr>
+                        <td colspan="2" class="form-group text-center">
+                                
+                        <label class="radio-inline">
+                            <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
+                        <label class="radio-inline">
+                            <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
+                        </td>
+                    </tr> -->
+                </table>
+            
+                <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button
+
+        </div>
+            
     </div>
-
-        
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right">
-            <table class="table table-bordered" id='sales_payment'>
-                <tr >
-                    <th class="col-xs-4" >Transaction mode</th>
-                    <td class="form-group">      
-                        <label class="radio-inline">
-                            <input id="transac_mode1" type="radio" required value="1" name="transac_mode" checked >General</label>
-                        <label class="radio-inline">
-                            <input id="transac_mode2" type="radio" required value="2" name="transac_mode">Demo</label>
-                        <label class="radio-inline">
-                            <input id="transac_mode3" type="radio" required value="3" name="transac_mode">Gift</label> 
-                    </td>
-                </tr>
-                <tr>
-                    <th>Tendered by</th>
-                    <td class="col-xs-6 control-group"> 
-                        <?php 
-                            $options = array(''=>'Select payment type','1'  => 'Cash','2' => 'Cheque','3'=>'DD','Card'); 
-                            echo form_dropdown('paymentType', $options,'class="form-control" required');
-                        ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="form-group text-center">
-                            
-                    <label class="radio-inline">
-                        <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
-                    <label class="radio-inline">
-                        <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right">
-            <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button>
-        <div>
 
         <!-- data to post -->
             
             <!-- customer details - primary -->
-            <input type="hidden" id="customer_id" name="customer_id" value="" />
+            <input type="hidden" id="customer_id" name="customer_id" value="null" />
             <input type="hidden" id="customer_name" name="customer_name" value="" />
             <input type="hidden" id="customer_phone" name="customer_phone" value="" />
             <input type="hidden" id="customer_email" name="customer_email" value="" />
@@ -162,56 +165,17 @@
 </div>
 
 
-<!-- Button trigger modal -->
-<button  class="hidden" data-toggle="modal" id="pop" data-target="#myModal"></button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h5 class="modal-title text-danger" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> <strong>ALERT<strong></h5>
-      </div>
-        <div class="modal-body" >
-	       <p>Please add at least one product to sell</p>
-        </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Button trigger modal -->
-<button  class="hidden" data-toggle="modal" id="pop2" data-target="#myModal2"></button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h5 class="modal-title text-danger" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> <strong>ALERT<strong></h5>
-      </div>
-        <div class="modal-body" >
-           <p>A product cannot be added twice in an sale.</p>
-        </div>
-    </div>
-  </div>
-</div>
-
-
 <!-- Core Scripts - Include with every page -->
 <script src="assets_pos/plugins/jquery/core/jquery-1.11.0.js"></script>
 <script src="assets_pos/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets_pos/plugins/bootstrapDialog/dist/js/bootstrap-dialog.min.js"></script>
 <script src="assets_pos/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="assets_pos/plugins/bigslide/bigSlide.min.js"></script>
 
 
 <!-- Page-Level Plugin Scripts - Sales -->
 <link href="assets_pos/css/typeahead.css" rel="stylesheet">
 <script src="assets_pos/plugins/typeahead/typeahead.bundle.js"></script>
 <script type="text/javascript"> var base_url = "<?php print base_url(); ?>";</script>
-<script src="assets_pos/plugins/mask/jquery.mask.min.js"></script>
 <script src="assets_pos/js/sales_admin.js"></script>
 
 <!-- SB Admin Scripts - Include with every page -->

@@ -511,6 +511,7 @@ class Customer extends CI_Controller {
 					log_message('error',$e->getMessage());
 					
 				}
+		
 		}
 
 

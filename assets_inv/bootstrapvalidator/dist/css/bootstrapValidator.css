@@ -17,3 +17,17 @@
 .nav-tabs li.bv-tab-error > a {
     color: #a94442;
 }
+
+
+/*
+ *  Override feedback icon position
+ */
+
+.form-horizontal .has-feedback .form-control-feedback {
+    top: 0;
+    right: -15px;
+}
+.form-horizontal .has-feedback .input-group .form-control-feedback {
+    top: 0;
+    right: -30px;
+}

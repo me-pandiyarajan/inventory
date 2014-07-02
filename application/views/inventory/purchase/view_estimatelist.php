@@ -1,7 +1,10 @@
 <div class="col-sm-9 col-md-10 main">
 <h1 class="page-header">Estimate list</h1>
 
- <?php if ( $this->session->flashdata('ordersend') ) echo $this->session->flashdata('ordersend'); 
+ <?php
+ if ( $this->session->flashdata('create_estimate') ) echo $this->session->flashdata('create_estimate'); 
+ 
+ if ( $this->session->flashdata('ordersend') ) echo $this->session->flashdata('ordersend'); 
  if ( $this->session->flashdata('deleteestimate') ) echo $this->session->flashdata('deleteestimate');?>
  <!-- dynamic view content -->       
    
@@ -36,7 +39,7 @@
 					?> 
 					<td ><?php echo $stat;?></td>
 					
-					<td ><?php echo $datum->getCreatedDate();?></td>
+					<td ><?php $data= $datum->getCreatedDate();echo date("d-m-Y", $data);?></td>
 					<!--<td >'.$datum->getCreatedBy().'</td>-->
 					
 						<td class="align-center">

@@ -24,7 +24,7 @@
 					    <div class="form-group">
 				            <label class="control-label col-xs-2" for="comments">Comments:</label>
 				            <div class="col-xs-4">
-				                <textarea rows="3" class="form-control" id="comments" placeholder="comments" name="comments" ><?php echo $category->getComments(); ?></textarea>
+				                <textarea rows="3" cols="15" class="form-control" id="comments" placeholder="comments" name="comments" ><?php echo $category->getComments(); ?></textarea>
 				         </div>
 				       </div>
 

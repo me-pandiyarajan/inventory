@@ -18,7 +18,7 @@
 					<tr class="odd"> 
 					<td class="align-center "><?php echo $ord->getOrderId(); ?></td>
 					<td class="align-center "><?php echo $ord->getOrderName(); ?></td>
-					<td class="align-center "><?php echo $ord->getCreatedDate(); ?></td>
+					<td class="align-center "><?php $data= $ord->getCreatedDate();echo date("d-m-Y", $data);?></td>
 					<?php
 						$status = $ord->getDeliveryStatus();
 						if($status == 1){$stat = '<span class="label label-success">Delivered</span>';}

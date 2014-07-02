@@ -2,7 +2,6 @@
 
 namespace models\inventory;
 
-
 /**
  * models\inventory\EstimatedProduct
  *
@@ -127,6 +126,16 @@ class EstimatedProduct
      * })
      */
     private $newEstimationEstimate;
+
+    /**
+     * @var models\inventory\Products
+     *
+     * @ManyToOne(targetEntity="models\inventory\Products")
+     * @JoinColumns({
+     *   @JoinColumn(name="product_id", referencedColumnName="product_gen_id", nullable=true)
+     * })
+     */
+    private $productId;
 
     /**
      * @var models\inventory\Users
@@ -487,6 +496,28 @@ class EstimatedProduct
     public function getNewEstimationEstimate()
     {
         return $this->newEstimationEstimate;
+    }
+
+    /**
+     * Set productsProductGen
+     *
+     * @param models\inventory\Products $productsProductGen
+     * @return EstimatedProduct
+     */
+    public function setProductId($productId = null)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return models\inventory\Products 
+     */
+    public function getProductId()
+    {
+        return $this->productId;
     }
 
     /**

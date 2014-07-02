@@ -76,7 +76,7 @@
             <td><?php echo date('d M Y');?></td>
             <td style="font-weight:bold;text-align:right; line-height:5px">
                 <h1>ESTIMATE</h1>
-                <i> #EST<?php echo sprintf("%06s", $estimate_id); ?></i>
+                <i> <?php echo $estimate_id; ?></i>
             </td>
           </tr>
         </table>   
@@ -129,16 +129,17 @@
          </tr>
         </thead>
         <tbody>
-          <?php for($i=0; $i < count($productdata['sku']) ; $i++) : ?>
+        
+          <?php for($i=0; $i < count($productdata) ; $i++) : ?>
           <tr>
-            <td><?php echo $productdata['sku'][$i]; ?></td>
-            <td><?php echo $productdata['productname'][$i]; ?></td>
-            <td><?php echo $productdata['description'][$i]; ?></td>
-            <td><?php echo $productdata['design'][$i]; ?></td>
-            <td><?php echo $productdata['dimension'][$i]; ?></td>
-            <td><?php echo $productdata['quantity'][$i]; ?></td>
+            <td><?php echo $productdata[$i]['sku']; ?></td>
+            <td><?php echo $productdata[$i]['productname']; ?></td>
+            <td><?php echo $productdata[$i]['description']; ?></td>
+            <td><?php echo $productdata[$i]['design']; ?></td>
+            <td><?php echo $productdata[$i]['dimension']; ?></td>
+            <td><?php echo $productdata[$i]['quantity']; ?></td>
           </tr>
-          <?php endfor; ?>       
+          <?php endfor; ?>  
         </tbody>
       </table>
     </div>

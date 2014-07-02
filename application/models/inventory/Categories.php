@@ -64,7 +64,12 @@ class Categories
      * })
      */
     private $createdBy;
-
+   /**
+     * @var boolean $isdeleted
+     *
+     * @Column(name="isDeleted", type="boolean", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $isdeleted;
     /**
      * @var models\inventory\Users
      *
@@ -74,6 +79,7 @@ class Categories
      * })
      */
     private $lastUpdatedBy;
+    
 
 
     /**
@@ -202,7 +208,7 @@ class Categories
      * @param models\inventory\Users $createdBy
      * @return Categories
      */
-    public function setCreatedBy($createdBy = null)
+    public function setCreatedBy(\models\inventory\Users $createdBy = null)
     {
         $this->createdBy = $createdBy;
         return $this;
@@ -224,7 +230,7 @@ class Categories
      * @param models\inventory\Users $lastUpdatedBy
      * @return Categories
      */
-    public function setLastUpdatedBy($lastUpdatedBy = null)
+    public function setLastUpdatedBy(\models\inventory\Users $lastUpdatedBy = null)
     {
         $this->lastUpdatedBy = $lastUpdatedBy;
         return $this;
@@ -239,4 +245,27 @@ class Categories
     {
         return $this->lastUpdatedBy;
     }
+    
+    /**
+     * Set isdeleted
+     *
+     * @param boolean $isdeleted
+     * @return Categories
+     */
+    public function setIsdeleted($isdeleted)
+    {
+        $this->isdeleted = $isdeleted;
+        return $this;
+    }
+
+    /**
+     * Get isdeleted
+     *
+     * @return boolean 
+     */
+    public function getIsdeleted()
+    {
+        return $this->isdeleted;
+    }
+
 }

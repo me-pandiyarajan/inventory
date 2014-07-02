@@ -6,24 +6,28 @@
 
 	        	<?php echo validation_errors(); ?>
 				<?php if(!empty($success)) echo $success; ?>
+
 	        	<?php $attributes = array('class' => 'form-horizontal order-confirmation-class', 'id' =>'order-confirmation', 'name' => 'myform');
 	            echo form_open_multipart($form_action,$attributes);?> 
-				 <div class="form-group">
-				 <input type="text"  id="temp_pro_id" name="temp_pro_id"  value="<?php echo set_value('temp_pro_id'); ?>"  hidden>
-						   	  
-			     <label class="control-label col-sm-2" for="product">Product Name</label>
-			     <div class="dropdown col-xs-4">
-			     	 <?php  array_unshift($product, "Select Product");
-                     	echo form_dropdown('product',$product,set_value('product'),'class="form-control" required');
-                     ?>
 				 
-	             </div>
-	  </div>
+				 <div class="form-group">
+				 	<input type="text"  id="temp_pro_id" name="temp_pro_id"  value="<?php echo set_value('temp_pro_id'); ?>"  hidden>
+						   	  
+			     	<label class="control-label col-sm-2">Product Name</label>
+			     	<div class="dropdown col-sm-4">
+                   	<?php  
+                   	//array_unshift($product,"select a product" );
+             			echo form_dropdown('product', $product,set_value('product'),'class="form-control" required');
+             		?>
+                	</div>
+
+	  			</div>
+
        	         <div class="form-group">
 		 			      <label for="status" class="col-sm-2 control-label">Delivery Status:</label>
 						   <div class="col-sm-4">
 							  <select name="status" size="1" id="status" class="form-control" >
-							  <option value=" ">--Select Status-- </option>
+							  <option value=" ">Select Status</option>
 							  <option value="1">Completed</option>
 							  <option value="0">In-Progress</option>
 							</select>  
@@ -64,16 +68,17 @@
 					
 				
 	</div>
-<script>
-function toggleOther(chosen){
-if (chosen == '0') {
-  document.getElementById('Other').style.visibility = 'visible';
-} else {
-  document.getElementById('Other').style.visibility = 'hidden';
-  document.myform.other.value = '';
-}
-}
-</script>
+	
+	<script>
+	function toggleOther(chosen){
+	if (chosen == '0') {
+	  document.getElementById('Other').style.visibility = 'visible';
+	} else {
+	  document.getElementById('Other').style.visibility = 'hidden';
+	  document.myform.other.value = '';
+	}
+	}
+	</script>
 
 
 

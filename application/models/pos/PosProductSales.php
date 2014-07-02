@@ -21,6 +21,13 @@ class PosProductSales
     private $productsalesid;
 
     /**
+     * @var string $description
+     *
+     * @Column(name="description", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $description;
+
+    /**
      * @var integer $quantity
      *
      * @Column(name="quantity", type="integer", precision=0, scale=0, nullable=false, unique=false)

@@ -21,7 +21,7 @@
 					<td class="align-center "><?php echo $datum->getOrderId();?></td>
 					<td class="align-center "><?php echo $datum->getOrderName();?></td>
 					<td class="align-center "><?php echo $supplier_name; ?></td>
-					<td class="align-center "><?php echo $datum->getCreatedDate();?></td>
+					<td class="align-center "><?php echo date("d-m-Y",$datum->getCreatedDate()); ?></td>
 					<?php 
 					$status = $datum->getDeliveryStatus();
 					if ($status == 1) 

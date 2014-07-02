@@ -4,6 +4,7 @@
 	 <!-- dynamic view content -->       
 
 	        <h2 class="page-header">List Supplier</h2>
+	        <?php if ( $this->session->flashdata('supplieradd') ) echo $this->session->flashdata('supplieradd'); ?>
  <?php if ( $this->session->flashdata('supplieredit') ) echo $this->session->flashdata('supplieredit'); ?>
  <?php if ( $this->session->flashdata('supplierdelect') ) echo $this->session->flashdata('supplierdelect'); ?>
 			   <!-- add supplier -->

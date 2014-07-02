@@ -911,55 +911,7 @@ $(document).ready(function() {
     });
     
 
-    /*
-    *  order confirmation
-    */
-
-    $('#order-confirmation').bootstrapValidator({
-        message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            product: {
-                validators: {
-                    notEmpty: {
-                        message: 'The Product Name is required '
-                    }
-                }
-            },
-            status: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please choose the Delivery Status'
-                    }
-                }
-            },
-
-             deliveredquantity: {
-                validators: {
-                    regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: 'The Delivered Quantity can only consist of number'
-                    }
-                }
-            },
-            damagedquantity: {
-                validators: {
-                    regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: 'The Damaged Quantity can only consist of number'
-                    }
-                }
-            }
-           
-        }
-        
-    });
     
-
     /*
     *  new estimate order
     */
@@ -1233,6 +1185,51 @@ $(document).ready(function() {
         
               
             
+        }
+        
+    });
+
+
+    /*
+    *   sales
+    */
+    /*
+    *  Add Category and edit category
+    */
+
+    $('#add-categ').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            productcategory: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Category name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z0-9_]+\s?)*$/,
+                        message: 'The productcategory can only consist of alphabetical, number and underscore'
+                    }
+                }
+            },
+            comments: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Comments is required '
+                    }
+                }
+            },
+            status: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please choose status of product '
+                    }
+                }
+            }
         }
         
     });

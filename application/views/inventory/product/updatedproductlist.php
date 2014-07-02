@@ -26,31 +26,33 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 						}else{
 							$Category = "N/A";
 						}
+						
+						
+						
 													
                         ?>
 						
-					<tr class="odd"> 
-					<td class="align-center "><?php echo $datum->getSku();?></td>
-					<td class="align-center "><a href="productDetails/<?php echo $datum->getproductGenId();?>/productview"><?php echo $datum->getProductName();?></a></td>
-					<td class="align-center "><?php echo $Category; ?></td>
-					<td class="align-center "><?php echo $datum->getQuantity();?></td>
-					<td class="align-center "><?php echo $supplier;?></td>
+				<tr class="odd"> 
+				<td class="align-center "><?php echo $datum->getSku();?></td>
+				<td class="align-center "><a href="productDetails/<?php echo $datum->getproductGenId();?>/productview"><?php echo $datum->getProductName();?></a></td>
+				<td class="align-center "><?php echo $Category; ?></td>
+				<td class="align-center "><?php echo $datum->getQuantity();?></td>
+				<td class="align-center "><?php echo $supplier;?></td>
 				
-					<?php
-					   
-					if($visiblity == 1)
-					{
-					echo'<td class="align-center ">'.$datum->getPrice().'</td>
-		            <td class="align-center">'.$datum->getSafetyStockLevel().'</td>
-					<td class="align-center"><div class="btn-group">
-	                   	<a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Edit</a>
-	                   	<a class="btn btn-primary btn-xs" href="approveproduct/'.$datum->getproductGenId().'/up">Approve</a>
-					   	<a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'/ud">Delete</a>
-                   	</div>
-                   	</td>';
-					
-					}
-						?>
+						<?php
+						   
+							if($visiblity == 1)
+							{
+							echo'<td class="align-center ">'.$datum->getPrice().'</td>
+				            <td class="align-center">'.$datum->getSafetyStockLevel().'</td>
+							<td class="align-center"><div class="btn-group">
+                           <a class="btn btn-primary btn-xs" href="productDetails/'.$datum->getproductGenId().'/productedit/ep">Approve</a>
+						   <a class="btn btn-primary btn-xs" href="delete/'.$datum->getproductGenId().'/ud">Delete</a>
+                           </div>
+                           </td>';
+							
+							}
+							?>
 							
 							
 					</tr>	

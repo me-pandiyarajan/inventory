@@ -39,7 +39,7 @@
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="estimatedate"><b>EstimateDate:</b></label>
-           <label class="control-label" for="estimatedate"><?php echo $estimationlist->getCreatedDate(); ?></label>
+           <label class="control-label" for="estimatedate"><?php $date = $estimationlist->getCreatedDate(); echo date("d-m-Y", $date); ?></label>
         </div>
 		 
 <?php endforeach; ?>	
@@ -62,7 +62,7 @@
     					<td ><input type="hidden" name="product_names[]" value="<?php echo $product->getProductName(); ?>" /><?php echo $product->getProductName(); ?></td>
     					<td ><textarea row="1" name="descriptions[]" /><?php echo $product->getDescription();?></textarea> </td>
                         <td ><input type="text" name="designShade[]" value="<?php echo $product->getDesignName(); ?>" /></td>
-    					<td ><input type="text" name="dimensions[]"  value="<?php echo $product->getDimensions(); ?>" /></td>
+    					<td ><input type="text" name="dimensions[]"  value="<?php if($product->getDimensions() == "NULL"){ echo " ";} else{echo $product->getDimensions(); }?>" /></td>
     					<td ><input type="text" class="col-sm-6" name="quantities[]"  value="<?php echo $product->getQuantity(); ?>" /></td>
 					
 				<!--    <td class="align-center">

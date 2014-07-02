@@ -32,8 +32,6 @@ function __construct()  {
 
 	    $this->em = $this->doctrine->em;
 		$this->navigator->checkLogin();
-
-		$this->session->set_flashdata('last_location',uri_string());
 	}
 
 
@@ -54,6 +52,7 @@ function __construct()  {
 												->orWhere('p.productName LIKE :name')
 												->setParameter('name', '%'.$product.'%')
 												->andWhere('p.approved = 1')
+												->andWhere('p.deleted  = 0')
 												->getQuery()
    												->getResult();
 
@@ -72,68 +71,71 @@ function __construct()  {
 			}
 	}
 
-	/*
-	*	AjaxCall: get product Details  
-	*	---------------------
-	*	input : id
-	*
-	*/
-	public function ajaxProductDetails($productId)
-	{
-		
+		/*
+		* AjaxCall: get product Details
+		* ---------------------
+		* input : id
+		*
+		*/
+		public function ajaxProductDetails($productId)
+		{
+
 		try {
-				$product = $this->em->getRepository('models\inventory\Products')->find($productId);
+			
+			$product = $this->em->getRepository('models\inventory\Products')->find($productId);
 
-				$product_detail['productId'] = $productId;
-				$product_detail['p_name'] = $product->getProductName();
-				$product_detail['plu'] = $product->getProductIdPlu();
-				$product_detail['price'] = $product->getPrice();
-				$product_detail['unit'] = $product->getUnit();
+			$product_detail['productId'] = $productId;
+			$product_detail['p_name'] = $product->getProductName();
+			$product_detail['plu'] = $product->getProductIdPlu();
+			$product_detail['price'] = $product->getPrice();
+			$product_detail['unit'] = $product->getUnit();
+			$product_detail['desc'] = $product->getDescription();
+			$product_detail['ava_quan'] = $product->getQuantity(); 		// available quantity 
+			$product_detail['ssl'] = $product->getSafetyStockLevel();		// safety stock level
+
+			if($product->getPosTaxTaxClass() != NULL)
+			{
+				$product_detail['tax']['id'] = $product->getPosTaxTaxClass()->getTaxClassId();
+				$product_detail['tax']['name'] = $product->getPosTaxTaxClass()->getTaxClassName();
+				$product_detail['tax']['percent'] = $product->getPosTaxTaxClass()->getTaxPercent();
+			}
+			else
+			{
+				$product_detail['tax']['id'] = null;
+				$product_detail['tax']['name'] = null;
+				$product_detail['tax']['percent'] = 0;
+			}
+
+			// $product_detail['design'] = $product->getDesignName();
+			// $product_detail['shade'] = $product->getShade();
+			
+			// $product_detail['quantity'] = $product->getQuantity()." ".$product->getUnit();
+
+			// $width = $product->getWidth();
+			// $length = $product->getLength();
+			// $height = $product->getHeight();
+
+			// $product_detail['dimension'] = array();
+
+			// if($width != 0)
+			// $product_detail['dimension'][] = " ".$width."W ";
+
+			// if($length != 0)
+			// $product_detail['dimension'][] = " ".$length."L ";
+
+			// if($height != 0)
+			// $product_detail['dimension'][] = " ".$height."H ";
 
 
-					if($product->getPosTaxTaxClass() != NULL)
-					{
-						$product_detail['tax']['id'] = $product->getPosTaxTaxClass()->getTaxClassId();
-						$product_detail['tax']['name'] = $product->getPosTaxTaxClass()->getTaxClassName();
-						$product_detail['tax']['percent'] = $product->getPosTaxTaxClass()->getTaxPercent();
-					}
-					else
-					{
-						$product_detail['tax']['id'] = null;
-						$product_detail['tax']['name'] = null;
-						$product_detail['tax']['percent'] = 0;
-					}
-				
-				// $product_detail['design'] = $product->getDesignName();
-				// $product_detail['shade'] = $product->getShade();
-				// $product_detail['description'] = $product->getDescription();
-				// $product_detail['quantity'] = $product->getQuantity()." ".$product->getUnit();
+			// $product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();
 
-				// $width = $product->getWidth();
-				// $length = $product->getLength();
-				// $height = $product->getHeight();
-
-				// $product_detail['dimension'] = array();
-
-				// if($width != 0)
-				// $product_detail['dimension'][] = " ".$width."W ";
-
-				// if($length != 0)
-				// $product_detail['dimension'][] = " ".$length."L ";
-
-				// if($height != 0)
-				// $product_detail['dimension'][] = " ".$height."H ";
-
-
-				// $product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();
-
-				echo json_encode($product_detail);			
+			echo json_encode($product_detail);	
 			}
 			catch(Exception $e)
 			{
 				log_message('error',$e->getMessage());
 			}
-	}
+		}
 
 	/*	AjaxCall: get Category list  
 	*	---------------------
@@ -294,6 +296,72 @@ function __construct()  {
 				log_message('error',$e->getMessage());
 			}
 	}
+
+	public function productlist()
+	{
+		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenuPos();
+    	$data['products'] = $this->em->getRepository('models\inventory\Products')->findBy(array('deleted'=>0,'approved' => 1));	
+    	$data['tablehead'] = array('Product_PLU','Product Name','Unit Price','Quantity','Safety stock level','Tax %','Action');			
+		$this->load->view('pos/header/header', $header);
+		$this->load->view($menu);
+		$this->load->view('pos/Product/listproduct',$data);
+		$this->load->view('pos/footer/footer');
+	}
+	
+	public function editProduct($plu)
+	{
+		
+		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenuPos();
+		$data['form_action']="pos/product/updateProduct";
+    	$data['products'] = $this->em->getRepository('models\inventory\Products')->findBy(array('productIdPlu' => $plu));
+    	$taxes = $this->em->getRepository('models\pos\PosTax')->findBy(array('status'=>1));
+    	$tax_data = array(''=>'Select tax');
+				
+		if(!empty($taxes))
+		{
+			foreach($taxes as $tax)
+			{
+				$id = $tax->getTaxClassId();
+				$value = $tax->getTaxClassName() ."( " .$tax->getTaxPercent() ." % )";
+				$tax_data[$id] = $value;
+			}
+		}
+
+		$tax_data[] = 'None';			
+		$data['tax'] = $tax_data;	
+    	$this->load->view('pos/header/header', $header);
+		$this->load->view($menu);
+		$this->load->view('pos/Product/Editproduct',$data);
+		$this->load->view('pos/footer/footer');
+	}
+	 
+
+	 public function updateProduct()
+	 {
+	 	$header['user_data'] = $this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenuPos();
+	 	$plu = $this->input->post('plu');
+	 	$tax = $this->input->post('tax');
+	 	$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+	 	$data['products'] = $products = $this->em->getRepository('models\inventory\Products')->findBy(array('productIdPlu'=> $plu));
+	 	$tax_data = $this->em->getRepository('models\pos\PosTax')->find($tax);
+		 	foreach ($products as $product)
+		 	 {
+		 		$product->setPosTaxTaxClass($tax_data);
+		 		$product->setLastUpdatedBy($user);
+		 		$product->setLastUpdatedDate(1);
+		 		$this->em->persist($product);
+				$this->em->flush();
+		 	}
+	 	$this->session->set_flashdata('productedit', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Product Updated Successfully</b></div>');
+		redirect('pos/Product/productlist');
+	 	
+	 }
   
 }
 ?>

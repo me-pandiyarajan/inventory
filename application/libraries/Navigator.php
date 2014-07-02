@@ -56,9 +56,6 @@ class Navigator extends Ion_auth
 			case 3:
 				return 'inventory/general/deomenu';
 				break;
-			default:
-				# code...
-				break;
 		}	
 	}
 
@@ -78,9 +75,6 @@ class Navigator extends Ion_auth
 				break;
 			case 13:
 				return 'pos/menu/menu';
-				break;
-			default:
-				# code...
 				break;
 		}	
 	}
@@ -117,7 +111,7 @@ class Navigator extends Ion_auth
 	public function inventoryUserOnly()
 	{
 		$group = $this->ion_auth->GetUserGroupId();
-		if ($group <= 3)
+		if ($group > 3)
 		{
 			show_error('Your not supposed to view this page! Bye');
 		}

@@ -3,13 +3,13 @@
 /* ------------------------------- */
 
 body {
-    padding-top: 100px;
+    padding-top: 70px;
     background-color: #ffffff;
 }
 
 @media(min-width:768px) {
     body {
-        padding-top: 50px;
+        padding-top: 25px;
     }
 }
 
@@ -30,7 +30,7 @@ body {
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0 0 0 200px;
         padding: 0 30px;
         min-height: 600px;
         border-left: 1px solid #e7e7e7;
@@ -136,7 +136,7 @@ body {
     .navbar-static-side {
         z-index: 1;
         position: absolute;
-        width: 250px;
+        width: 200px;
         margin-top: 51px;
     }
 
@@ -337,4 +337,6 @@ table.dataTable thead .sorting:after {
 .glyphicon {
     cursor: pointer;
 }
+
+
 

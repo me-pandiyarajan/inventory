@@ -65,24 +65,18 @@ $(document).ready(function() {
             },
             category_id: {
                 validators: {
-                    callback: {
-                        message: 'Please choose Product Category',
-                        callback: function(value, validator) {
-                            var options = validator.getFieldElements('category_id').val();
-                            return (options && options >= 1);
-                        }
+                    notEmpty: {
+                        message: 'Please choose Product Category'
                     }
+                   
                 }
             },
             supplier_id: {
                 validators: {
-                    callback: {
-                        message: 'Please choose the Supplier of the product',
-                        callback: function(value, validator) {
-                            var options = validator.getFieldElements('supplier_id').val();
-                            return (options && options >= 1);
-                        }
+                     notEmpty: {
+                        message: 'Please choose the Supplier of the product'
                     }
+               
                 }
             },
             dimunit: {
@@ -188,24 +182,18 @@ $(document).ready(function() {
             },
             category_id: {
                 validators: {
-                    callback: {
-                        message: 'Please choose Product Category',
-                        callback: function(value, validator) {
-                            var options = validator.getFieldElements('category_id').val();
-                            return (options && options >= 1);
-                        }
+                    notEmpty: {
+                        message: 'Please choose Product Category'
                     }
+                   
                 }
             },
             supplier_id: {
                 validators: {
-                    callback: {
-                        message: 'Please choose the Supplier of the product',
-                        callback: function(value, validator) {
-                            var options = validator.getFieldElements('supplier_id').val();
-                            return (options && options >= 1);
-                        }
+                     notEmpty: {
+                        message: 'Please choose the Supplier of the product'
                     }
+               
                 }
             },
             quantity: {
@@ -301,8 +289,6 @@ $(document).ready(function() {
         }
         
     });
-
-
     /*
     *  super admin add product 
     */
@@ -317,7 +303,7 @@ $(document).ready(function() {
         fields: {
             productName: {
                 validators: {
-                     notEmpty: {
+                    notEmpty: {
                         message: 'Please enter Product Name'
                     },
                     regexp: {
@@ -328,12 +314,8 @@ $(document).ready(function() {
             },
             category_id: {
                 validators: {
-                    callback: {
-                        message: 'Please choose Product Category',
-                        callback: function(value, validator) {
-                            var options = validator.getFieldElements('category_id').val();
-                            return (options && options >= 1);
-                        }
+                    notEmpty: {
+                        message: 'Please choose a category'
                     }
                 }
             },
@@ -357,6 +339,9 @@ $(document).ready(function() {
             },
             price: {
                 validators: {
+                     notEmpty: {
+                        message: 'Please enter price'
+                    },
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: 'The Unit Price can only consist of number'
@@ -388,6 +373,9 @@ $(document).ready(function() {
             },
             safety_stock_level: {
                 validators: {
+                    notEmpty: {
+                        message: 'Please enter safety stock level'
+                    },
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: 'The Safety Stock Level can only consist of number'
@@ -396,6 +384,9 @@ $(document).ready(function() {
             },
             POS_stock_level: {
                 validators: {
+                    notEmpty: {
+                        message: 'Please enter POS stock level'
+                    },
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: 'The POS Stock Level can only consist of number'
@@ -644,11 +635,6 @@ $(document).ready(function() {
 
      $('#new-estimate').bootstrapValidator({
         message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
         fields: {
             estimate_name: {
                 validators: {
@@ -704,11 +690,6 @@ $(document).ready(function() {
 
      $('#edit-estimate').bootstrapValidator({
         message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
         fields: {
             estimate_name: {
                 validators: {
@@ -755,23 +736,32 @@ $(document).ready(function() {
         
     });
     
-
+/* add to */
+ $('#add_estimated').bootstrapValidator({
+        message: 'This value is not valid',
+        fields: {
+            estimate_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Estimate Name is required '
+                    }
+                }
+            }
+                 
+        }
+        
+    });
     /*
     *  order confirmation
     */
 
     $('#order-confirmation').bootstrapValidator({
         message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
         fields: {
             product: {
                 validators: {
                     notEmpty: {
-                        message: 'The Product Name is required '
+                        message: 'Please choose the Delivery Status'
                     }
                 }
             },
@@ -1074,7 +1064,17 @@ $(document).ready(function() {
                         message: 'The Confirm Password must be more than 5 and less than 15 characters long'
                     }
                 }
-            }
+            },
+             phone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Mobile Number is required'
+                        },
+                        phone: {
+                            message: 'The Mobile Number is not valid'
+                        }
+                    }
+                }
         
               
             

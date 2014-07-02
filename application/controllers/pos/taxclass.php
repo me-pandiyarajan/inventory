@@ -66,10 +66,13 @@ class TaxClass extends CI_Controller {
 					$newtaxclass->setTaxClassName($this->input->post('taxclassname'));
 					$newtaxclass->setStatus($this->input->post('status'));
 					$newtaxclass->setDeleted(0);
-					$newtaxclass->setCreatedBy($header['user_data']['id']);
-					$newtaxclass->setLastUpdatedBy($header['user_data']['id']);
+					$newtaxclass->setTaxPercent(14.12);
+
 					$created_date = new\DateTime("now");
-					$newtaxclass->setCreatedDate($created_date);
+					$creator = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
+
+					$newtaxclass->setCreatedBy($creator);
+					$newtaxclass->setCreatedDate($created_date->getTimestamp());
 					$this->em->persist($newtaxclass);
 		            $this->em->flush();
 					$this->session->set_flashdata('taxadd', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Tax Class Successfully Added</b></div>');
@@ -93,7 +96,7 @@ class TaxClass extends CI_Controller {
 				$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 				$group = $this->ion_auth->GetUserGroupId();
 				$menu = $this->navigator->getMenuPos();
-				$data['tablehead'] = array('Tax Class Name','Status','Created Date','Action');
+				$data['tablehead'] = array('Tax class name','Tax %','Status','Created date','Action');
 
 				switch ($group) {
 					case 1:
@@ -176,9 +179,13 @@ class TaxClass extends CI_Controller {
 					$newtaxclass = $this->em->getRepository('models\pos\PosTax')->find($taxclassid);
 					$newtaxclass->setTaxClassName($this->input->post('taxclassname'));
 					$newtaxclass->setStatus($this->input->post('status'));
-					$newtaxclass->setLastUpdatedBy($header['user_data']['id']);
+					$newtaxclass->setTaxPercent(14.12);
+
 					$updated_date = new\DateTime("now");
-					$newtaxclass->setLastUpdatedDate($updated_date);
+					$updater = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
+
+					$newtaxclass->setLastUpdatedBy($updater);
+					$newtaxclass->setLastUpdatedDate($updated_date->getTimestamp());
 					$this->em->persist($newtaxclass);
 		            $this->em->flush();
 					$this->session->set_flashdata('taxedit', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Tax Class Successfully Updated</b></div>');
@@ -208,9 +215,13 @@ class TaxClass extends CI_Controller {
 			$data['tax'] = $tax = $this->em->getRepository('models\pos\PosTax')->find($id);
 			$tax->setStatus(0);
 			$tax->setDeleted(1);
-			$tax->setLastUpdatedBy($header['user_data']['id']);
+
 			$updated_date = new\DateTime("now");
-			$tax->setLastUpdatedDate($updated_date);
+			$updater = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
+
+			$tax->setLastUpdatedBy($updater);
+			$tax->setLastUpdatedDate($updated_date->getTimestamp());
+
 			$this->em->persist($tax);
 			$this->em->flush();
 			$this->session->set_flashdata('taxdelect','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Tax Deleted successfuly</b></div>');

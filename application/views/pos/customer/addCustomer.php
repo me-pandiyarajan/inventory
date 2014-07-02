@@ -101,6 +101,8 @@
 					
 					<?php echo form_close();?>
 				<!-- </form> -->
+        
+
         </div>
        
          <!-- /.dynamic content end -->

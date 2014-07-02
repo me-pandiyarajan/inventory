@@ -105,7 +105,7 @@
     					<td ><input type="hidden" name="product_names[]" value="<?php echo $product->getProductName(); ?>" /><?php echo $product->getProductName(); ?></td>
     					<td ><textarea row="1" name="descriptions[]" /><?php echo $product->getDescription();?></textarea> </td>
                         <td ><input type="text" name="designShade[]" value="<?php echo $product->getDesignName(); ?>" /></td>
-    					<td ><input type="text" name="dimensions[]"  value="<?php echo $product->getDimensions(); ?>" /></td>
+    					<td ><input type="text" name="dimensions[]"  value="<?php if($product->getDimensions() == "NULL"){ echo " ";} else{echo $product->getDimensions(); }?>" /></td>
     					<td ><input type="text" name="quantities[]"  value="<?php echo $product->getQuantity(); ?>" /></td>
 					</tr>
 				<?php endforeach; ?>

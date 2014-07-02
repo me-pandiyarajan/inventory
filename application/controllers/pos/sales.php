@@ -46,11 +46,17 @@ class Sales extends CI_Controller {
     	$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->library('session');
+		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 
-		$this->session->set_userdata('sales_data',$this->input->post());
-		$this->createSale();
+		$invoice_data = $this->input->post();
+		
+		$this->session->set_userdata('sales_data', $invoice_data);
+		//$this->load->view('pos/header/header',$header);
+		$this->load->view('pos/sales/sales_invoice', $invoice_data);
+
+		//$this->createSale();
+    
     }
-
 
 
     /*
@@ -77,7 +83,7 @@ class Sales extends CI_Controller {
 		if(empty($customer_id))
 		{	
 			$customer_id = null;
-			$discount 	 = 0; 
+			//$discount 	 = 0; 
 		}
 
 		/* Time satus */
@@ -115,10 +121,10 @@ class Sales extends CI_Controller {
 				
 				$product_sale = new models\pos\PosProductSales;
 				$product_sale->setQuantity($quantities[$i]);
-				$product_sale->setUnitPrice($price[$i]);
-				$product_sale->setDiscount($discount);
-				$product_sale->setTax($tax[$i]);
-				$product_sale->setAmount($amount[$i]);
+				$product_sale->setUnitPrice($prices[$i]);
+				$product_sale->setDiscount($discount_percents[$i]);
+				$product_sale->setTax($taxs[$i]);
+				$product_sale->setAmount($totals[$i]);
 				$product_sale->setInvoicesInvoiceid($invoice);
 					$product_id = $this->em->getRepository('models\inventory\products')->find($product_ids[$i]); 
 				$product_sale->setProductsProductGen($product_id);
@@ -129,6 +135,12 @@ class Sales extends CI_Controller {
 			}
 			
 			$this->em->getConnection()->commit();
+
+			$this->session->set_flashdata('sale_status', '<div class="alert alert-success alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<b>Sale successful</b></div>');
+			redirect('pos/sales');
+
 
 		} catch (Exception $e) {
 

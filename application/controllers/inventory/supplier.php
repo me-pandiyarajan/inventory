@@ -19,7 +19,7 @@ class Supplier extends CI_Controller {
 		$this->load->library('navigator');
 		
 		$this->navigator->checkLogin();
-		$this->navigator->posUserOnly();
+		$this->navigator->inventoryUserOnly();
 	}
 
 	public function index()
@@ -117,16 +117,12 @@ class Supplier extends CI_Controller {
 				
 				$this->em->persist($supplier);
 				$this->em->flush();
-
-				$data['success'] ='<div class="alert alert-success alert-dismissable">
-  									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  									Supplier added successfuly!
-  									</div>';
-
-				$this->load->view('inventory/general/header', $header);
+     			$this->load->view('inventory/general/header', $header);
 				$this->load->view($menu);
 				$this->load->view('inventory/supplier/addsupplier',$data);
 				$this->load->view('inventory/general/footer');
+				$this->session->set_flashdata('supplieradd','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b> Supplier detail Added successfuly!</b></div>');
+					redirect('inventory/supplier/listsuppliers');
 			}
 			catch(Exception $e)
 			{

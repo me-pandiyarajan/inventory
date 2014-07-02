@@ -4,17 +4,17 @@
 	 <!-- dynamic view content -->       
 
 	        <h2 class="page-header">List product categories</h2>
+	         <?php if ( $this->session->flashdata('productcategory') ) echo $this->session->flashdata('productcategory'); ?>
 		 <?php if ( $this->session->flashdata('categoryedit') ) echo $this->session->flashdata('categoryedit'); ?>
-		 <?php if ( $this->session->flashdata('categorydelete') ) echo $this->session->flashdata('categorydelete'); ?>
+		 <?php if ( $this->session->flashdata('deleteCategory') ) echo $this->session->flashdata('deleteCategory'); ?>
 			   <!-- add category -->
 
 				        <a href="<?php echo site_url()."inventory/ProductCategory/addproductcategory"?>" class="btn btn-success btn-sm">Add Category</a>
 
 			   <!-- add category end--> 
 
-				  <div class="table-responsive">
 	        
-					<table class="table table-bordered table-striped" >
+					<table class="table table-bordered table-striped table-responsive" >
 
 					    <thead> 
 					        <tr>
@@ -24,7 +24,7 @@
 					        </tr>
 					    </thead>
 
-						<tbody role="alert" aria-live="polite" aria-relevant="all">
+						<tbody>
 						    
 						    <?php foreach($categories as $category): ?> 						
 							<tr> 
@@ -47,7 +47,6 @@
 										
 					</table>
 
-				</div>
 	</div>
 
 <!-- dynamic view content end-->

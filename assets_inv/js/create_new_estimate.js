@@ -1,6 +1,5 @@
     $(function() {
 
-
         var MaxInputs = 100;
 
         var x = 1; 
@@ -24,6 +23,7 @@
                 {
                     var sku = $('#sku').val();
                     var p_id = $('#productId').val();
+                    var supplier_id = $('#supplierId').val();
                    
                     var desc = $('#description').val();
                     var quan = $('#quantity').val();
@@ -33,7 +33,7 @@
                     listed_products[FieldCount-1] = p_name; 
 
                 newRow = '<tr>' +
-                            '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
+                            '<td style="cursor: pointer;"><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><input type="hidden" name="suppliers[]" value="'+ supplier_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
                             '<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
                             '<td >'+ p_name +' <input type="hidden" id="product_names" name="product_names[]" value="'+ p_name +'" /></td>' +
                             '<td >'+ desc +' <input type="hidden" name="descriptions[]" value="'+ desc +'" /> </td>' +
@@ -51,7 +51,7 @@
         });
 
         $( ".typeahead" ).focus(function(e) {
-               var param = ['productId','sku','description','quantity','design','shade','dimension'];
+               var param = ['productId','supplierId','sku','description','quantity','design','shade','dimension'];
                 $.each(param, function(i,variables){
                     $('#'+variables).val('');
             });

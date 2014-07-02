@@ -67,7 +67,15 @@ class PosReturn
      * })
      */
     private $posInvoicesInvoiceid;
-
+    /**
+     * @var models\inventory\Products
+     *
+     * @ManyToOne(targetEntity="models\inventory\Products")
+     * @JoinColumns({
+     *   @JoinColumn(name="products_product_gen_id", referencedColumnName="product_gen_id", nullable=true)
+     * })
+     */
+    private $productsProductGen;
 
     /**
      * Get returnId
@@ -209,5 +217,26 @@ class PosReturn
     public function getPosInvoicesInvoiceid()
     {
         return $this->posInvoicesInvoiceid;
+    }
+    /**
+     * Set productsProductGen
+     *
+     * @param models\inventory\Products $productsProductGen
+     * @return PosReturn
+     */
+    public function setProductsProductGen($productsProductGen = null)
+    {
+        $this->productsProductGen = $productsProductGen;
+        return $this;
+    }
+
+    /**
+     * Get productsProductGen
+     *
+     * @return models\inventory\Products 
+     */
+    public function getProductsProductGen()
+    {
+        return $this->productsProductGen;
     }
 }

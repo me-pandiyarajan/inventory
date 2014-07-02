@@ -45,24 +45,6 @@ class purchase extends CI_Controller {
         
 		$estimatedata['form_action'] = "inventory/purchase/create_new_estimate";
 
-	  /* $config = array(
-	 		array(
-                     'field'   => 'product_ids',
-                     'label'   => 'Product',
-                     'rules'   => 'required_2'
-                  ),	
-			array(
-                     'field'   => 'quantities',
-                     'label'   => 'Quantity',
-                     'rules'   => 'required'
-                  ),
-			array(
-                     'field'   => 'dimensions',
-                     'label'   => 'Dimension',
-                     'rules'   => 'required'
-                  )				  
-               );
-		$this->form_validation->set_rules($config);*/
 		$this->form_validation->set_message('required_2', 'Please add atleast one %s to generate an estimate');
 
 		/*
@@ -86,101 +68,153 @@ class purchase extends CI_Controller {
 		{  
 		    $this->em->getConnection()->beginTransaction();
 			try {
-                     
-				   	$supplier_id = $this->input->post('supplier_id');
-				   	$supplier_name = $this->input->post('supplier_name');
-				   	$email = $this->input->post('email');
-				    $product_ids = $this->input->post('product_ids');
-				    $sku = $this->input->post('sku');  
-					$productname = $this->input->post('product_names');
-					$description = $this->input->post('descriptions');
-					$designShade = $this->input->post('designShade');
-					$quantity = $this->input->post('quantities');
-					$dimension = $this->input->post('dimensions');
-					$estimate_name = $this->input->post('estimate_name');
 
-                   	$created_date = new\DateTime("now");
-                   	$creator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+                //  name="suppliers"
+				$suppliers = $this->input->post('suppliers');
+				$product_ids_post = $this->input->post('product_ids');
+			    $sku_post = $this->input->post('sku');  
+				$productname_post = $this->input->post('product_names');
+				$description_post = $this->input->post('descriptions');
+				$designShade_post = $this->input->post('designShade');
+				$quantity_post = $this->input->post('quantities');
+				$dimension_post = $this->input->post('dimensions');
+				$estimate_name = $this->input->post('estimate_name');
 
-                   	$emaildata['user_name'] = $header['user_data']['firstName'].'  '.$header['user_data']['lastName'];
-					$emaildata['supplierdata'] = array('supplier_name'=>$supplier_name,'email'=>$email);
-                    $emaildata['productdata'] = array('sku'=>$sku,'productname'=>$productname,'description'=>$description,'quantity'=>$quantity,'dimension'=>$dimension,'design'=>$designShade);
+				$supplierProducts = array();
+				$i = 0;
+				foreach ($suppliers as $supplier) {
+						
+						$products = array( 
+								'product_ids' => $product_ids_post[$i],
+								'sku' => $sku_post[$i],
+								'productname' => $productname_post[$i],
+								'description' => $description_post[$i],
+								'designShade' => $designShade_post[$i],
+								'quantity' => $quantity_post[$i],
+								'dimension' => $dimension_post[$i],
+								);
 
-                    $estimate = new models\inventory\NewEstimation;
+					$supplierProducts[$supplier][] = $products;
+					$i++;
+				}
+
+				$created_date = new\DateTime("now");
+    			$creator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+
+					
+			   	foreach ($supplierProducts as $supplier => $productDetail) 
+			   	{
+			   		//supplier data
+			   		$supplier_id  = $this->em->getRepository('models\inventory\Suppliers')->find($supplier);
+			   		$supplier_name = $supplier_id->getSupplierName();
+			   		$supplier_email = $supplier_id->getEmail();
+			   		$supplier_mobile = $supplier_id->getMobile();
+
+			   		$estimate = new models\inventory\NewEstimation;
 					$estimate->setEstimateName($estimate_name);
 					$estimate->setFlag(0);
 					$estimate->setCreatedDate($created_date->getTimestamp());
 					$estimate->setStatus(2);
-					$estimate->setEstimateNoProduct(count($product_ids));
+					$estimate->setEstimateNoProduct(count($productDetail));
 
 					$estimate->setCreatedBy($creator);
 					
-					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
-					$estimate->setSupplier($supplier);
+					$estimate->setSupplier($supplier_id);
 					$this->em->persist($estimate);
 					$this->em->flush();
 
-	              	$estimate_id = $estimate->getEstimateId();
-                    for ($i=0; $i < count($product_ids); $i++) { 
-	           	    /*distinguish newe product vs existing product*/
-           	    	if(strlen($product_ids[$i]) < 1 )
-           	    	{
-                        $product_ids[$i] = null;
-                        $Ifref = 0;
-                    }
-                    else
-                    {
-                    	$Ifref = 1;
-                    }
-	           	    /*---------------*/
-				    $estimate_product = new models\inventory\EstimatedProduct;
-					$estimate_product->setProductName($productname[$i]);
-					$estimate_product->setQuantity($quantity[$i]);
-					$estimate_product->setDescription($description[$i]);
-					$estimate_product->setDimensions($dimension[$i]);
-					$estimate_product->setDesignName($designShade[$i]);					
-					$estimate_product->setOrderProduct(1);
-					$estimate_product->setCreatedDate($created_date->getTimestamp());
-					$estimate_product->setIfref($Ifref);
-					$estimate_product->setProductSku($product_ids[$i]);
-					$Estimatid = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
-					$estimate_product->setNewEstimationEstimate($Estimatid);
-					
-				    $estimate_product->setCreatedBy($creator);
-				    $estimate_product->setDeliveryStatus(0);
-				    $estimate_product->setProductSku($sku[$i]);
-					$this->em->persist($estimate_product);
-		            $this->em->flush();
+					$estimate_id = $estimate->getEstimateId();
 
-                     $emaildata['estimate_id'] = $estimate_id;
+					/* email content */
+    				$emaildata['user_name'] = $header['user_data']['firstName'].' '.$header['user_data']['lastName'];
+				 	$emaildata['supplierdata'] = array('supplier_name'=>$supplier_name,'email'=>$supplier_email);
+				 	
+
+		   			foreach ($productDetail as $key => $value) {
+
+		   				foreach ($value as $k => $v) {
+		   					${$k} = $v;
+		   				}
+
+		   				/*distinguish newe product vs existing product*/
+	   	        	    if(strlen($product_ids) < 1 )
+	   	        	    {
+	   	                    $product_ids = null;
+	   	                    $Ifref = 0;
+	   	                }
+	   	                else
+	   	                {
+	   	                 	$Ifref = 1;
+	   	                 	$product_ids = $this->em->getRepository('models\inventory\Products')->find($product_ids);
+	   	                }
+
+	   	                $estimate_product = new models\inventory\EstimatedProduct;
+						$estimate_product->setProductName($productname);
+						$estimate_product->setProductId($product_ids);
+						$estimate_product->setQuantity($quantity);
+						$estimate_product->setDescription($description);
+						$estimate_product->setDimensions($dimension);
+						$estimate_product->setDesignName($designShade);					
+						$estimate_product->setOrderProduct(1);
+						$estimate_product->setCreatedDate($created_date->getTimestamp());
+						$estimate_product->setIfref($Ifref);
+						
+						$Estimatid = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
+						$estimate_product->setNewEstimationEstimate($Estimatid);
+					
+					    $estimate_product->setCreatedBy($creator);
+					    $estimate_product->setDeliveryStatus(0);
+					    $estimate_product->setProductSku($sku);
+						$this->em->persist($estimate_product);
+			            $this->em->flush();
+
+						$emaildata['productdata'][] = array(
+						   		 		'sku'=>$sku,
+						   		 		'productname'=>$productname,
+						   		 		'description'=>$description,
+						   		 		'quantity'=>$quantity,
+						   		 		'dimension'=>$dimension,
+						   		 		'design'=>$designShade
+						   		 		);
+   	        	 
+		   			}
+
 		            /* create estimate pdf and send mail*/
 		            $this->load->helper(array('dompdf', 'file'));
 
+		            $estimate_name_file = "EST".sprintf("%06s", $estimate_id)."_".date('Y_m_d').".pdf";
+	 	    		$emaildata['estimate_id'] = $estimate_name_file;
+
 		            $html = $this->load->view('inventory/email_template/estimate_template', $emaildata, true);
 
-	 	    		$estimate_name = $estimate_id."_".date('Y_m_d').".pdf";
-	 	    		$data = pdf_create($html, $estimate_name,false);
 
-					if(!write_file("assets_inv/estimations/".$estimate_name, $data))
+	 	    		$data = pdf_create($html, $estimate_name_file,false);
+
+
+					if(!write_file("assets_inv/estimations/".$estimate_name_file, $data))
 					{
 					     echo 'Unable to write the file';
 					}
+
+					
                     $msg = "Estimated Product";
                     $subject = "New Estimate";
-					$attachment= "assets_inv/estimations/".$estimate_name;
+					$attachment= "assets_inv/estimations/".$estimate_name_file;
 					$attachments = array($attachment);
-		            $this->email($email,$msg,$attachments,$subject);
+		            $this->email($supplier_email,$msg,$attachments,$subject);
+				   
+			   	}
 
-				}
-				
+			   
 				$this->em->getConnection()->commit();
-
 
 				$estimatedata['success'] ='<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Estimate Created successfully!</b></div>';
 				$this->load->view('inventory/general/header', $header);
 				$this->load->view($menu);
 				$this->load->view('inventory/purchase/create_new_estimate',$estimatedata);
 				$this->load->view('inventory/general/footer');
+				$this->session->set_flashdata('create_estimate','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>Estimate Created successfully</b></div>');
+		      	redirect('inventory/purchase/estimatelist'); 
 	   	   }
 		   catch(Exception $e)
 		   {
@@ -226,7 +260,7 @@ class purchase extends CI_Controller {
 
 				$this->load->view('inventory/general/header', $header);
 				$this->load->view($menu);
-				$this->load->view('inventory/purchase/'.$action,$data);
+				$this->load->view('inventory/purchase/'.$action, $data);
 				$this->load->view('inventory/general/footer');
 
 			}catch(Exception $e){
@@ -353,8 +387,8 @@ class purchase extends CI_Controller {
 								$estimate_product->setCreatedDate($created_date);
 								$estimate_product->setIfref($Ifref);
 								$estimate_product->setProductSku($product_ids[$i]);
-							    $estimate = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
-								$estimate_product->setEstimate($estimate);
+							    	$estimate = $this->em->getRepository('models\inventory\NewEstimation')->find($estimate_id);
+									$estimate_product->setNewEstimationEstimate($estimate);
 								$User = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
 							    $estimate_product->setCreatedBy($User);
 							    $estimate_product->setDeliveryStatus(0);
@@ -518,8 +552,8 @@ class purchase extends CI_Controller {
    /*
     *	List Order Confirmation 
 	*	---------------------
-	*New order - setDeliveryStatus(2) - if ordered products are not    delivered
-	 setDeliveryStatus(1) - if ordered products are delivered
+	*	New order - setDeliveryStatus(2) - if ordered products are not    delivered
+	*	setDeliveryStatus(1) - if ordered products are delivered
 	*  
 	*	
     */
@@ -551,18 +585,19 @@ class purchase extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissable">
   			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>', '</b></div>');
         
-		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$group = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
 		$product_data= $this->em->getRepository('models\inventory\EstimatedProduct')->findBy(array("newEstimationEstimate" =>$estimateid,'deliveryStatus' => 0));
 	
-		$product = array();
+		$product = array(''=>"Select product");
+
 			if(!empty($product_data))
 			{
 				foreach($product_data as $pro)
 				{
-					$id = $pro->getTempProductId()."<br>";
-					$value = $pro->getProductName()."<br><br>";
+					$id = $pro->getTempProductId();
+					$value = $pro->getProductName();
 					$product[$id] = $value;			
 				}
 				
@@ -571,6 +606,7 @@ class purchase extends CI_Controller {
 			{
 				$product[0] = "No Product available";
 			}
+			
 			$data['product'] = $product;
 			$data['orderid'] = $estimateid;
 			if ($this->form_validation->run() === FALSE)
@@ -590,7 +626,9 @@ class purchase extends CI_Controller {
 				try {
 					$header['user_data']=$this->ion_auth->GetHeaderDetails();
 					$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
-     				$data['estimate'] = $estimate = $this->em->getRepository('models\inventory\EstimatedProduct')->find($productid);
+     				$estimate = $this->em->getRepository('models\inventory\EstimatedProduct')->find($productid);
+     				var_dump($estimate);
+     				exit();
 				    $estimate->setDeliveryStatus($deliveredstatus);
 					$estimate->setDeliveryQuality($deliveredquantity);
 					$estimate->setDamagedQuality($damagedquantity);
@@ -608,7 +646,7 @@ class purchase extends CI_Controller {
                        $orderid = $neworder->getOrderId();
                        $ordername = $neworder->getOrderName();
                        $created_date = $neworder->getCreatedDate();
-                       $new_date = date_format($created_date, 'Y_m_d');
+                       $new_date = date('d-m-Y', $created_date);
                        }
 
            
@@ -779,10 +817,10 @@ class purchase extends CI_Controller {
 			$user['visiblity'] = 2;
 			break;
 			}
-			$this->load->view('inventory/general/header',$header);
-			$this->load->view($menu);
-			$this->load->view('inventory/purchase/view_estimatelist',$user);
-			$this->load->view('inventory/general/footer');
+		$this->load->view('inventory/general/header',$header);
+		$this->load->view($menu);
+		$this->load->view('inventory/purchase/view_estimatelist',$user);
+		$this->load->view('inventory/general/footer');
 	}	
 
    /*
@@ -954,14 +992,17 @@ class purchase extends CI_Controller {
 				$order->setEstimate($estimate);
 				$order->setDeliveryStatus(2);
 				$order->setCreatedBy($user);
+
 				$create_date = new \DateTime("now");
-				$order->setCreatedDate($create_date);
+				$order->setCreatedDate($create_date->getTimestamp());
+
 				$this->em->persist($order);
 				$this->em->flush();
 				$order_id = $order->getOrderId();
 				$emaildata['order_id'] = $order_id;
 				$this->load->helper(array('dompdf', 'file'));
  	            $html = $this->load->view('inventory/email_template/order_template', $emaildata, true);
+
  	    		$OrderName = $order_id."_".date('Y_m_d').".pdf";
  	    		$data = pdf_create($html, $OrderName,false);
 

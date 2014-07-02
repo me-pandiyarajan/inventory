@@ -14,6 +14,9 @@
                             <a href="pos/sales"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
                         </li>
                         <li>
+                            <a href="pos/return_damage"><i class="fa fa-dashboard fa-fw"></i>Sales Return</a>
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-money"></i> Tax Class<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -40,6 +43,55 @@
                                 <li>
                                     <a href="pos/customergroup/listcustomergroup">List Customer Groups</a>
                                 </li>
+                            </ul>
+                            </li>
+                            <li>
+                            <a href="#"><i class="fa fa-users"></i> Product<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="pos/product/productlist">List Products</a>
+                                </li>
+                               
+                            </ul>
+                            </li>
+                             <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Invoice<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo base_url();?>pos/invoice/invoice_list">Invoice List</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url();?>pos/invoice/void_invoice">Void Invoice</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                         <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i>Estimation<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo base_url();?>pos/estimation/view_estimation">Create Estimation</a>
+                                </li>
+                              <li>
+                                    <a href="<?php echo base_url();?>pos/estimation/estimationlist">Estimation List</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                            <li>
+                            <a href="#"><i class="fa fa-users"></i> Project<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo base_url();?>pos/project/projectadd">Create Project</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url();?>pos/project/projectlist">Project List</a>
+                                </li>
+                                <li>
+                                    <a href="pos/project">Project Sale</a>
+                                </li>
+
+                               
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>                        

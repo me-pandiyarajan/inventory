@@ -1,10 +1,6 @@
 $(function() {
-
     $('#side-menu').metisMenu();
-    $('.menu-link').bigSlide();
 });
-
-
 
 
 //Loads the correct sidebar on window load,
@@ -19,3 +15,8 @@ $(function() {
         }
     })
 })
+
+
+
+
+

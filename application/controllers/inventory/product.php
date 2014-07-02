@@ -122,7 +122,9 @@ function __construct()  {
 	    $action['form_action'] = "inventory/product/addProduct";
 		$supplier_data = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('status'=>'1'));
 		$Categories_data = $this->em->getRepository('models\inventory\Categories')->findBy(array('status'=>'1'));
-		$supplier = array();
+		//$supplier = array();
+		$supplier = array(''=>"Select Supplier");
+	    $Categories = array(''=>"Select Category");
 		
 		if(!empty($supplier_data))
 		{
@@ -137,6 +139,9 @@ function __construct()  {
 		{
 			$supplier[0] = "No suppliers available";
 		}
+
+		//var_dump($supplier);
+		//exit();
 
 				
 		if(!empty($Categories_data))
@@ -198,7 +203,7 @@ function __construct()  {
 					$product->setPrice($this->input->post('price'));
 					$product->setInstallationCharges($this->input->post('installation_charges'));
 					$product->setPosStockLevel($this->input->post('POS_stock_level'));
-					$product->setStockAvailability($this->input->post('stock_availability'));
+					//$product->setStockAvailability($this->input->post('stock_availability'));
 					$product->setSafetyStockLevel($this->input->post('safety_stock_level'));
 					$product->setProductName($this->input->post('productName'));
 					$product->setDescription($this->input->post('description'));
@@ -299,8 +304,8 @@ function __construct()  {
 				$action['form_action'] = 'inventory/product/editProduct';
                 $supplier_data = $this->em->getRepository('models\inventory\Suppliers')->findAll();
 				$Categories_data = $this->em->getRepository('models\inventory\Categories')->findAll();
-				$supplier = array();
-				
+				$supplier = array(''=>"Select Supplier");
+				$Categories = array(''=>"Select Category");
 				if(!empty($supplier_data))
 				{
 					foreach($supplier_data as $sup)
@@ -369,25 +374,23 @@ function __construct()  {
 	 */
 	public function editProduct( )
 	{
-			$editmode = $this->input->post('editmode');
+		    $editmode = $this->input->post('editmode');
 			$this->form_validation();
 			$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 			$group_id = $this->ion_auth->GetUserGroupId();
 			$menu = $this->navigator->getMenuInventory();
 			$id = $this->input->post('productGenId');
-
 		   	if ($this->form_validation->run() == FALSE)
 			{
 				$this->productDetails($id,'productedit');
 			}
 		 	else
 			{  		
-			   $action = $this->image_upload();
-
+			   $action = $this->image_upload();		   
 			   if(!empty($action['error']))
 			   {		
                 $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
-				$image_path = $data['product']->getUploadImage();
+				 $image_path = $data['product']->getUploadImage();
 
 			   }
 			   else
@@ -419,26 +422,31 @@ function __construct()  {
 					$product->setDesignName($design);
 					$shade = $this->input->post('shade');
 					$product->setShade($shade);
-					
-					$update_date = new\DateTime("now");
-
-					$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
-					$product->setLastUpdatedDate($update_date->getTimestamp());
-					$product->setLastUpdatedBy($updator);
-
+					//$update_date = new\DateTime("now");
+					//$product->setLastUpdatedDate($update_date);
+					$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+					$product->setLastUpdatedBy($user);
 					$supplier_id = $this->input->post('supplier_id');
 					$supplier = $this->em->getRepository('models\inventory\Suppliers')->find($supplier_id);
-					
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
-					
+					//$approve_date = new\DateTime("now");
+			       //$product->setProductActivated($create_date);
+					$product->setApproved($group_id);
+					//$product->setApprovedDate($approve_date);
+					$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+					$product->setApprovedBy($user); 
 					if($group_id  == 1)
 					{
 					  $product->setStatus($this->input->post('status'));
-                       
+                      $product->setPrice($this->input->post('price'));
+					  $product->setInstallationCharges($this->input->post('installation_charges'));
+					  $product->setStockAvailability($this->input->post('stock_availability'));
+			     	  $product->setSafetyStockLevel($this->input->post('safety_stock_level'));
+				      $product->setPosStockLevel($this->input->post('POS_stock_level')); 
 					}
 					else
 					{
@@ -449,14 +457,7 @@ function __construct()  {
 						$product->setApproved(6);
 						
 					}
-					else
-					{
-						$product->setPrice($this->input->post('price'));
-						$product->setInstallationCharges($this->input->post('installation_charges'));
-						$product->setStockAvailability($this->input->post('stock_availability'));
-					    $product->setSafetyStockLevel($this->input->post('safety_stock_level'));
-					    $product->setPosStockLevel($this->input->post('POS_stock_level'));
-					}
+					
 					$this->em->persist($product);
 					$this->em->flush();
 					$product_id = $product->getProductGenId();
@@ -967,6 +968,7 @@ function __construct()  {
 				$product_detail['shade'] = $product->getShade();
 				$product_detail['description'] = $product->getDescription();
 				$product_detail['quantity'] = $product->getQuantity()." ".$product->getUnit();
+				$product_detail['supplierId'] = $product->getSuppliersSupplier()->getSupplierId();
 
 				$width = $product->getWidth();
 				$length = $product->getLength();

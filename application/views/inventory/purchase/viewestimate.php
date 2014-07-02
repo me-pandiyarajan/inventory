@@ -26,7 +26,7 @@
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="estimatedate"><b>EstimateDate:</b></label>
-			  <p><?php echo $estimationlist->getCreatedDate(); ?></p>
+			  <p><?php  $data= $estimationlist->getCreatedDate();echo date("d-m-Y", $data);?></p>
         </div>
 		  <div class="form-group" >
            <label class="control-label col-xs-3" for="createdby"><b>Created by:</b></label>
@@ -52,7 +52,8 @@
             	<td class="align-center "><?php echo $product->getProductName(); ?></td>
             	<td class="align-center "><?php echo $product->getDescription(); ?></td>
             	<td class="align-center "><?php echo $product->getDesignName(); ?></td>
-				<td class="align-center "><?php echo $product->getDimensions(); ?></td>
+            	<td class="align-center "><?php if($product->getDimensions() == "NULL"){ echo " ";} else{echo $product->getDimensions(); }?></td>
+				
 				<td class="align-center"><?php echo $product->getQuantity(); ?></td>
 				</tr>
 				<?php endforeach; ?>

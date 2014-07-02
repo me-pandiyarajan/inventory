@@ -12,8 +12,8 @@
        
         <div class="col-lg-12">
             
-            
-            
+          
+
         </div>
        
          <!-- /.dynamic content end -->

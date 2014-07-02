@@ -625,7 +625,7 @@ class Auth extends CI_Controller {
   									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   									User Edited successfuly!
   									</div>');
-				//redirect("inventory/auth/list_users", 'refresh');
+				redirect("inventory/auth/list_users", 'refresh');
 				
 				//$this->session->set_flashdata('message', "User Saved");
 				if ($this->ion_auth->is_admin())

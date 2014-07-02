@@ -17,7 +17,7 @@
 </div>	
 
 <!-- container end -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets_inv/bootstrapvalidator/dist/css/bootstrapValidator.min.css"/>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets_inv/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
 
 <script src="<?php echo base_url(); ?>assets_inv/jquery/core/jquery-1.11.0.js"></script>
 <script src="<?php echo base_url(); ?>assets_inv/bootstrap/js/bootstrap.js"></script>

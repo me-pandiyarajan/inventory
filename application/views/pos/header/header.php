@@ -10,6 +10,7 @@
 
     <!-- Core CSS - Include with every page -->
     <link href="assets_pos/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets_pos/plugins/bootstrapDialog/dist/css/bootstrap-dialog.min.css" rel="stylesheet">
     <link href="assets_pos/plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <!-- Page-Level Plugin CSS - Dashboard -->
@@ -18,6 +19,8 @@
 
     <!-- SB Admin CSS - Include with every page -->
     <link href="assets_pos/css/sb-admin.css" rel="stylesheet">
+
+    <link href="assets_pos/css/tableStyle.css" rel="stylesheet">
 
     <base href="<?php echo base_url(); ?>" />
 

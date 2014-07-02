@@ -63,11 +63,11 @@ class PosEstimates
     private $lastUpdatedDate;
 
     /**
-     * @var models\pos\PosCustomer
+     * @var models\pos\Users
      *
-     * @ManyToOne(targetEntity="models\pos\PosCustomer")
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="created_by", referencedColumnName="customer_id", nullable=true)
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $createdBy;
@@ -81,6 +81,16 @@ class PosEstimates
      * })
      */
     private $posProjectsProjectid;
+
+    /**
+     * @var models\pos\PosCustomer
+     *
+     * @ManyToOne(targetEntity="models\pos\PosCustomer")
+     * @JoinColumns({
+     *   @JoinColumn(name="pos_customer_customer_id", referencedColumnName="customer_id", nullable=true)
+     * })
+     */
+    private $posCustomerCustomer;
 
     /**
      * @var models\pos\Users
@@ -238,7 +248,7 @@ class PosEstimates
     /**
      * Set createdBy
      *
-     * @param models\pos\PosCustomer $createdBy
+     * @param models\pos\Users $createdBy
      * @return PosEstimates
      */
     public function setCreatedBy($createdBy = null)
@@ -250,7 +260,7 @@ class PosEstimates
     /**
      * Get createdBy
      *
-     * @return models\pos\PosCustomer 
+     * @return models\pos\Users 
      */
     public function getCreatedBy()
     {
@@ -277,6 +287,29 @@ class PosEstimates
     public function getPosProjectsProjectid()
     {
         return $this->posProjectsProjectid;
+    }
+
+    /**
+     * Set posCustomerCustomer
+     *
+     * @param models\pos\PosCustomer $posCustomerCustomer
+     * @return PosInvoices
+     */
+    public function setPosCustomerCustomer($posCustomerCustomer = null)
+    {
+        $this->posCustomerCustomer = $posCustomerCustomer;
+        return $this;
+    }
+
+
+    /**
+     * Get posCustomerCustomer
+     *
+     * @return models\pos\PosCustomer 
+     */
+    public function getPosCustomerCustomer()
+    {
+        return $this->posCustomerCustomer;
     }
 
     /**
