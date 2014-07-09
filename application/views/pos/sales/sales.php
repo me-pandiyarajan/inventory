@@ -10,12 +10,13 @@
         <!-- /.dynamic content -->
        
     <div class="col-lg-12">
+
         <?php if ( $this->session->flashdata('sale_status') ) echo $this->session->flashdata('sale_status'); ?>
         <?php 
-           $attributes = array('class' => 'form-horizontal', 'id' => 'general');
-           echo form_open_multipart($form_action,$attributes);
+              $attributes = array('class' => 'form-horizontal', 'id' => 'general');
+              echo form_open_multipart($form_action,$attributes);
         ?>
-	 
+
         <div class="form-group">
             <label class="control-label col-xs-1" for="customer_name">Customer</label>
             <div class="col-xs-3">
@@ -56,7 +57,6 @@
                 </tbody>
             </table>
         </div>
-
     
     <div >
         
@@ -75,15 +75,15 @@
         <div class="row col-xs-5 pull-right">
 
                 <table class="table table-bordered" id='sales_price_cal'>
-                    <!-- <tr>
+                <!-- <tr>
                         <th class="col-xs-4">Sub Total</th>
                         <td><i class="fa fa-inr"></i> <span id="subTotal">0.00</span></td>
-                    </tr> -->
-                   <!-- <tr>
+                    </tr> 
+                    <tr>
                         <th>Discount</th>
                         <td><span id="dis_per">0</span>%</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <th>Tax Total</th>
                         <td>0.00</td>
                     </tr> -->
@@ -92,11 +92,9 @@
                         <td><i class="fa fa-inr"></i> <span id="grandTotal">0.00</span></td>
                     </tr>
                 </table>
-            
-
-           
-                <table class="table table-bordered" id='sales_payment'>
-                    <tr >
+                   
+                <table class="table table-bordered" id='sales_payment' >
+                    <tr>
                         <th >Transaction mode</th>
                         <td class="form-group">      
                             <label class="radio-inline">
@@ -116,25 +114,22 @@
                             ?>
                         </td>
                     </tr>
-             <!-- <tr>
-                        <td colspan="2" class="form-group text-center">
-                                
+                <!-- <tr>
+                        <td colspan="2" class="form-group text-center">        
                         <label class="radio-inline">
                             <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
                         <label class="radio-inline">
-                            <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
+                        <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
                         </td>
                     </tr> -->
                 </table>
             
-                <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button
+                <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button>
 
         </div>
             
     </div>
-
-        <!-- data to post -->
-            
+        <!-- data to post -->  
             <!-- customer details - primary -->
             <input type="hidden" id="customer_id" name="customer_id" value="null" />
             <input type="hidden" id="customer_name" name="customer_name" value="" />
@@ -156,12 +151,9 @@
             <!-- customer details - group details -->
             <input type="hidden" id="cg_id" name="cg_id" value="" />
             <input type="hidden" id="cg_name" name="cg_name" value="" />
-            <input type="hidden" id="cg_discount_percent" name="discount" value="0.00" />
-            
-
-        <!-- /. data -->                 
-                 
-    </form>
+            <input type="hidden" id="cg_discount_percent" name="discount" value="0.00" />           
+        <!-- /. data -->                              
+    <?php echo form_close(); ?>
 </div>
 
 

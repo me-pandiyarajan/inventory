@@ -1,10 +1,8 @@
 <?php
-
-namespace models\posws;
-
+namespace models\pos_ws;
 
 /**
- * models\inventory\PosWsEnquiryProducts
+ * models\pos_ws\PosWsEnquiryProducts
  *
  * @Table(name="pos_ws_enquiry_products")
  * @Entity
@@ -14,19 +12,16 @@ class PosWsEnquiryProducts
     /**
      * @var integer $enquiryProductId
      *
-     * @Column(name="enquiry_product_Id", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     * @Column(name="enquiry_product_Id", type="integer", nullable=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $enquiryProductId;
 
     /**
-     * @var models\inventory\PosWsEnquiry
+     * @var integer $posWsEnquiryEnquiryid
      *
-     * @ManyToOne(targetEntity="models\inventory\PosWsEnquiry")
-     * @JoinColumns({
-     *   @JoinColumn(name="pos_ws_enquiry_enquiryId", referencedColumnName="enquiryId", nullable=true)
-     * })
+     * @Column(name="pos_ws_enquiry_enquiryId", type="integer", nullable=false)
      */
     private $posWsEnquiryEnquiryid;
 
@@ -39,6 +34,7 @@ class PosWsEnquiryProducts
      * })
      */
     private $productsProductGen;
+
 
 
     /**
@@ -54,10 +50,10 @@ class PosWsEnquiryProducts
     /**
      * Set posWsEnquiryEnquiryid
      *
-     * @param models\inventory\PosWsEnquiry $posWsEnquiryEnquiryid
+     * @param integer models\pos_ws\PosWsEnquiry  $posWsEnquiryEnquiryid
      * @return PosWsEnquiryProducts
      */
-    public function setPosWsEnquiryEnquiryid(\models\inventory\PosWsEnquiry $posWsEnquiryEnquiryid = null)
+    public function setPosWsEnquiryEnquiryid($posWsEnquiryEnquiryid)
     {
         $this->posWsEnquiryEnquiryid = $posWsEnquiryEnquiryid;
         return $this;
@@ -66,20 +62,20 @@ class PosWsEnquiryProducts
     /**
      * Get posWsEnquiryEnquiryid
      *
-     * @return models\inventory\PosWsEnquiry 
+     * @return integer 
      */
     public function getPosWsEnquiryEnquiryid()
     {
         return $this->posWsEnquiryEnquiryid;
     }
 
-    /**
+   /**
      * Set productsProductGen
      *
      * @param models\inventory\Products $productsProductGen
-     * @return PosWsEnquiryProducts
+     * @return PosEstimateProducts
      */
-    public function setProductsProductGen(\models\inventory\Products $productsProductGen = null)
+    public function setProductsProductGen($productsProductGen = null)
     {
         $this->productsProductGen = $productsProductGen;
         return $this;

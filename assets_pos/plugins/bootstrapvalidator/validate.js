@@ -1233,6 +1233,101 @@ $(document).ready(function() {
         }
         
     });
+ /*
+    *  add project
+    */
 
+    $('#project_created').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+                customer_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Customer Name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z_]+\s?)*$/,
+                        message: 'The Customer Name can only consist of alphabets'
+                    }
+                }
+            },
+            projectname: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Project Name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z_]+\s?)*$/,
+                        message: 'The Project Name can only consist of alphabets'
+                    }
+                }
+            },
+             description: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Description is required '
+                    }
+                }
+            },
+        advanceamount: {
+                validators: {
+                    regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: 'The Advance Amount can only consist of number'
+                    }
+                }
+            }
+            
+        }
+        
+         
+        
+    });
+    /*
+    *  Edit project
+    */
+ $('#edit-project').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+                project_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Project Name is required '
+                    },
+                    regexp: {
+                        regexp: /^([a-zA-Z_]+\s?)*$/,
+                        message: 'The Project Name can only consist of alphabets'
+                    }
+                }
+            },
+             project_description: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Description is required '
+                    }
+                }
+            },
+            status: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please choose the Status'
+                        }
+                     }
+                }
+            
+        } 
+        
+    });
+   
 
 });

@@ -244,6 +244,32 @@ class Products
      */
     private $lastUpdatedDate;
 
+      /**
+     * @var string $suppplierProductName
+     *
+     * @Column(name="suppplier_product_name", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $suppplierProductName;
+
+    /**
+     * @var string $supplierDesignName
+     *
+     * @Column(name="supplier_design_name", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $supplierDesignName;
+
+
+     /**
+     * @var string $supplierShadeName
+     *
+     * @Column(name="supplier_shade_name", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $supplierShadeName;
+
+
+
+
+
     /**
      * @var models\inventory\Categories
      *
@@ -1018,6 +1044,78 @@ class Products
     {
         return $this->lastUpdatedDate;
     }
+
+     /**
+     * Set suppplierProductName
+     *
+     * @param string $suppplierProductName
+     * @return Products
+     */
+    public function setSuppplierProductName($suppplierProductName)
+    {
+        $this->suppplierProductName = $suppplierProductName;
+        return $this;
+    }
+
+    /**
+     * Get suppplierProductName
+     *
+     * @return string 
+     */
+    public function getSuppplierProductName()
+    {
+        return $this->suppplierProductName;
+    }
+
+    /**
+     * Set supplierDesignName
+     *
+     * @param string $supplierDesignName
+     * @return Products
+     */
+    public function setSupplierDesignName($supplierDesignName)
+    {
+        $this->supplierDesignName = $supplierDesignName;
+        return $this;
+    }
+
+    /**
+     * Get supplierDesignName
+     *
+     * @return string 
+     */
+    public function getSupplierDesignName()
+    {
+        return $this->supplierDesignName;
+    }
+
+
+   /**
+     * Set supplierShadeName
+     *
+     * @param string $supplierShadeName
+     * @return Products
+     */
+    public function setSupplierShadeName($supplierShadeName)
+    {
+        $this->supplierShadeName = $supplierShadeName;
+        return $this;
+    }
+
+    /**
+     * Get supplierShadeName
+     *
+     * @return string 
+     */
+    public function getSupplierShadeName()
+    {
+        return $this->supplierShadeName;
+    }
+
+
+
+
+
 
     /**
      * Set categoriesCategory

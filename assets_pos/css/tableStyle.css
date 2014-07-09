@@ -43,6 +43,57 @@ table#invoice_preview td:nth-child(6) { width: 20% }
 table#invoice_preview td:nth-child(7) { text-align: right;  }
 
 
+/* project sale table */
 
 
+table#project_sales th { text-align: center; vertical-align:middle;}
 
+table#project_sales th:nth-child(1) { width: 05% } 
+table#project_sales th:nth-child(2) { width: 25% }
+table#project_sales th:nth-child(3) { width: 12% }
+table#project_sales th:nth-child(4) { width: 13% }
+table#project_sales th:nth-child(5) { width: 15% }
+table#project_sales th:nth-child(6) { width: 10% }
+table#project_sales th:nth-child(7) { width: 20% }
+
+table#project_sales td:nth-child(1) { text-align: center; }
+table#project_sales td:nth-child(5) { text-align: right;  }
+table#project_sales td:nth-child(6) { text-align: right;  }
+table#project_sales td:nth-child(7) { text-align: right;  }
+table#project_sales td:nth-child(8) { text-align: right; width: 07%;  }
+table#project_sales td:nth-child(9) { text-align: right;  }
+
+table#sales_price_cal  th:nth-child(1){ width: 40% }
+table#sales_price_cal  td:nth-child(2){ text-align: right; }
+
+table#sales_payment th:nth-child(1){ width: 40% }
+
+tr#amount_paid_row { display: none;}
+
+
+/* return or damaged table */
+
+table#return_sale th { text-align: center; vertical-align:middle;}
+
+table#return_sale th:nth-child(1) { width: 05% } 
+table#return_sale th:nth-child(2) { width: 25% }
+table#return_sale th:nth-child(3) { width: 12% }
+table#return_sale th:nth-child(4) { width: 13% }
+table#return_sale th:nth-child(5) { width: 15% }
+table#return_sale th:nth-child(6) { width: 10% }
+table#return_sale th:nth-child(7) { width: 20% }
+
+table#return_sale td:nth-child(1) { text-align: center; }
+table#return_sale td:nth-child(5) { text-align: right;  }
+table#return_sale td:nth-child(6) { text-align: right;  }
+table#return_sale td:nth-child(7) { text-align: right;  }
+table#return_sale td:nth-child(8) { text-align: right; width: 07%;  }
+table#return_sale td:nth-child(9) { text-align: right;  }
+
+table#return_price_cal  th:nth-child(1){ width: 40% }
+table#return_price_cal  td:nth-child(2){ text-align: right; }
+
+table#sales_payment th:nth-child(1){ width: 40% }
+
+
+table#tableLastTransaction {display: none}

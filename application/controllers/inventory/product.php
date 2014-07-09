@@ -245,7 +245,9 @@ function __construct()  {
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
-
+ 					$product->setSuppplierProductName($this->input->post('sproductname'));
+					$product->setSupplierDesignName($this->input->post('sdesign'));
+					$product->setSupplierShadeName($this->input->post('sshade'));
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
 					$product->setDeleted(0);
@@ -431,6 +433,9 @@ function __construct()  {
 					$category_id = $this->input->post('category_id');
 					$Categories = $this->em->getRepository('models\inventory\Categories')->find($category_id);
 					$category = $Categories->getCategoryName();
+					$product->setSuppplierProductName($this->input->post('sproductname'));
+					$product->setSupplierDesignName($this->input->post('sdesign'));
+					$product->setSupplierShadeName($this->input->post('sshade'));
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
 					//$approve_date = new\DateTime("now");

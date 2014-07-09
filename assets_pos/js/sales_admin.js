@@ -143,7 +143,6 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
 
                 listed_products[FieldCount-1] = product.p_name;
 
-
                 var description = "<strong>" +product.p_name + "</strong><br><i>" + plu + "</i><br><br>" + product.desc; 
 
             newRow = '<tr>' +

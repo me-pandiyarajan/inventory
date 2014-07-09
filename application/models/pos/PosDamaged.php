@@ -41,6 +41,13 @@ class PosDamaged
      */
     private $amount;
 
+     /**
+     * @var float $discount
+     *
+     * @Column(name="discount", type="float", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $discount;
+
     /**
      * @var integer $compensateBy
      *
@@ -175,6 +182,28 @@ class PosDamaged
     {
         return $this->amount;
     }
+
+   /** Set discount
+     *
+     * @param float $discount
+     * @return PosDamaged
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+        return $this;
+    }
+
+    /**
+     * Get discount
+     *
+     * @return float 
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
 
     /**
      * Set compensateBy

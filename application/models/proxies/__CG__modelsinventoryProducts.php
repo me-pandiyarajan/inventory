@@ -435,6 +435,42 @@ class Products extends \models\inventory\Products implements \Doctrine\ORM\Proxy
         return parent::getLastUpdatedDate();
     }
 
+    public function setSuppplierProductName($suppplierProductName)
+    {
+        $this->__load();
+        return parent::setSuppplierProductName($suppplierProductName);
+    }
+
+    public function getSuppplierProductName()
+    {
+        $this->__load();
+        return parent::getSuppplierProductName();
+    }
+
+    public function setSupplierDesignName($supplierDesignName)
+    {
+        $this->__load();
+        return parent::setSupplierDesignName($supplierDesignName);
+    }
+
+    public function getSupplierDesignName()
+    {
+        $this->__load();
+        return parent::getSupplierDesignName();
+    }
+
+    public function setSupplierShadeName($supplierShadeName)
+    {
+        $this->__load();
+        return parent::setSupplierShadeName($supplierShadeName);
+    }
+
+    public function getSupplierShadeName()
+    {
+        $this->__load();
+        return parent::getSupplierShadeName();
+    }
+
     public function setCategoriesCategory($categoriesCategory = NULL)
     {
         $this->__load();
@@ -510,7 +546,7 @@ class Products extends \models\inventory\Products implements \Doctrine\ORM\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'productGenId', 'productIdPlu', 'sku', 'barcodeimage', 'productName', 'description', 'shortDescription', 'status', 'countryOfManufacture', 'price', 'specialPriceFrom', 'specialPriceTo', 'installationCharges', 'uploadImage', 'quantity', 'unit', 'material', 'stockAvailability', 'safetyStockLevel', 'posStockLevel', 'dimenUnit', 'weight', 'width', 'length', 'height', 'designName', 'shade', 'productActivated', 'approved', 'approvedDate', 'deleted', 'createdDate', 'lastUpdatedDate', 'categoriesCategory', 'posTaxTaxClass', 'suppliersSupplier', 'createdBy', 'lastUpdatedBy', 'approvedBy');
+        return array('__isInitialized__', 'productGenId', 'productIdPlu', 'sku', 'barcodeimage', 'productName', 'description', 'shortDescription', 'status', 'countryOfManufacture', 'price', 'specialPriceFrom', 'specialPriceTo', 'installationCharges', 'uploadImage', 'quantity', 'unit', 'material', 'stockAvailability', 'safetyStockLevel', 'posStockLevel', 'dimenUnit', 'weight', 'width', 'length', 'height', 'designName', 'shade', 'productActivated', 'approved', 'approvedDate', 'deleted', 'createdDate', 'lastUpdatedDate', 'suppplierProductName', 'supplierDesignName', 'supplierShadeName', 'categoriesCategory', 'posTaxTaxClass', 'suppliersSupplier', 'createdBy', 'lastUpdatedBy', 'approvedBy');
     }
 
     public function __clone()

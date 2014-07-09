@@ -1,10 +1,10 @@
 <?php
 
-namespace models\posws;
+namespace models\pos_ws;
 
 
 /**
- * models\inventory\PosWsLocation
+ * models\pos_ws\PosWsLocation
  *
  * @Table(name="pos_ws_location")
  * @Entity
@@ -46,10 +46,10 @@ class PosWsLocation
      *
      * @ManyToOne(targetEntity="models\inventory\Users")
      * @JoinColumns({
-     *   @JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
-    private $user;
+    private $createdBy;
 
 
     /**
@@ -129,24 +129,24 @@ class PosWsLocation
     }
 
     /**
-     * Set user
+     * Set createdBy
      *
-     * @param models\inventory\Users $user
+     * @param models\inventory\Users $createdBy
      * @return PosWsLocation
      */
-    public function setUser(\models\inventory\Users $user = null)
+    public function setCreatedBy($createdBy = null)
     {
-        $this->user = $user;
+        $this->createdBy = $createdBy;
         return $this;
     }
 
     /**
-     * Get user
+     * Get createdBy
      *
      * @return models\inventory\Users 
      */
-    public function getUser()
+    public function getCreatedBy()
     {
-        return $this->user;
+        return $this->createdBy;
     }
 }

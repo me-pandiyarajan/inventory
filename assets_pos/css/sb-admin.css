@@ -33,7 +33,7 @@ body {
         margin: 0 0 0 200px;
         padding: 0 30px;
         min-height: 600px;
-        border-left: 1px solid #e7e7e7;
+        
     }
 }
 
@@ -101,6 +101,7 @@ body {
 
 .navbar-static-side ul li {
     border-bottom: 1px solid #e7e7e7;
+    border-right: 1px solid #e7e7e7;
 }
 
 .sidebar-search {
@@ -337,6 +338,47 @@ table.dataTable thead .sorting:after {
 .glyphicon {
     cursor: pointer;
 }
+
+
+
+/*
+ * Height
+ * ht-1 = 100px 
+ * ht-2 = ht-1 x 2  
+ * --------------------------------------------------
+ */
+ 
+ .ht-1 {
+    height: 100px;
+ }
+ 
+ .ht-2 {
+    height: 200px;
+ }
+ 
+ .ht-3 {
+    height: 300px;
+ }
+
+ .ht-3_5 {
+    height: 350px;
+ }
+ 
+ .ht-4 {
+    height: 400px;
+ }
+ 
+ .ht-5 {
+    height: 500px;
+ }
+ 
+ .ht-6 {
+    height: 600px;
+ }
+ 
+ .ht-7 {
+    height: 700px;
+ }
 
 
 

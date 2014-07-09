@@ -28,28 +28,34 @@
            echo form_open_multipart($form_action,$attributes);
         ?>
 	 
+      <div class="table-responsive">
         <table class="table table-bordered" id='return_sale'>
-                <thead>
-                    <th>Remove</th>
-                    <th>PLU</th>
-                    <th>Product name</th>
-                    <th>Price</th>
-                    <th colspan="2">Quantity</th>
-                    <th>Discount</th>
-                    <th>Tax</th>
-                    <th>Amount</th>
-                   
-                </thead>    
-                <tbody id="damageItemsList">
-                
-                </tbody>
-            </table>
+              <thead>
+                  <tr>
+                      <th rowspan="2">Remove</th>
+                      <th rowspan="2">Description</th>
+                      <th rowspan="2" colspan="2">Quantity</th>
+                      <th rowspan="2">Unit Price</th>
+                      <th rowspan="2">Amount</th>
+                      <th rowspan="2">Discount</th>
+                      <th colspan="2">Total</th>
+                  </tr>
+                  <tr>
+                      <th >Tax</th>
+                      <th >Tax Total</th>
+                  </tr>
+              </thead>    
+              <tbody id="damageItemsList">
+              
+              </tbody>
+          </table>
+      </div>
 
 
-    <div>
+    <div >
         
-        <div class="row col-xs-6 col-xs-offset-0">
-            <address>
+        <div class="row col-xs-7">
+            <address >
               <strong>To:</strong><br>
               <strong><span id="customer_name_show"></span></strong><br>
               <span id="street_show"></span><br>
@@ -61,19 +67,30 @@
         </div>
 
         <div class="row col-xs-5 pull-right">
-            <table class="table table-bordered" id='sales_price_cal'>
-                <tr>
-                    <th>Sub Total</th>
-                    <td><i class="fa fa-inr"> <span id="subTotal">0.00</span></td>
-                </tr>
-                
-                <tr>
-                    <th>Grand Total</th>
-                    <td><i class="fa fa-inr"> <span id="grandTotal">0.00</span></td>
-                </tr>
-            </table>
-        </div>
 
+                <table class="table table-bordered" id='return_price_cal'>
+                <!-- <tr>
+                        <th class="col-xs-4">Sub Total</th>
+                        <td><i class="fa fa-inr"></i> <span id="subTotal">0.00</span></td>
+                    </tr> 
+                    <tr>
+                        <th>Discount</th>
+                        <td><span id="dis_per">0</span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tax Total</th>
+                        <td>0.00</td>
+                    </tr> -->
+                    <tr>
+                        <th>Grand Total</th>
+                        <td><i class="fa fa-inr"></i> <span id="grandTotal">0.00</span></td>
+                    </tr>
+                </table>
+                   
+              <button class="btn btn-success btn-lg col-xs-12" type="submit" >Submit</button>
+          
+        </div>
+            
     </div>
 
         <!-- data to post -->
@@ -100,82 +117,9 @@
             <input type="hidden" id="cg_id" name="cg_id" value="" />
             <input type="hidden" id="cg_name" name="cg_name" value="" />
             <input type="hidden" id="cg_discount_percent" name="discount" value="0.00" />
-            
-
-        <!-- /. data -->
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right" id="damaged" style="display:none">
-            <table class="table table-bordered" id='sales_payment'>
-                <tr>
-                    <th>Compensated by</th>
-                    <td class="col-xs-6 control-group"> 
-                        <?php 
-                            $options = array('1'  => 'Cash','2' => 'Product'); 
-                            echo form_dropdown('CompensatedBy', $options,'class="form-control" id = "CompensatedBy" required');
-                        ?>
-                    </td>
-                </tr>
-             <!-- <tr id="Quantity">
-                    <th>Quantity</th>
-                    <td colspan="2" class="form-group text-center">
-                     <input  type="text" name="Quantity">
-                   </td>
-                </tr>
-                <tr id="Price">
-                 <th>Price</th>
-                    <td colspan="2" class="form-group text-center">
-                     <input  type="text" name="Price">
-                   </td>
-                </tr>-->
-               
-            </table>
-        </div>
-
-        <div class="row col-xs-5 col-xs-offset-7 pull-right">
-            <button class="btn btn-success btn-lg col-xs-12" type="submit" >Submit</button>
-        </div>                 
-                 
-    </form>
+                     
+    <?php echo form_close(); ?>
 </div>
-
-
-<!-- Button trigger modal -->
-<button  class="hidden" data-toggle="modal" id="pop" data-target="#myModal"></button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h5 class="modal-title text-danger" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> <strong>ALERT<strong></h5>
-      </div>
-        <div class="modal-body" >
-	       <p>Please add at least one product</p>
-        </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Button trigger modal -->
-<button  class="hidden" data-toggle="modal" id="pop2" data-target="#myModal2"></button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h5 class="modal-title text-danger" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> <strong>ALERT<strong></h5>
-      </div>
-        <div class="modal-body" >
-           <p>A product cannot be added twice.</p>
-        </div>
-    </div>
-  </div>
-</div>
-
 
 <!-- Core Scripts - Include with every page -->
 <script src="assets_pos/plugins/jquery/core/jquery-1.11.0.js"></script>
@@ -207,37 +151,17 @@ $(function() {
     
       if(state == false)
       {
-         $("#damaged").show();
          $("#title").html("Damaged");
          $("form#returns").attr('action',base_url + 'pos/return_damage/damaged');
       }
       else
       {
-          $("#damaged").hide();
           $("#title").html("Sales Return");
           $("form#returns").attr('action',base_url + 'pos/return_damage/returnSale');
       }
     });
 }); 
 </script>
-
-<!--<script type="text/javascript">
-    $(document).ready(function(){
-        $("select").change(function(){
-            $( "select option:selected").each(function(){
-                if($(this).attr("value")== "1"){
-                    $("#Quantity").hide();
-                    $("#Price").show();
-                }
-                if($(this).attr("value")== "2"){
-                    $("#Price").hide();
-                    $("#Quantity").show();
-                }
-                
-            });
-        }).change();
-    });
-</script>-->
 </body>
 
 </html>

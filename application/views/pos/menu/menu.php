@@ -11,7 +11,7 @@
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="pos/sales"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
+                            <a href="pos/sales/Sale"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
                         </li>
                         <li>
                             <a href="pos/return_damage"><i class="fa fa-dashboard fa-fw"></i>Sales Return</a>
@@ -79,7 +79,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                             <li>
-                            <a href="#"><i class="fa fa-users"></i> Project<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-users"></i> Project <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="<?php echo base_url();?>pos/project/projectadd">Create Project</a>
@@ -88,13 +88,33 @@
                                     <a href="<?php echo base_url();?>pos/project/projectlist">Project List</a>
                                 </li>
                                 <li>
-                                    <a href="pos/project">Project Sale</a>
+                                    <a href="pos/sales/ProjectSale">Project Sale</a>
                                 </li>
 
                                
                             </ul>
                             <!-- /.nav-second-level -->
-                        </li>                        
+                        </li>  
+                        <!-- enquiry-->
+             <li>
+                <a href="#"><i class="fa fa-users"></i> Enquiry <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo site_url()."pos/enquiry/leadenquiry"?>">List Enquiry</a>
+                    </li>
+                  
+                </ul>
+            </li> 
+            <!-- Feedback-->
+             <li>
+                <a href="#"><i class="fa fa-users"></i> Feedback <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo site_url()."pos/feedback/feedbacklist"?>">List Feedback</a>
+                    </li>
+                    
+                </ul>
+            </li>                       
                     </ul>
                     <!-- /#side-menu -->
                 </div>

@@ -123,8 +123,8 @@ class Navigator extends Ion_auth
 	public function posUserOnly()
 	{
 		$group = $this->ion_auth->GetUserGroupId();
-		$allowedGroup = array(1,22,23);
-		if (in_array($group, $allowedGroup))
+		$allowedGroup = array(1,12,13);
+		if (!in_array($group, $allowedGroup))
 		{
 			show_error('Your not supposed to view this page! Bye');
 		}

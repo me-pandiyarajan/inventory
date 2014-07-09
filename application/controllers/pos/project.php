@@ -3,8 +3,8 @@
 class Project extends CI_Controller {
 
 	/**
-	 * Supplier management controller.
-	 *
+	 * 
+	 *  Supplier management controller.
 	 *
 	 */
 	public $em; 
@@ -22,33 +22,6 @@ class Project extends CI_Controller {
 		$this->navigator->posUserOnly();
 	}
 
-	public function index()
-	{
-		
-		$this->load->helper('form','url');
-		$this->load->library('form_validation');
-		$group = $this->ion_auth->GetUserGroupId();
-		$data['form_action'] = 'pos/project/createSale';
-
-		$header['user_data']=$this->ion_auth->GetHeaderDetails();
-        switch($group)
-		{
-			
-		case 1:
-		    $data['visiblity'] = 1;
-			break;
-		case 12:
-		    $data['visiblity'] = 2;
-			break;
-		case 13:
-		    $data['visiblity'] = 3;
-			break;
-		}
-		$this->load->view('pos/header/header',$header);
-		$this->load->view('pos/menu/menu');
-		$this->load->view('pos/project/project_sales',$data);
-		//$this->load->view('pos/footer/footer');
-	}
 
 	/* ADD PROJECT */
 	public function projectadd()
@@ -196,6 +169,8 @@ class Project extends CI_Controller {
 		if($projectId != null && $action != null)
 		{
 			try{
+
+				
 			  
 				$data['project'] =  $Projects = $this->em->getRepository('models\pos\PosProjects')->find($projectId);
 				$invoice_id = $Projects->getPosInvoicesInvoiceid();
@@ -309,11 +284,18 @@ class Project extends CI_Controller {
 		
 			/* get project id */
 			$project = $this->em->getRepository('models\pos\PosProjects')->findByProjectid($projectid);
-
-
+		   
 			/* get invoice id */
-			$invoice_id = $project[0]->getPosInvoicesInvoiceid();
-	
+			$invoice_id = $project[0]->getPosInvoicesInvoiceid();	
+			$advances = $this->em->getRepository('models\pos\PosAdvance')->createQueryBuilder('d')
+										    ->addselect('SUM(d.amount)')
+										    ->where('d.posInvoicesInvoiceid = :id')
+											->setParameter('id', $invoice_id)
+										    ->getQuery()
+										    ->getResult();	
+					//	var_dump($advances);exit;					
+							
+	        $data['advances'] = $advances[0][1];
 			/* get product of $invoice_id in pos_product_sales */
 			$data['products_sold'] = $products_pps = $this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_id));
 			
@@ -339,8 +321,6 @@ class Project extends CI_Controller {
 				$product_id_est = array();
 				$data['products_unsold'] = array();
 				$unsold = array();
-
-
 
 				if(count($projectid_estimate) > 0)
 				{
@@ -374,7 +354,6 @@ class Project extends CI_Controller {
 				{
 					$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 					$menu = $this->navigator->getMenuPos();
-					$data['tablehead'] = array('PLU','Product Name','Quantity','Price','discount','Tax','Amount','Status');
 					$this->load->view('pos/header/header', $header);
 					$this->load->view($menu);
 					$this->load->view('pos/project/viewprojectlist',$data);
@@ -447,21 +426,28 @@ class Project extends CI_Controller {
 					{ 		
 					$plu = $sold->getProductsProductGen()->getProductIdPlu(); 
 					$name = $sold->getProductsProductGen()->getProductName(); 
-					$unit = $sold->getProductsProductGen()->getUnit(); 
+					$unit = $sold->getProductsProductGen()->getUnit();
+					$description = $sold->getProductsProductGen()->getDescription(); 
 					$quantity = $sold->getQuantity(); 
 					$price = $sold->getUnitPrice(); 
 					$discount = $sold->getDiscount(); 
 					$tax = $sold->getTax(); 
-					$amount = $sold->getAmount();
+					$total = $sold->getAmount();
+
+					$base_amount = $quantity * $price;
+					$discount_price = ($base_amount * ($discount/100)); 
+
 					$sold_detail = array(
 									"Plu"=>$plu,
 									"ProductName"=>$name,
+									"Description" => $description,
 									"Quantity"=>$quantity,
 									"Unit"=> $unit,
-									"Price"=> $price,
-									"Discount"=>$discount,
+									"Price"=> number_format($price,2),
+									"Amount"=>number_format($base_amount,2),
+									"Discount"=> number_format($discount_price, 2),
 									"Tax"=> $tax,
-									"Amount"=>$amount
+									"Total"=>number_format($total,2)
 									); 
 					array_push($sold_list,$sold_detail); 
 					}
@@ -469,7 +455,7 @@ class Project extends CI_Controller {
 					$sold_list = array();
 				}
 
-				
+
 				if (!empty($unsold_products)) 
 				{
 				
@@ -490,19 +476,31 @@ class Project extends CI_Controller {
 						$plu = $unsold->getProductsProductGen()->getProductIdPlu(); 
 						$name = $unsold->getProductsProductGen()->getProductName(); 
 						$unit = $unsold->getProductsProductGen()->getUnit(); 
-						$quantity= $unsold->getQuantity(); 
+						$description = $unsold->getProductsProductGen()->getDescription(); 
+
+						$quantity = $unsold->getQuantity();
+						$available_quantity = $unsold->getProductsProductGen()->getQuantity();
+						$safety_stock_level = $unsold->getProductsProductGen()->getSafetyStockLevel();
+
 						$price = $unsold->getProductsProductGen()->getPrice(); 
-						$amount = $unsold->getAmount(); 
+						$total = $unsold->getAmount();
+
+						$base_amount = $quantity * $price;
+
 						$unsold_detail = array(
 						 	                    "ProductId"=>$genid,
 						 						"Plu"=>$plu,
 						 						"ProductName"=>$name,
+						 						"Description" => $description,
 						 						"Quantity"=>$quantity,
+						 						"availableQuantity"=> $available_quantity,
+						 						"SafetyStockLevel" => $safety_stock_level,
 						 						"Unit"=> $unit,
-						 						"Price"=> $price,
-						 						"Discount"=> "-",
+						 						"Price"=> number_format($price, 2),
+						 						"Amount"=> number_format($base_amount, 2),
+						 						"Discount"=> "0.00",
 										        "Tax"=> $tax,
-						 						"Amount"=>$amount
+						 						"Total"=> number_format($total, 2)
 						 						); 
 						array_push($unsold_list,$unsold_detail);	
 					}
@@ -517,6 +515,7 @@ class Project extends CI_Controller {
 				//get invoice
                 $project = $this->em->getRepository('models\pos\PosProjects')->findByProjectid($projectid);
              	$invoice_id = $project[0]->getPosInvoicesInvoiceid()->getInvoiceid();
+
 				//get customer id
 		        $invoice = $this->em->getRepository('models\pos\PosInvoices')->findByInvoiceid($invoice_id);
                 $customerid = $invoice[0]->getPosCustomerCustomer()->getCustomerId();
@@ -548,10 +547,81 @@ class Project extends CI_Controller {
 					{
 						$customer_detail['customer_group']['cg_id'] = null;
 						$customer_detail['customer_group']['cg_name'] = "General";
-						$customer_detail['customer_group']['cg_discount_percent'] = 1;
+						$customer_detail['customer_group']['cg_discount_percent'] = 0;
 					}
 
-				$result = array("soldlist"=>$sold_list,"unsoldlist"=>$unsold_list,"customer" => $customer_detail);
+
+				$last_p_transactions = $this->em->getRepository('models\pos\PosPaymentSlip')->findBy(array('posProjectsProjectid'=>$projectid,'status'=>2));
+				
+				if ( count($last_p_transactions) > 0 ){
+					//var_dump(end($last_transaction));
+					$last_transaction = array( 'allowed' => false );
+					
+					foreach ($last_p_transactions as $transactions) 
+					{
+						$payment_slip_id = $transactions->getPaymentslipid();
+						$transactions_status = $transactions->getStatus();
+
+						/* actual total of transaction */
+						$transaction_total = $this->em->getRepository('models\pos\PosPaymentslipProducts')->findBy(array('posPaymentSlipPaymentslipid'=>$payment_slip_id));
+						$product_amount = NULL;
+						foreach ($transaction_total as $product) {
+							$product_amount += $product->getPosProductSalesProductsalesid()->getAmount();
+						}
+
+						/* amount paid for transaction */
+						if($transactions_status == 2)
+						{
+							$transaction_paid_amount = $this->em->getRepository('models\pos\PosPayments')->findBy(array('posPaymentSlipPaymentslipid'=>$payment_slip_id));
+							$amount_paid = NULL;
+							foreach ($transaction_paid_amount as $amount) {
+								$amount_paid += $amount->getAmountPaid();
+							}
+						}
+						else
+						{
+							$amount_paid = 0;
+						}
+						
+						if($amount_paid > $product_amount)
+							$dueAmount = $amount_paid - $product_amount;
+						else
+							$dueAmount = $product_amount - $amount_paid;
+
+						
+						$createdDate = $transactions->getCreatedDate();
+
+
+						$last_transaction['partPaymentDetails'][] = array('paymentSlipId' => $payment_slip_id,
+													 					  'createdDate'	  => date('d-M-Y',$createdDate),
+																		  'dueAmount'    => number_format($dueAmount,2)
+																	  	 );
+					}
+					
+
+				}
+				else
+				{ 
+					$last_transaction = array( 'allowed' => true );
+				}
+
+
+				$advances = $this->em->getRepository('models\pos\PosAdvance')->createQueryBuilder('d')										
+										    ->addselect('SUM(d.amount)')
+										    ->where('d.posInvoicesInvoiceid = :id')
+											->setParameter('id', $invoice_id)
+										    ->getQuery()
+										    ->getResult();
+				
+				$result = array("soldlist" 	 => $sold_list,
+								"unsoldlist" => $unsold_list,
+								"customer" 	 => $customer_detail,
+								"project_id" => $projectid,
+								"invoice_id" => $invoice_id,
+								"last_transaction" => $last_transaction,
+								"advance" => number_format($advances[0][1],2)
+								);
+
         		echo json_encode($result);		
    			}
 			catch(Exception $e)
@@ -610,7 +680,6 @@ class Project extends CI_Controller {
 				
 			}
 	}
-
 
 	
 }

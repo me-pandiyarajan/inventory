@@ -1,10 +1,10 @@
 <?php
 
-namespace models\posws;
+namespace models\pos_ws;
 
 
 /**
- * models\inventory\PosWsFeedback
+ * models\pos_ws\PosWsFeedback
  *
  * @Table(name="pos_ws_feedback")
  * @Entity
@@ -19,7 +19,17 @@ class PosWsFeedback
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $feedbackid;
-
+    
+	/**
+     * @var models\pos\PosCustomer
+     *
+     * @ManyToOne(targetEntity="models\pos\PosCustomer")
+     * @JoinColumns({
+     *   @JoinColumn(name="pos_customer_customer_id", referencedColumnName="customer_id", nullable=true)
+     * })
+     */
+    private $posCustomerCustomer;
+	
     /**
      * @var string $comments
      *
@@ -68,16 +78,6 @@ class PosWsFeedback
      */
     private $lastUpdatedBy;
 
-    /**
-     * @var models\inventory\PosCustomer
-     *
-     * @ManyToOne(targetEntity="models\inventory\PosCustomer")
-     * @JoinColumns({
-     *   @JoinColumn(name="pos_customer_customer_id", referencedColumnName="customer_id", nullable=true)
-     * })
-     */
-    private $posCustomerCustomer;
-
 
     /**
      * Get feedbackid
@@ -88,7 +88,29 @@ class PosWsFeedback
     {
         return $this->feedbackid;
     }
+    
+	 /**
+     * Set posCustomerCustomer
+     *
+     * @param models\pos\PosCustomer $posCustomerCustomer
+     * @return PosInvoices
+     */
+    public function setPosCustomerCustomer($posCustomerCustomer = null)
+    {
+        $this->posCustomerCustomer = $posCustomerCustomer;
+        return $this;
+    }
 
+    /**
+     * Get posCustomerCustomer
+     *
+     * @return models\pos\PosCustomer 
+     */
+    public function getPosCustomerCustomer()
+    {
+        return $this->posCustomerCustomer;
+    }
+	
     /**
      * Set comments
      *
@@ -183,7 +205,7 @@ class PosWsFeedback
      * @param models\inventory\Users $createdBy
      * @return PosWsFeedback
      */
-    public function setCreatedBy(\models\inventory\Users $createdBy = null)
+    public function setCreatedBy($createdBy = null)
     {
         $this->createdBy = $createdBy;
         return $this;
@@ -205,7 +227,7 @@ class PosWsFeedback
      * @param models\inventory\Users $lastUpdatedBy
      * @return PosWsFeedback
      */
-    public function setLastUpdatedBy(\models\inventory\Users $lastUpdatedBy = null)
+    public function setLastUpdatedBy($lastUpdatedBy = null)
     {
         $this->lastUpdatedBy = $lastUpdatedBy;
         return $this;
@@ -219,27 +241,5 @@ class PosWsFeedback
     public function getLastUpdatedBy()
     {
         return $this->lastUpdatedBy;
-    }
-
-    /**
-     * Set posCustomerCustomer
-     *
-     * @param models\inventory\PosCustomer $posCustomerCustomer
-     * @return PosWsFeedback
-     */
-    public function setPosCustomerCustomer(\models\inventory\PosCustomer $posCustomerCustomer = null)
-    {
-        $this->posCustomerCustomer = $posCustomerCustomer;
-        return $this;
-    }
-
-    /**
-     * Get posCustomerCustomer
-     *
-     * @return models\inventory\PosCustomer 
-     */
-    public function getPosCustomerCustomer()
-    {
-        return $this->posCustomerCustomer;
     }
 }

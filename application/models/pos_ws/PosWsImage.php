@@ -1,10 +1,10 @@
 <?php
 
-namespace models\posws;
+namespace models\pos_ws;
 
 
 /**
- * models\inventory\PosWsImage
+ * models\pos_ws\PosWsImage
  *
  * @Table(name="pos_ws_image")
  * @Entity
@@ -28,16 +28,15 @@ class PosWsImage
     private $image;
 
     /**
-     * @var models\inventory\PosWsEnquiry
+	 *@var models\pos_ws\PosWsEnquiryCheckList
+	 *
+     * @var integer $posWsEnquiryCheckListPosWsCheckListId
      *
-     * @ManyToOne(targetEntity="models\inventory\PosWsEnquiry")
-     * @JoinColumns({
-     *   @JoinColumn(name="pos_ws_enquiry_enquiryId", referencedColumnName="enquiryId", nullable=true)
-     * })
+     * @Column(name="pos_ws_enquiry_check_list_pos_ws_check_list_id", type="integer", nullable=false)
      */
-    private $posWsEnquiryEnquiryid;
+    private $posWsEnquiryCheckListPosWsCheckListId;
 
-
+	
     /**
      * Get id
      *
@@ -70,25 +69,28 @@ class PosWsImage
         return $this->image;
     }
 
-    /**
-     * Set posWsEnquiryEnquiryid
+   
+	
+	 /**
+     * Set posWsEnquiryCheckListPosWsCheckListId
      *
-     * @param models\inventory\PosWsEnquiry $posWsEnquiryEnquiryid
+     * @param models\pos_ws\PosWsEnquiryCheckList $posWsEnquiryCheckListPosWsCheckListId
      * @return PosWsImage
      */
-    public function setPosWsEnquiryEnquiryid(\models\inventory\PosWsEnquiry $posWsEnquiryEnquiryid = null)
+    public function setPosWsEnquiryCheckListPosWsCheckListId($posWsEnquiryCheckListPosWsCheckListId)
     {
-        $this->posWsEnquiryEnquiryid = $posWsEnquiryEnquiryid;
+        $this->posWsEnquiryCheckListPosWsCheckListId = $posWsEnquiryCheckListPosWsCheckListId;
         return $this;
     }
 
     /**
-     * Get posWsEnquiryEnquiryid
+     * Get posWsEnquiryCheckListPosWsCheckListId
      *
-     * @return models\inventory\PosWsEnquiry 
+     * @return models\pos_ws\PosWsEnquiryCheckList
      */
-    public function getPosWsEnquiryEnquiryid()
+    public function getPosWsEnquiryCheckListPosWsCheckListId()
     {
-        return $this->posWsEnquiryEnquiryid;
+        return $this->posWsEnquiryCheckListPosWsCheckListId;
     }
+	
 }

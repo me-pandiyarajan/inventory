@@ -1,4 +1,6 @@
- /*Fetch project list and project details*/    
+ var x = 1; 
+
+/*Fetch project list and project details*/    
 
 var projects = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -25,50 +27,60 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
       $.getJSON(base_url + "pos/project/ajaxProjectDetails/"+ datum.id ,function(product){
            
            //console.log(product);
-           
            //sold
+           $('#project_id').val(product.project_id);
+           $('#invoice_id').val(product.invoice_id);
+
            $.each(product.soldlist, function(index,key){
+
+            var description = "<strong>" + key.ProductName + "</strong><br><i>" + key.Plu + "</i><br><br>" + key.Description; 
               
             //$('#'+variables).val('');
             newRow ='<tr>' +
                         '<td> <span class="label label-success">Sold</span> </td>' +
-                        '<td >'+ key.Plu +' </td>' +
-                        '<td >'+ key.ProductName +'</td>' +
-                        '<td >'+ key.Price +' </td>' +
+                        '<td >'+ description +'</td>' +
                         '<td >'+ key.Quantity +' </td>' +
                         '<td >'+ key.Unit +'</td>' +
-                        '<td >'+ key.Discount +' % </td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ key.Price +' </td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ key.Amount +'</td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ key.Discount +'</td>' +
                         '<td >'+ key.Tax +' % </td>' +
-                        '<td class="showAmount"> <span>'+ key.Amount +'</span> </td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ key.Total +'</td>' +
                         
                      '</tr>';
             
                 $('.table > tbody#projectItemsList').append(newRow);
+
+            
             });
 
        
         //unsold
          $.each(product.unsoldlist, function(index,key){
 
-                  newRow = '<tr>' +
-                         '<td ><input type="hidden" name="product_ids[]" value="'+ key.ProductId +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
-                        '<td >'+ key.Plu +' <input type="hidden" name="plu[]" value="'+ key.Plu +'" /></td>' +
-                         '<td >'+ key.ProductName +' <input type="hidden"  id="product_names" name="product_names[]" value="'+ key.ProductName +'" /></td>' +
-                         '<td >'+ key.Price +'<input type="hidden" actual-unit-price="'+ key.Price +'" name="price[]" class="price" value="'+ key.Price +'" /> </td>' +
-                         '<td ><input type="text" class="form-control quantity" price-id="'+ key.ProductId +'" actual-unit-price="'+ key.Price +'" name="quantities[]" value="'+ key.Quantity +'" /></td>' +
-                         '<td >'+ key.Unit +'</td>' +
-                         '<td >'+ key.Discount +' <input type="hidden"  id="discount" name="discount[]" value="'+ key.Discount +'" /></td>' +
-                         '<td >'+ key.Tax +' <input type="hidden"  id="tax" name="tax[]" value="'+ key.Tax +'" /></td>' +
-                        '<td class="showAmount"> <span>'+key.Amount +'</span><input type="hidden" id="'+ key.ProductId +'" name="amount[]" class="amount" value="'+ key.Amount +'" /> </td>' +
-                        
-                      '</tr>';
+            var description = "<strong>" + key.ProductName + "</strong><br><i>" + key.Plu + "</i><br><br>" + key.Description;
+            var p_id = key.ProductId;
+
+            newRow = '<tr>' +
+                        '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
+                        '<td >'+ description +' <input type="hidden"  id="descriptions" name="descriptions[]" value="'+ description +'" /> </td>' +
+                        '<td ><input type="text" autocomplete="off" class="form-control quantity" id="q'+ p_id +'" name="quantities[]" pd-id="'+ p_id +'" quantity-unit="'+ key.Unit +'" actual-quantity="'+ key.availableQuantity +'" ssl="'+ key.SafetyStockLevel +'" value="'+ key.Quantity +'" /> </td>' +
+                        '<td >'+ key.Unit +' <input type="hidden" id="unit" name="units[]" value="'+ key.Unit +'" /></td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ key.Price +'<input type="hidden" id="p'+ p_id +'" name="prices[]" value="'+ key.Price +'" /> </td>' +
+                        '<td ><i class="fa fa-inr"></i> <span>'+ key.Amount +'</span><input type="hidden" id="a'+ p_id +'" pd-id="'+ p_id +'"  name="amounts[]" class="amount" value="'+ key.Amount +'" /> </td>' +
+                        '<td ><i class="fa fa-inr"></i> <span>'+ key.Discount +'</span><input type="hidden" id="dp'+ p_id +'" pd-id="'+ p_id +'"  class="discount_amounts" name="discount_percents[]" value="'+ 0 +' " /><input type="hidden" id="dpr'+ p_id +'" pd-id="'+ p_id +'" name="discount_prices[]" value="'+ key.Discount +' " /></td>' +
+                        '<td >'+ key.Tax +' %<input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ key.Tax +'" /></td>' + 
+                        '<td ><i class="fa fa-inr"></i> <span>'+ key.Total +'</span><input type="hidden" id="ta'+ p_id +'" name="totals[]" class="total" value="'+ key.Total +'" /> </td>' +
+                     '</tr>';
             
                  $('.table > tbody#projectItemsList').append(newRow);
+                 x = $('#project_sales tbody').children().length;
              });
+
+        
 
         /*get customer details*/
             
-
            $.each(product.customer, function(field,value){
                
                 switch (field) {
@@ -94,6 +106,28 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
             
             });
 
+           /*last transaction*/
+           var allow_transaction = product.last_transaction.allowed;
+
+           if(allow_transaction == false)
+           {
+                $('#tableLastTransaction').show();
+
+                $.each(product.last_transaction.partPaymentDetails, function(index,key){
+                newRow = '<tr>' +
+                            '<td >PSID#'+ key.paymentSlipId +'<input type="hidden" name="paymentSlipId[]" id="paymentSlipId" value="'+ key.paymentSlipId +'" /></td>' +
+                            '<td ><i class="fa fa-inr"></i> '+ key.dueAmount +' <input type="hidden"  id="DueAmount" name="dueAmount[]" value="'+ key.dueAmount +'" /></td>' +
+                            '<td >'+ key.createdDate +' <input type="hidden"  id="createdDate" name="createdDate[]" value="'+ key.createdDate +'" /></td>' +
+                            '<td ><button class="btn btn-success btn-sm" id="pay" >Pay now</button></td>' +
+                         '</tr>';
+                
+                     $('#tableLastTransaction > tbody#dueList').append(newRow);
+                     x = $('#project_sales tbody').children().length;
+                 });
+           }
+           
+
+
            $('#dis_per').text($('#cg_discount_percent').val());
 
            $('#customer_name_show').text($('#customer_name').val());
@@ -104,8 +138,8 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
            $('#customer_phone_show').html('<abbr title="Phone">P:</abbr> ' + $('#customer_phone').val());
            $('#customer_email_show').html('<abbr title="Email">E:</abbr> ' + $('#customer_email').val());
 
-
-         subTotal();
+        discount();
+        grandTotal();
       });
       
 });
@@ -144,7 +178,6 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
 
 
 
-
 /*
 *  -----------------------------------------------------------------------------------------------------------------------------
 *
@@ -152,29 +185,23 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
 
     var MaxInputs = 100;
 
-    var x = 1; 
-    //var FieldCount = $('#project_sales tbody').children().length;
-    var FieldCount = 0;
+    var FieldCount = 0; 
     var listed_products =  new Array();
 
-    //console.log(FieldCount);
-    
-    
     
     /*
-     * add new product for project_sales
+     * add new product for sales
      */
    
     function addProduct(product)
     {
-
-    
         if(x <= MaxInputs) 
         {
             FieldCount++;
 
             if( jQuery.inArray( product.p_name , listed_products ) > -1 && FieldCount > 1 ){
-                $( "#pop2" ).trigger( "click" ); 
+                message_content = '<p class="text-center">A product cannot be added twice in an sale.</p>' ;
+                alert_warning(message_content);
                 return false; 
             }
 
@@ -183,20 +210,30 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 var plu = product.plu;
                 var p_id = product.productId;
                 var quan = 1;
-                var price = product.price;
-                listed_products[FieldCount-1] = product.p_name; 
+
+                //var price = ( product.price + (product.price * (parseFloat(product.tax.percent)/100)) ).toFixed(2);
+                var price = ( parseFloat(product.price) ).toFixed(2);
+                var amount = ( parseFloat(quan) * parseFloat(price) ).toFixed(2);
+                var discount_price = ( parseFloat( amount ) * ( (parseFloat($('#cg_discount_percent').val() )/100 ) ) ).toFixed(2);
+
+                var discounted_amount = parseFloat(amount) - parseFloat(discount_price);
+                var amount_price_taxed =  ( parseFloat(discounted_amount) + (parseFloat(discounted_amount) * (parseFloat(product.tax.percent)/100)) ).toFixed(2);
+
+                listed_products[FieldCount-1] = product.p_name;
+
+
+                var description = "<strong>" +product.p_name + "</strong><br><i>" + plu + "</i><br><br>" + product.desc; 
 
             newRow = '<tr>' +
                         '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
-                        '<td >'+ plu +' <input type="hidden" name="plu[]" value="'+ plu +'" /></td>' +
-                        '<td >'+ product.p_name +' <input type="hidden"  id="product_names" name="product_names[]" value="'+ product.p_name +'" /></td>' +
-                        '<td >'+ price +'<input type="hidden" actual-unit-price="'+ price +'" name="price[]" class="price" value="'+ price +'" /> </td>' +
-                        
-                        '<td ><input type="text" class="form-control quantity" price-id="'+ p_id +'" actual-unit-price="'+ price +'" name="quantities[]" value="'+ quan +'" /> </td>' +
-                        '<td >'+ product.unit +'</td>' +
-                        '<td >'+ "-" +' <input type="hidden"  id="discount" name="discount[]" value="-" /></td>' +
-                        '<td >'+ product.tax +' <input type="hidden"  id="tax" name="tax[]" value="'+ product.tax +'" /></td>' +
-                        '<td class="showAmount"> <span>'+ price +'</span><input type="hidden" id="'+ p_id +'" name="amount[]" class="amount" value="'+ price +'" /> </td>' +
+                        '<td >'+ description +' <input type="hidden"  id="descriptions" name="descriptions[]" value="'+ description +'" /> </td>' +
+                        '<td ><input type="text" autocomplete="off" class="form-control quantity" id="q'+ p_id +'" name="quantities[]" pd-id="'+ p_id +'" quantity-unit="'+ product.unit +'" actual-quantity="'+ product.ava_quan +'" ssl="'+ product.ssl +'" value="'+ quan +'" /> </td>' +
+                        '<td >'+ product.unit +' <input type="hidden" id="unit" name="units[]" value="'+ product.unit +'" /></td>' +
+                        '<td ><i class="fa fa-inr"></i> '+ price +'<input type="hidden" id="p'+ p_id +'" name="prices[]" value="'+ price +'" /> </td>' +
+                        '<td ><i class="fa fa-inr"></i> <span>'+ amount +'</span><input type="hidden" id="a'+ p_id +'" pd-id="'+ p_id +'"  name="amounts[]" class="amount" value="'+ amount +'" /> </td>' +
+                        '<td ><i class="fa fa-inr"></i> <span>'+ discount_price +'</span><input type="hidden" id="dp'+ p_id +'" pd-id="'+ p_id +'"  class="discount_amounts" name="discount_percents[]" value="'+ discount_price +' " /><input type="hidden" id="dpr'+ p_id +'" pd-id="'+ p_id +'" name="discount_prices[]" value="'+ discount_price +' " /></td>' +
+                        '<td >'+ product.tax.percent +' %<input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ product.tax.percent +'" /></td>' + 
+                        '<td ><i class="fa fa-inr"></i> <span>'+ amount_price_taxed +'</span><input type="hidden" id="ta'+ p_id +'" name="totals[]" class="total" value="'+ amount_price_taxed +'" /> </td>' +
                      '</tr>';
             
             $('.table > tbody#projectItemsList').append(newRow);
@@ -206,50 +243,40 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             
         }
 
-    subTotal();    
+    grandTotal();    
     }
 
     
     /*
-    *   calculate subtotal price for items
+    *   calculate grandTotal price for items
     */
 
-    function subTotal () {
-        var subTotal = 0;
+    function grandTotal () {
+        var grandTotal = 0;
 
         if($('#project_sales tbody').children().length > 0) {
 
-            $(".amount").each(function() {
-                subTotal = parseFloat($(this).val()) + subTotal;
-                $('#subTotal').html( subTotal +' <input type="hidden" name="subTotal" value="'+ subTotal +'" />');
+            $(".total").each(function() {
+                grandTotal = ( parseFloat( $(this).val() ) + parseFloat( grandTotal ) ).toFixed(2);
+                $('#grandTotal').html( grandTotal +' <input type="hidden" name="grandTotal" value="'+ grandTotal +'" />');
+                $('#amount_paid').val(parseFloat(grandTotal/2).toFixed(2));
             });
         }
         else
         {
-            $('#subTotal').html('0 <input type="hidden" name="subTotal" value="0" />')
+            $('#grandTotal').html('0.00 <input type="hidden" name="grandTotal" value="0.00" />')
         }
 
-    grandTotal(subTotal);
     }
 
-    /*
-    *   calculate subtotal price for items
-    */
-    function grandTotal(subTotal){
-        
-        var grandTotal;
-
-        grandTotal = subTotal - ( subTotal * ( parseFloat($('#cg_discount_percent').val()) / 100 ) );
-        $('#grandTotal').html( grandTotal +' <input type="hidden" name="grandTotal" value="'+ grandTotal +'" />');
-
-    }
-
-
+    
     $( ".typeahead" ).focus(function(e) {
-           var param = ['productId','plu','description','quantity','design','shade','dimension'];
+           var param = ['project_id','invoice_id','customer_id'];
             $.each(param, function(i,variables){
                 $('#'+variables).val('');
         });
+        $('#projectItemsList').html("");
+        grandTotal();
     });
 
 
@@ -258,20 +285,100 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     */
 
     $( "table#project_sales" ).on( "keyup",".quantity", function() {
-        if($(this).val() != ""){
-            var quanPrice = parseFloat($(this).val()) * parseFloat($(this).attr('actual-unit-price'));
-            $('#'+ $(this).attr('price-id')).val(quanPrice);
-            $('#'+ $(this).attr('price-id')).siblings("span").text(quanPrice);
+        
+        req_quan = $(this).val();
+        
+        if( req_quan != "" ){
+           var pd_id = $(this).attr('pd-id');
+           MasterCalculation(pd_id);
         }
-        else{
-            var quanPrice = 0;
-            $('#'+ $(this).attr('price-id')).val(quanPrice);
-            $('#'+ $(this).attr('price-id')).siblings("span").text(quanPrice);
+        else
+        {
+            //$(this).val(1).delay(1500);
         }
     
-    subTotal();   
+    grandTotal();   
     });
-     
+
+
+    $( "table#project_sales" ).on( "blur",".quantity", function() {
+        
+        var pd_id = $(this).attr('pd-id');
+
+        if( $(this).val() != "" ){
+    
+            req_quan    = parseFloat($(this).val());
+            ssl         = parseFloat($(this).attr('ssl'));
+            ava_quan    = parseFloat($(this).attr('actual-quantity'));
+            quan_unit   = $(this).attr('quantity-unit');
+
+            expected_inv_quantity = ava_quan - req_quan; 
+        
+            if(req_quan > ava_quan){         
+                var message_content = '<p class="text-center">Oops.... we have only <b> '+ ava_quan +' '+ quan_unit +'</b> available at inventory! <br> So please enter upto <b>'+ ava_quan +' '+ quan_unit +'</b>. </p>';
+                alert_warning(message_content);
+                $(this).val(1);
+            }
+
+            //if(expected_inv_quantity < ssl) {
+                // send message to super admin or admin. this alert for testing purpose
+               //BootstrapDialog.alert("Warning: Quantity below safety level!");
+            //}
+
+        MasterCalculation(pd_id);    
+        }
+        else
+        {
+            $(this).val(1);
+            MasterCalculation(pd_id);          
+        }
+    
+    grandTotal();   
+    });
+    
+    
+    /*
+    *   apply discount
+    */ 
+    function discount() {
+        $(".discount_amounts").each(function() {
+            var pd_id = $(this).attr('pd-id');
+            MasterCalculation(pd_id);
+        });
+    }
+
+
+    /*
+    *   Master calculation
+    */
+    function MasterCalculation (pd_id) {
+
+        var tax_percent         = $('#t'+ pd_id ).val();
+        var discount_percent    = $('#cg_discount_percent').val();
+
+        var unit_price  = ( parseFloat( $('#p'+ pd_id ).val() ) ).toFixed(2);
+        var quantity    = ( parseFloat( $('#q'+ pd_id ).val() ) );
+        var amount      = ( parseInt(quantity) * parseFloat(unit_price) ).toFixed(2);
+
+        var discount_price      = ( parseFloat( amount ) * ( ( parseFloat( discount_percent )/100 ) ) ).toFixed(2);
+        var discounted_amount   = ( parseFloat( amount ) - parseFloat(discount_price) ).toFixed(2);
+        
+        var amount_price_taxed =  ( parseFloat(discounted_amount) + (parseFloat(discounted_amount) * (parseFloat(tax_percent)/100)) ).toFixed(2);
+
+        // Discount
+        $('#dp' + pd_id ).val( discount_percent );
+        $('#dpr'+ pd_id ).val( discount_price );
+        $('#dp' + pd_id ).siblings("span").text(discount_price);
+
+        // Amount
+        $('#a'+ pd_id ).val( amount ); 
+        $('#a'+ pd_id ).siblings("span").text(amount);
+
+        // Total Amount with Tax
+        $('#ta'+ pd_id ).val( amount_price_taxed ); 
+        $('#ta'+ pd_id ).siblings("span").text( amount_price_taxed );
+    }
+
 
     /*
     *   Remove item
@@ -283,19 +390,20 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             x--;
             listed_products.splice( $.inArray(removeItem,listed_products) ,1 );
         }
-        subTotal();
+        grandTotal();
         return false;
     });
 
 
     /*
-    *   check number of item for project_sales before billing.
+    *   check number of item for sales before billing.
     */
-    $(document).on('submit','form#general',function(){
+    $(document).on('submit','form',function(){
        var estimate_product_count = $('#project_sales tbody').children().length;  
        if(estimate_product_count == 0) {
-          $( "#pop" ).trigger( "click");  
-                return false;
+            message_content = '<p>Please add at least one product to sell</p>' ;
+            alert_warning(message_content);
+            return false;
             }
     });
 
@@ -305,4 +413,35 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     //$(function(){
         //$('.quantity').mask('0#');
     //})
+
+    /*
+    *   warning function
+    */
+
+    function alert_warning (message_content) {
+       BootstrapDialog.show({
+            title: '<i class="fa fa-warning fa-lg"></i>  Warning',
+            type: BootstrapDialog.TYPE_WARNING,
+            message: message_content,
+            buttons: [{
+                label: 'Close',
+                action: function(dialogItself){
+                        dialogItself.close();
+                    }
+                }]
+            });
+    }
+
+
+    /*
+    *   Miscellaneous 
+    */
+    $("table").on("change",".payment_status:radio", function(e){  
+       if($(this).val() == 2) {
+            $('#amount_paid_row').show();
+       }
+       else{
+            $('#amount_paid_row').hide();
+       }
+    });
 

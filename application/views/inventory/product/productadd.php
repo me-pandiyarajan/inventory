@@ -65,16 +65,6 @@
           <!-- right -->
            <div class="col-xs-6">
             
-            <div class="form-group">
-              <label class="control-label col-xs-4" for="supplier_id">Supplier</label>
-              <div class="dropdown col-xs-8">
-                <?php 
-                
-                echo form_dropdown('supplier_id',$supplier,set_value('supplier_id'),'class="form-control" required');
-                ?>
-              </div>
-            </div>
-
             <div class="form-group">     
               <label class="control-label col-xs-4" for="country_of_manufacture">COM:</label>
               <div class="col-xs-8">
@@ -97,6 +87,46 @@
         
          </div>
           </div>
+
+        <div class="row">
+          <legend>Supplier Info</legend>
+          </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6">
+            
+            <div class="form-group">
+              <label class="control-label col-xs-4" for="supplier_id">Supplier</label>
+              <div class="dropdown col-xs-8">
+                <?php 
+                
+                echo form_dropdown('supplier_id',$supplier,set_value('supplier_id'),'class="form-control" required');
+                ?>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-4" for="sdesign">Supplier Design</label>
+              <div class="col-xs-8">
+               <input type="text" class="form-control" required value="<?php echo set_value("sdesign"); ?>" id="sdesign" name="sdesign" placeholder="Supplier Product Design">
+              </div>
+          </div>
+          </div>
+         <div class="col-xs-6">
+            <div class="form-group">
+              <label class="control-label col-xs-4" for="sproductname">Supplier Product Name</label>
+              <div class="col-xs-8">
+                <input type="text" class="form-control" required value="<?php echo set_value("sproductname"); ?>" id="sproductname" name="sproductname" placeholder="Supplier Product Name">
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-xs-4" for="sshade">Supplier Shade</label>
+              <div class="col-xs-8">
+               <input type="text" class="form-control" required value="<?php echo set_value("sshade"); ?>" id="sshade" name="sshade" placeholder="Supplier product Shade">
+              </div>
+          </div>
+
+       </div>
+        </div>
+
           <?php if($visiblity == 1) : ?>
           <legend>Price</legend>
           <!-- left -->

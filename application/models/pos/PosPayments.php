@@ -2,7 +2,6 @@
 
 namespace models\pos;
 
-
 /**
  * models\pos\PosPayments
  *

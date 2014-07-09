@@ -1,10 +1,10 @@
 <?php
 
-namespace models\posws;
+namespace models\pos_ws;
 
 
 /**
- * models\inventory\PosWsEnquiry
+ * models\pos_ws\PosWsEnquiry
  *
  * @Table(name="pos_ws_enquiry")
  * @Entity
@@ -19,6 +19,13 @@ class PosWsEnquiry
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $enquiryid;
+
+    /**
+     * @var integer $amountCollected
+     *
+     * @Column(name="amount_collected", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $amountCollected;
 
     /**
      * @var integer $appointmentDate
@@ -61,6 +68,17 @@ class PosWsEnquiry
      * @Column(name="problem", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
     private $problem;
+     
+     
+    /**
+     * @var models\pos\PosCustomer
+     *
+     * @ManyToOne(targetEntity="models\pos\PosCustomer")
+     * @JoinColumns({
+     *   @JoinColumn(name="pos_customer_customer_id", referencedColumnName="customer_id", nullable=true)
+     * })
+     */
+    private $posCustomerCustomer;
 
     /**
      * @var string $customerSignature
@@ -69,7 +87,7 @@ class PosWsEnquiry
      */
     private $customerSignature;
 
-    /**
+       /**
      * @var integer $status
      *
      * @Column(name="status", type="integer", precision=0, scale=0, nullable=true, unique=false)
@@ -91,9 +109,9 @@ class PosWsEnquiry
     private $lastUpdatedDate;
 
     /**
-     * @var models\inventory\Users
+     * @var models\pos\Users
      *
-     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
      *   @JoinColumn(name="assigned_marketing_rep", referencedColumnName="id", nullable=true)
      * })
@@ -101,9 +119,9 @@ class PosWsEnquiry
     private $assignedMarketingRep;
 
     /**
-     * @var models\inventory\Users
+     * @var models\pos\Users
      *
-     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
      *   @JoinColumn(name="assigned_supervisor", referencedColumnName="id", nullable=true)
      * })
@@ -111,9 +129,9 @@ class PosWsEnquiry
     private $assignedSupervisor;
 
     /**
-     * @var models\inventory\Users
+     * @var models\pos\Users
      *
-     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
      *   @JoinColumn(name="assigned_by", referencedColumnName="id", nullable=true)
      * })
@@ -121,25 +139,36 @@ class PosWsEnquiry
     private $assignedBy;
 
     /**
-     * @var models\inventory\Users
+     * @var models\pos\Users
      *
-     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
      *   @JoinColumn(name="created_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $createdBy;
-
-    /**
-     * @var models\inventory\Users
+    
+	 /**
+     * @var models\pos\PosProjects
      *
-     * @ManyToOne(targetEntity="models\inventory\Users")
+     * @ManyToOne(targetEntity="models\pos\PosProjects")
+     * @JoinColumns({
+     *   @JoinColumn(name="pos_projects_projectId", referencedColumnName="projectId", nullable=true)
+     * })
+     */
+	private $posProjectsProjectid;
+	
+    /**
+     * @var models\pos\Users
+     *
+     * @ManyToOne(targetEntity="models\pos\Users")
      * @JoinColumns({
      *   @JoinColumn(name="last_updated_by", referencedColumnName="id", nullable=true)
      * })
      */
     private $lastUpdatedBy;
 
+    
 
     /**
      * Get enquiryid
@@ -149,6 +178,28 @@ class PosWsEnquiry
     public function getEnquiryid()
     {
         return $this->enquiryid;
+    }
+
+    /**
+     * Set amountCollected
+     *
+     * @param integer $amountCollected
+     * @return PosWsEnquiry
+     */
+    public function setAmountCollected($amountCollected)
+    {
+        $this->amountCollected = $amountCollected;
+        return $this;
+    }
+
+    /**
+     * Get amountCollected
+     *
+     * @return integer 
+     */
+    public function getAmountCollected()
+    {
+        return $this->amountCollected;
     }
 
     /**
@@ -284,6 +335,29 @@ class PosWsEnquiry
     }
 
     /**
+     * Set posCustomerCustomer
+     *
+     * @param models\pos\PosCustomer $posCustomerCustomer
+     * @return PosInvoices
+     */
+    public function setPosCustomerCustomer($posCustomerCustomer = null)
+    {
+        $this->posCustomerCustomer = $posCustomerCustomer;
+        return $this;
+    }
+
+    /**
+     * Get posCustomerCustomer
+     *
+     * @return models\pos\PosCustomer 
+     */
+    public function getPosCustomerCustomer()
+    {
+        return $this->posCustomerCustomer;
+    }
+
+    
+    /**
      * Set customerSignature
      *
      * @param string $customerSignature
@@ -303,6 +377,28 @@ class PosWsEnquiry
     public function getCustomerSignature()
     {
         return $this->customerSignature;
+    }
+
+    /**
+     * Set imageProof
+     *
+     * @param string $imageProof
+     * @return PosWsEnquiry
+     */
+    public function setImageProof($imageProof)
+    {
+        $this->imageProof = $imageProof;
+        return $this;
+    }
+
+    /**
+     * Get imageProof
+     *
+     * @return string 
+     */
+    public function getImageProof()
+    {
+        return $this->imageProof;
     }
 
     /**
@@ -377,7 +473,7 @@ class PosWsEnquiry
      * @param models\inventory\Users $assignedMarketingRep
      * @return PosWsEnquiry
      */
-    public function setAssignedMarketingRep(\models\inventory\Users $assignedMarketingRep = null)
+    public function setAssignedMarketingRep($assignedMarketingRep = null)
     {
         $this->assignedMarketingRep = $assignedMarketingRep;
         return $this;
@@ -399,7 +495,7 @@ class PosWsEnquiry
      * @param models\inventory\Users $assignedSupervisor
      * @return PosWsEnquiry
      */
-    public function setAssignedSupervisor(\models\inventory\Users $assignedSupervisor = null)
+    public function setAssignedSupervisor($assignedSupervisor = null)
     {
         $this->assignedSupervisor = $assignedSupervisor;
         return $this;
@@ -421,7 +517,7 @@ class PosWsEnquiry
      * @param models\inventory\Users $assignedBy
      * @return PosWsEnquiry
      */
-    public function setAssignedBy(\models\inventory\Users $assignedBy = null)
+    public function setAssignedBy($assignedBy = null)
     {
         $this->assignedBy = $assignedBy;
         return $this;
@@ -443,7 +539,7 @@ class PosWsEnquiry
      * @param models\inventory\Users $createdBy
      * @return PosWsEnquiry
      */
-    public function setCreatedBy(\models\inventory\Users $createdBy = null)
+    public function setCreatedBy($createdBy = null)
     {
         $this->createdBy = $createdBy;
         return $this;
@@ -458,14 +554,36 @@ class PosWsEnquiry
     {
         return $this->createdBy;
     }
+    
+	 /**
+     * Set posProjectsProjectid
+     *
+     * @param models\pos\PosProjects $posProjectsProjectid
+     * @return PosEstimates
+     */
+    public function setPosProjectsProjectid($posProjectsProjectid = null)
+    {
+        $this->posProjectsProjectid = $posProjectsProjectid;
+        return $this;
+    }
 
+    /**
+     * Get posProjectsProjectid
+     *
+     * @return models\pos\PosProjects 
+     */
+    public function getPosProjectsProjectid()
+    {
+        return $this->posProjectsProjectid;
+    } 
+	
     /**
      * Set lastUpdatedBy
      *
      * @param models\inventory\Users $lastUpdatedBy
      * @return PosWsEnquiry
      */
-    public function setLastUpdatedBy(\models\inventory\Users $lastUpdatedBy = null)
+    public function setLastUpdatedBy($lastUpdatedBy = null)
     {
         $this->lastUpdatedBy = $lastUpdatedBy;
         return $this;
@@ -480,4 +598,8 @@ class PosWsEnquiry
     {
         return $this->lastUpdatedBy;
     }
+
+   
+   
+
 }
