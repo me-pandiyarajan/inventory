@@ -75,8 +75,9 @@
                         <td ><input type="hidden" name="product_ids[]" value="<?php echo $product['p_id']; ?>" /><input type="hidden" name="suppliers[]" value="<?php echo $product['supplierId']; ?>" /><span class="glyphicon glyphicon-trash remover"></span></td>
                         <td ><?php echo $product['p_name']; ?> <input type="hidden" name="product_names[]" value="<?php echo $product['p_name']; ?>" /> </td>
                         <td ><?php echo $product['desc']; ?> <input type="hidden" name="descriptions[]" value="<?php echo $product['desc']; ?>" /> </td>
+                        <td ><?php echo  $product['design']."/". $product['shade']; ?> <input type="hidden" name="designShade[]" value="<?php echo  $product['design']."/". $product['shade']; ?>" /> </td>
                         <td ><?php echo $product['dimensions']; ?> <input type="hidden" name="dimensions[]" value="<?php echo $product['dimensions']; ?>" /> </td>
-                        <td ><?php echo $product['quan']; ?> <input type="hidden" name="quantities[]" value="<?php echo $product['quan']; ?>" /> </td>
+                        <td ><?php echo $product['quan']." ".$product['unit']; ?> <input type="hidden" name="quantities[]" value="<?php echo $product['quan']." ".$product['unit']; ?>" /> </td>
                     </tr>
                 <?php endforeach;    ?>
                 </tbody>

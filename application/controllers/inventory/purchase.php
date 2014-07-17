@@ -478,10 +478,13 @@ class purchase extends CI_Controller {
 	        $shade  = $product->getSupplierShadeName();
 	        $desc 	= $product->getDescription();
 	        $quan 	= $product->getQuantity();
+	        $unit 	= $product->getUnit();
+
 	        
 	        $width 	= $product->getWidth();
 	        $length = $product->getLength();
 	        $height = $product->getHeight();
+
 	        $dimension = array();
 
 	        if($width != 0)
@@ -495,9 +498,9 @@ class purchase extends CI_Controller {
 
 	        $dimensions = implode('x', $dimension);
 
-	        isset($dimensions) ? $dimensions = $dimensions : $dimensions = $dimensions." ".$product->getDimenUnit();
 
-	        
+	        empty($dimensions) ? $dimensions = "N/A" : $dimensions = $dimensions." ".$product->getDimenUnit() ;
+
 	        $est_product_details = array( 'p_id' => $p_id,
 	        							  'supplierId' => $supplierId,
 	        							  'p_name' => $p_name,
@@ -505,7 +508,8 @@ class purchase extends CI_Controller {
 	        							  'design' => $design,
 	        							  'shade' => $shade,
 	        							  'dimensions' => $dimensions,
-	        							  'quan' => $quan
+	        							  'quan' => $quan,
+	        							  'unit' => $unit
 	        							 );
 
 	        array_push( $est_products, $est_product_details );
