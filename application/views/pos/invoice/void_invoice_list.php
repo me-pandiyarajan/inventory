@@ -9,11 +9,9 @@
          <!-- /.dynamic content -->
        
             <div class="col-lg-12">
-			<?php 
-			$invoice_subTotal = 0;
-			?>
+            <?php if(!empty($void_invoices)): ?>
+				<?php $invoice_subTotal = 0; ?>
 			<div class="row">
-				<h4></h4>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped" >
 						<thead> 
@@ -31,14 +29,15 @@
 						
 						<tbody>
 						<?php foreach ($void_invoices as $void):?>
-						<?php $invoice_id = $void->getInvoicesInvoiceid()->getInvoiceid();
-						      $customer_name =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getCustomername();
-							  $customer_street =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getStreet();
-							  $customer_city =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getCity();
-							  $customer_state =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getState();
-							  $customer_zip =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getZipCode();
-							  $customer_phone =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getMobileNumber();
-						    ?>
+						<?php 
+							$invoice_id = $void->getInvoicesInvoiceid()->getInvoiceid();
+						    $customer_name =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getCustomername();
+							$customer_street =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getStreet();
+							$customer_city =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getCity();
+							$customer_state =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getState();
+							$customer_zip =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getZipCode();
+							$customer_phone =  $void->getInvoicesInvoiceid()->getPosCustomerCustomer()->getMobileNumber();
+						?>
 					<tr> 
 					  <td><?php echo $void->getProductsProductGen()->getProductIdPlu();?></td>
 					  <td><?php echo $void->getProductsProductGen()->getProductName();?></td>
@@ -54,6 +53,8 @@
 					    </tbody>		
 					</table>
 				</div>
+				
+
 			</div>
 			
 			<div class="row">
@@ -98,13 +99,14 @@
 					</div>	
 					</div>
 				</div>
-							
-			
-			
+		<?php else: ?>
+		<div class="row">
+				<p class="well text-danger"> No Invoice has been created today.</p>
+		</div>	
+		<?php endif; ?>
+
 		
-</div>
-
-
+	</div>
        <!-- /.dynamic content end -->
     <!-- /.row -->
 </div>

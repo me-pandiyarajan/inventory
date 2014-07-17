@@ -31,7 +31,19 @@
 								<td><?php echo "CAT".sprintf('%03s',$category->getCategoryId());?></td>
 								<td><?php echo $category->getCategoryName();?></td>
 								<td><?php echo $category->getComments();?></td>
-								<td><?php if($category->getStatus() == 1){echo "ACTIVE";} else {echo "INACTIVE";}?></td>
+								<?php 
+									$status = $category->getStatus();
+									if ($status == 0) 
+									{ 
+									$stat = '<span class="label label-danger">INACTIVE</span>';
+									}
+									else 
+									{
+									$stat = '<span class="label label-success">ACTIVE</span>';
+									}
+									?>					
+						<td class="align-center "><?php echo $stat;?></td>
+								
 								<td>
 									<div class="btn-group">
 									  	<a type="button" href="<?php echo site_url()."inventory/ProductCategory/categoryDetails/".$category->getCategoryId()."/editCategoryDetails";?>" class="btn btn-primary btn-xs">Edit</a>

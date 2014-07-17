@@ -120,8 +120,14 @@ class Sales extends CI_Controller {
 			*	
 			*/
 			//var_dump($invoice_data);
+			$invoice_data['invoice_number'] = "07"; 
+
+			$this->session->set_userdata('sales_data', $invoice_data);
+			//$this->load->view('pos/header/header',$header);
+			$this->load->view('pos/sales/project_sales_paymentslip', $invoice_data);
+
 			$this->session->set_userdata('project_sales_data', $invoice_data);
-			$this->CreateProjectSale();
+			//$this->CreateProjectSale();
 		}
 
 		//$this->createSale(); 
@@ -149,16 +155,22 @@ class Sales extends CI_Controller {
 		//unset session
 		$this->session->unset_userdata('sales_data');
 
+		
+		if(isset($deliver)){
+			$status = 2;
+		}else{
+			$status = 1;
+		}
+		
+
 		if(empty($customer_id))
 		{	
 			$customer_id = null;
-			//$discount 	 = 0; 
 		}
 
 		/* Time satus */
 		$now = new \DateTime("now");
 		$creator = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
-
 
 		/*create invoice*/
 		$this->em->getConnection()->beginTransaction();
@@ -169,7 +181,7 @@ class Sales extends CI_Controller {
 			$invoice->setTenderedby($paymentType);  
 			$invoice->setPaymentStatus($payment_status);
 			//$invoice->setSpecialInstructions($special_Instructions);
-			$invoice->setStatus(1);
+			$invoice->setStatus($status);
 			$customer = $this->em->getRepository('models\pos\PosCustomer')->find($customer_id);
 			$invoice->setPosCustomerCustomer($customer);
 			$invoice->setCreatedBy($creator);
@@ -242,6 +254,12 @@ class Sales extends CI_Controller {
 		//unset session
 		$this->session->unset_userdata('project_sales_data');
 
+		if(isset($deliver)){
+			$status = 2;
+		}else{
+			$status = 1;
+		}
+
 		/* Time satus */
 		$now = new \DateTime("now");
 		$creator = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
@@ -255,6 +273,12 @@ class Sales extends CI_Controller {
 
 			$invoice = $this->em->getRepository('models\pos\PosInvoices')->find($invoice_id);
 			$invoice_number = $invoice->getInvoiceNumber();
+
+			$invoice->setStatus($status);
+			$invoice->setUpdatedBy($now->getTimestamp());
+			$invoice->setUpdatedDate($creator);
+			$this->em->persist($invoice);
+			$this->em->flush();
 
 			/* payment slip*/
 			$payment_slip = new models\pos\PosPaymentSlip;
@@ -334,15 +358,131 @@ class Sales extends CI_Controller {
 	}
 
 
+	/* 
+	* 	DuePayment
+	*/
+	public function DuePayment()
+	{
+		$this->load->helper('url');
+		$this->load->helper('form');
+		$this->load->library('session');
+		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
+
+		$input = $this->input->post();
+
+		$psid = $input['psid'];
+		$amount_paid = $input['amount'];
+
+		/* Time satus */
+		$now = new \DateTime("now");
+		$creator = $this->em->getRepository('models\pos\Users')->find($header['user_data']['id']);
+
+		$this->em->getConnection()->beginTransaction();
+		try {
+			
+			/* PosPaymentSlip */
+			$payment_slip_OBJ = $this->em->getRepository('models\pos\PosPaymentSlip')->find($psid);
+			$payment_slip_OBJ->setStatus(1);
+			$this->em->persist($payment_slip_OBJ);
+			$this->em->flush();
+
+			/* PosPayments */
+			$posPayments = new models\pos\PosPayments;
+			$posPayments->setAmountPaid($amount_paid);
+			$posPayments->setPosPaymentSlipPaymentslipid($payment_slip_OBJ);
+			$posPayments->setCreatedBy($creator);
+			$posPayments->setCreatedDate($now->getTimestamp());
+			$this->em->persist($posPayments);
+			$this->em->flush();
+
+			$this->em->getConnection()->commit();
+
+			return true;
+
+		} catch (Exception $e) {
+
+			$this->em->getConnection()->rollback();
+            throw $e;
+			
+		}
+	}
+
 	/*
     *  sale
     */
-	public function sessionTest()
+	public function test()
 	{
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->library('session');
 	}
+
+
+	/*
+	*	discount access code 
+	*/
+	public function accessCode()
+	{
+		$this->load->helper('url');
+		$this->load->helper('form');
+		$this->load->library('session');
+		$this->load->library('sms');
+
+		//$verification_code = random_string('alnum', 7);
+		$verification_code = 7777;
+		$this->session->set_userdata('verification_code', $verification_code);
+
+		// set text
+        $text   = "Discount access verification code $verification_code Please use this on POS to provide discount.";
+        
+        // set phone (string or array)
+        //$phone = array('919566200738');
+	        //$phone = array('919444969600','919159251757');
+	        //$response = $this->sms->send($text, $phone);
+	        //$result = explode(" ", $response);
+        $result[0] = 100;
+		
+		//$response = $this->sms->get_balance();
+  		//$result = explode(" ",$response);
+
+        if ($result[0] == 100) {
+        	$return = true;
+        }
+        else {
+        	$return = false;
+        	log_message('error',$response);
+        	//echo $e->getMessage();
+        }
+
+		echo $return;
+	}
+
+	/*
+	*	discount access code 
+	*/
+	public function discountCodeVerification()
+	{
+		$this->load->helper('url');
+		$this->load->helper('form');
+		$this->load->library('session');
+
+		$verification_code = $this->session->userdata('verification_code');
+
+		if( $this->input->post('verification_code') == $verification_code) 
+		{
+			$return = true;
+		}
+		else
+		{
+			$return = false;
+		}
+
+		$this->session->unset_userdata('verification_code');
+		
+		echo $return;
+	}
+
+
 
 }
 

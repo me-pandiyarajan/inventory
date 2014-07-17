@@ -330,6 +330,30 @@ class Products
      */
     private $approvedBy;
 
+    /**
+     * @var string $suggestion
+     *
+     * @Column(name="suggestion", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $suggestion;
+
+    /**
+     * @var string $suppplierPrice
+     *
+     * @Column(name="suppplier_price", type="integer", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $suppplierPrice;
+
+
+    /**
+     * @var string $measuredBy
+     *
+     * @Column(name="measured_by", type="string", length=225, precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $measuredBy;
+
+
+
 
     /**
      * Get productGenId
@@ -1112,11 +1136,6 @@ class Products
         return $this->supplierShadeName;
     }
 
-
-
-
-
-
     /**
      * Set categoriesCategory
      *
@@ -1248,4 +1267,74 @@ class Products
     {
         return $this->approvedBy;
     }
+
+
+    /**
+     * Set suppplierPrice
+     *
+     * @param integer $suppplierPrice
+     * @return Products
+     */
+    public function setSuppplierPrice($suppplierPrice)
+    {
+        $this->suppplierPrice = $suppplierPrice;
+        return $this;
+    }
+
+    /**
+     * Get suppplierPrice
+     *
+     * @return integer 
+     */
+    public function getSuppplierPrice()
+    {
+        return $this->suppplierPrice;
+    }
+
+
+    /**
+     * Set suggestion
+     *
+     * @param string $suggestion
+     * @return Products
+     */
+    public function setSuggestion($suggestion)
+    {
+        $this->suggestion = $suggestion;
+        return $this;
+    }
+
+    /**
+     * Get suggestion
+     *
+     * @return string 
+     */
+    public function getSuggestion()
+    {
+        return $this->suggestion;
+    }
+
+    /**
+     * Set measuredBy
+     *
+     * @param string $measuredBy
+     * @return Products
+     */
+    public function setMeasuredBy($measuredBy)
+    {
+        $this->measuredBy = $measuredBy;
+        return $this;
+    }
+
+    /**
+     * Get measuredBy
+     *
+     * @return string 
+     */
+    public function getMeasuredBy()
+    {
+        return $this->measuredBy;
+    }
+
+
 }

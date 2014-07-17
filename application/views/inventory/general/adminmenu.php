@@ -11,8 +11,7 @@
       </ul>
 	    <ul class="nav nav-sidebar">
         <li><a href="<?php echo base_url();?>inventory/auth/list_users">User List</a></li>
-        <li><a href="<?php echo base_url();?>inventory/supplier/listsuppliers">Supplier List</a></li>
-		  </ul>
+       </ul>
       <ul class="nav nav-sidebar">
         <li><a href="<?php echo base_url();?>inventory/purchase/orderlist">Order List</a></li>
         <li><a href="<?php echo base_url();?>inventory/purchase/orderhistory">Order History</a></li>

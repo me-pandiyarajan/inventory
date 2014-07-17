@@ -3,10 +3,10 @@
     <h1 class="page-header">NEW ESTIMATE</h1>
     <?php echo validation_errors();   
       if(!empty($success)) echo $success; ?>
-    <?php 
-       $attributes = array('class' => 'form-horizontal', 'id' => 'new-estimate');
-       echo form_open_multipart($form_action,$attributes);
-    ?>
+        <?php 
+            $attributes = array('class' => 'form-horizontal', 'id' => 'new-estimate');
+            echo form_open_multipart($form_action,$attributes);
+        ?>
 	
 	 
     <div class="form-group">
@@ -24,13 +24,13 @@
                     <input type="hidden" name="sku" id="sku" value="" />
                     <input type="hidden" name="productId" id="productId" value="" />
                     <input type="hidden" name="supplierId" id="supplierId" value="" />
+                    <input type="hidden" name="supplier_pname" id="supplier_pname" value="" />
                 </div>
                 
                 <label class="control-label col-xs-2" for="design">Design</label>
                 <div class="col-xs-3">
-                    <input type="text" class="form-control" value="<?php echo set_value('design'); ?>" id="design" placeholder="design Name" name= "design">
-                </div>
-                
+                    <input type="text" class="form-control" value="<?php echo set_value('design'); ?>" id="supplierdesign" placeholder="design Name" name= "design">
+                </div>          
             </div>
             <div class="form-group">
                 <label class="control-label col-xs-2" for="quantity">Quantity</label>
@@ -40,7 +40,7 @@
                 
                 <label class="control-label col-xs-2" for="shade">Shade</label>
                 <div class="col-xs-3">
-                    <input type="text"  class="form-control" value="<?php echo set_value('shade'); ?>" id="shade" placeholder="shade"  name= "shade">
+                    <input type="text"  class="form-control" value="<?php echo set_value('shade'); ?>" id="suppliershade" placeholder="shade"  name= "shade">
                 </div>
             </div>
             <div class="form-group">
@@ -64,7 +64,6 @@
             <table class="table table-bordered" id='mytable'>
                 <thead>
                     <th>Remove</th>
-                    <th>SKU</th>
                     <th>Product name</th>
                     <th>Description</th>
                     <th>Design/Shade</th>
@@ -72,12 +71,11 @@
                     <th>Quantity</th>
                 </thead>    
                 <tbody>
-                
+                    
                 </tbody>
             </table>
                             
-             <button class="btn btn-success btn-xs" type="submit" >Send Estimate</button>
-           
+            <button class="btn btn-success btn-xs" type="submit" >Send Estimate</button>
     </form>
 </div>
 

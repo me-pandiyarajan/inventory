@@ -50,7 +50,6 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
                      '</tr>';
             
                 $('.table > tbody#projectItemsList').append(newRow);
-
             
             });
 
@@ -60,6 +59,8 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
 
             var description = "<strong>" + key.ProductName + "</strong><br><i>" + key.Plu + "</i><br><br>" + key.Description;
             var p_id = key.ProductId;
+            var selectTax = '<select id="t'+ p_id +'" pd-id="'+ p_id +'"  class="form-control tax" name="taxs[]" >'+ key.tax_options +'</select>';
+
 
             newRow = '<tr>' +
                         '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
@@ -69,7 +70,7 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
                         '<td ><i class="fa fa-inr"></i> '+ key.Price +'<input type="hidden" id="p'+ p_id +'" name="prices[]" value="'+ key.Price +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ key.Amount +'</span><input type="hidden" id="a'+ p_id +'" pd-id="'+ p_id +'"  name="amounts[]" class="amount" value="'+ key.Amount +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ key.Discount +'</span><input type="hidden" id="dp'+ p_id +'" pd-id="'+ p_id +'"  class="discount_amounts" name="discount_percents[]" value="'+ 0 +' " /><input type="hidden" id="dpr'+ p_id +'" pd-id="'+ p_id +'" name="discount_prices[]" value="'+ key.Discount +' " /></td>' +
-                        '<td >'+ key.Tax +' %<input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ key.Tax +'" /></td>' + 
+                        '<td >'+ selectTax +'</td>' + 
                         '<td ><i class="fa fa-inr"></i> <span>'+ key.Total +'</span><input type="hidden" id="ta'+ p_id +'" name="totals[]" class="total" value="'+ key.Total +'" /> </td>' +
                      '</tr>';
             
@@ -90,9 +91,15 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
                          });
                         break;
                     case 'customer_d_address':
+                        var fa = "";
                         $.each(value, function(field2,value2){
                             $('#'+field2).val(value2);
+                            fa = fa + value2 + "\n";
                          });
+                        $('#d_address_txt').text(fa);
+                        if($('input[name="deliver"]:checked').length == 0){
+                            $('#d_address').removeClass('hidden');
+                        }
                         break;
                     case 'customer_group':
                         $.each(value, function(field3,value3){
@@ -112,17 +119,16 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
            if(allow_transaction == false)
            {
                 $('#tableLastTransaction').show();
-
+                $('#complete_sale').prop('disabled', true);
                 $.each(product.last_transaction.partPaymentDetails, function(index,key){
-                newRow = '<tr>' +
-                            '<td >PSID#'+ key.paymentSlipId +'<input type="hidden" name="paymentSlipId[]" id="paymentSlipId" value="'+ key.paymentSlipId +'" /></td>' +
+                newRow = '<tr class="danger">' +
+                            '<td >PSID#'+ key.paymentSlipId +'<input type="hidden"  name="paymentSlipId[]" id="paymentSlipId" value="'+ key.paymentSlipId +'" /></td>' +
                             '<td ><i class="fa fa-inr"></i> '+ key.dueAmount +' <input type="hidden"  id="DueAmount" name="dueAmount[]" value="'+ key.dueAmount +'" /></td>' +
                             '<td >'+ key.createdDate +' <input type="hidden"  id="createdDate" name="createdDate[]" value="'+ key.createdDate +'" /></td>' +
-                            '<td ><button class="btn btn-success btn-sm" id="pay" >Pay now</button></td>' +
+                            '<td ><a class="btn btn-success btn-sm notpayed" onClick="payNow(this,'+ key.paymentSlipId +','+ key.dueAmount +')" >Pay now</a></td>' +
                          '</tr>';
                 
                      $('#tableLastTransaction > tbody#dueList').append(newRow);
-                     x = $('#project_sales tbody').children().length;
                  });
            }
            
@@ -139,6 +145,7 @@ $('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
            $('#customer_email_show').html('<abbr title="Email">E:</abbr> ' + $('#customer_email').val());
 
         discount();
+        discountAccess();
         grandTotal();
       });
       
@@ -222,7 +229,8 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 listed_products[FieldCount-1] = product.p_name;
 
 
-                var description = "<strong>" +product.p_name + "</strong><br><i>" + plu + "</i><br><br>" + product.desc; 
+                var description = "<strong>" +product.p_name + "</strong><br><i>" + plu + "</i><br><br>" + product.desc;
+                var selectTax = '<select id="t'+ p_id +'" pd-id="'+ p_id +'" class="form-control tax" name="taxs[]" >'+ product.tax_options +'</select>'; 
 
             newRow = '<tr>' +
                         '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
@@ -232,7 +240,7 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                         '<td ><i class="fa fa-inr"></i> '+ price +'<input type="hidden" id="p'+ p_id +'" name="prices[]" value="'+ price +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ amount +'</span><input type="hidden" id="a'+ p_id +'" pd-id="'+ p_id +'"  name="amounts[]" class="amount" value="'+ amount +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ discount_price +'</span><input type="hidden" id="dp'+ p_id +'" pd-id="'+ p_id +'"  class="discount_amounts" name="discount_percents[]" value="'+ discount_price +' " /><input type="hidden" id="dpr'+ p_id +'" pd-id="'+ p_id +'" name="discount_prices[]" value="'+ discount_price +' " /></td>' +
-                        '<td >'+ product.tax.percent +' %<input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ product.tax.percent +'" /></td>' + 
+                        '<td >'+ selectTax +'</td>' + 
                         '<td ><i class="fa fa-inr"></i> <span>'+ amount_price_taxed +'</span><input type="hidden" id="ta'+ p_id +'" name="totals[]" class="total" value="'+ amount_price_taxed +'" /> </td>' +
                      '</tr>';
             
@@ -264,7 +272,7 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
         }
         else
         {
-            $('#grandTotal').html('0.00 <input type="hidden" name="grandTotal" value="0.00" />')
+            $('#grandTotal').html('0.00 <input type="hidden" name="grandTotal" value="0.00" />');
         }
 
     }
@@ -276,6 +284,8 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 $('#'+variables).val('');
         });
         $('#projectItemsList').html("");
+        $('#tableLastTransaction').hide();
+        $('#complete_sale').prop('disabled', false);
         grandTotal();
     });
 
@@ -335,6 +345,25 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     
     grandTotal();   
     });
+
+    /*
+    *   calculate price for tax
+    */
+    $( "table#project_sales" ).on( "change",".tax", function() {
+        
+        tax_percent = $(this).val();
+        
+        if( tax_percent != "" ){
+           var pd_id = $(this).attr('pd-id');
+           MasterCalculation(pd_id);
+        }
+        else
+        {
+            //$(this).val(1).delay(1500);
+        }
+    
+    grandTotal();   
+    });
     
     
     /*
@@ -346,6 +375,48 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             MasterCalculation(pd_id);
         });
     }
+
+    function discountAccess() 
+    {
+        if(parseFloat($('#cg_discount_percent').val()) <= 0)
+        {
+            $('#discountAccess').show();
+        }
+        else
+        {
+            $('#discountAccess').hide();
+        }
+    }
+    discountAccess();
+
+
+    $( "body" ).on( "click","#access_code", function() {
+        $.get(base_url + "pos/sales/accessCode",function (response) {
+            if(response == 1){
+                $('#access_code').html('Verify');
+                $('#access_code').attr('id','verifyCode');
+                $('#cg_discount_percent').attr('type','text');
+                $('#cg_discount_percent').val('');
+            }
+        }); 
+    });
+
+    $( "body" ).on( "click","#verifyCode", function() {
+        var code = $('#cg_discount_percent').val();
+        $.post(base_url + "pos/sales/discountCodeVerification",{ verification_code:code },function (response) {
+            if(response == 1){
+                $('#verifyCode').html('Apply');
+                $('#verifyCode').attr('id','applyDiscount');
+                $('#cg_discount_percent').val('');
+            }
+        });
+    });
+
+    $( "body" ).on( "click","#applyDiscount", function() { 
+        var discount_percentage = $('#cg_discount_percent').val();
+        discount();
+        grandTotal();
+    });
 
 
     /*
@@ -432,11 +503,27 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             });
     }
 
+    /* payment of due payments.*/
+    function payNow(btnObj,psid,amount) {
+
+        $(btnObj).parent().text('payed');
+
+        $.post('pos/sales/duepayment',{psid:psid,amount:amount},function (response) {
+
+            alert(response);
+            var payed = $('#tableLastTransaction tbody').find('.notpayed').length;
+            if(payed < 1)
+            {
+                $('#complete_sale').prop('disabled', false);
+            } 
+        });
+    }
+
 
     /*
     *   Miscellaneous 
     */
-    $("table").on("change",".payment_status:radio", function(e){  
+    $("table").on("change",".payment_status:radio", function(){  
        if($(this).val() == 2) {
             $('#amount_paid_row').show();
        }
@@ -444,4 +531,20 @@ $('.product_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             $('#amount_paid_row').hide();
        }
     });
+
+
+    /* 
+    *   delivery address editable; show hide
+    */
+
+    $("table").on("click","#deliver", function(e)
+    {  
+        if($('input[name="deliver"]:checked').length == 1){
+            $('#d_address').addClass('hidden');
+        }else{
+            $('#d_address').removeClass('hidden');
+        }
+    });
+
+
 

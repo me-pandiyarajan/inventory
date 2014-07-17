@@ -17,17 +17,22 @@
 				<hr>
 				<div class="col-md-6">
 					<h3>FOR APPROVAL</h3>
-					<h2 class="txt-thick-big"> {<?php echo $forApproval; ?>} </h2>
+					<a href="<?php echo base_url();?>inventory/Product/newproductlist"><h2 class="txt-thick-big"> {<?php echo $forApproval; ?>} </h2></a>
 				</div>
 				<div class="col-md-6">
 					<h3>BELOW SAFETY LEVEL</h3>
-					<h2 class="txt-thick-big"> {<?php echo $belowSaftyLevel; ?>} </h2>
+					<a href="<?php echo base_url();?>inventory/Product/safetystocklevellist"><h2 class="txt-thick-big"> {<?php echo $belowSaftyLevel; ?>} </h2></a>
 				</div>	
 
 
-				<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-6 ">
 					<h3>TOTAL PRODUCTS</h3>
-					<h2 class="txt-thick-big"> {<?php echo $totalProducts; ?>} </h2>
+					<a href="<?php echo base_url();?>inventory/Product/productlist"><h2 class="txt-thick-big"> {<?php echo $totalProducts; ?>}  </h2></a>
+				</div>	
+				<div class="col-md-6 ">
+					<h3>TO BE ORDERED</h3>
+
+					<a href="<?php echo base_url();?>inventory/product/tobeordered"><h2 class="txt-thick-big text-danger">{<?php echo $outofstock ; ?>} </h2></a>
 				</div>				
 		</div> 
 							
@@ -59,14 +64,14 @@
 	</div>
 
 	<div class="col-md-12">
-		<div class="col-md-6 panel panel-default text-center">	
+		<!--<div class="col-md-6 panel panel-default text-center">	
 			<p>SUPPLIER</p>
 			<span class="text-success">ACTIVE</span>
-			<span class="size-medium"><?php echo $supplierCount['active']; ?></span>
+			<span class="size-medium"><?php //echo $supplierCount['active']; ?></span>
 			<span class="size-large">|</span>
-			<span class="size-medium"><?php echo $supplierCount['inactive']; ?></span>
+			<span class="size-medium"><?php// echo $supplierCount['inactive']; ?></span>
 			<span class="text-danger">INACTIVE</span>
-		</div>
+		</div>-->
 
 		<div class="col-md-6 panel panel-default text-center">	
 			<p>DATA ENTRY OPERATOR</p>

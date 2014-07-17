@@ -29,13 +29,14 @@ class Feedback extends CI_Controller {
 		$this->load->view($menu);
 		$this->load->view('pos/footer/footer');
 	}
-  /* feedback list*/
+
+  	/* feedback list*/
 	public function feedbacklist()
 	{ 
 	    $data['feedback_list'] = $this->em->getRepository('models\pos_ws\PosWsFeedback')->findAll();
 	    $header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$menu = $this->navigator->getMenuPos();
-		$data['tablehead'] = array('Feedback ID','Customer EmailID','Satisfactory Level','Created By','Action');
+		$data['tablehead'] = array('Feedback ID','Customer Name','Satisfactory Level','Created By','Action');
 		$this->load->view('pos/header/header', $header);
 		$this->load->view($menu);
 		$this->load->view('pos/feedback/feedbacklist',$data);

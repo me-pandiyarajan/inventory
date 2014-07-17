@@ -30,6 +30,7 @@ class purchase extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 
+
 	/*
 	 *	create_new_estimate
 	 */
@@ -169,14 +170,13 @@ class purchase extends CI_Controller {
 			            $this->em->flush();
 
 						$emaildata['productdata'][] = array(
-						   		 		'sku'=>$sku,
-						   		 		'productname'=>$productname,
-						   		 		'description'=>$description,
-						   		 		'quantity'=>$quantity,
-						   		 		'dimension'=>$dimension,
-						   		 		'design'=>$designShade
+						   		 		'sku'			=>$sku,
+						   		 		'productname'	=>$productname,
+						   		 		'description'	=>$description,
+						   		 		'quantity'		=>$quantity,
+						   		 		'dimension'		=>$dimension,
+						   		 		'design'		=>$designShade
 						   		 		);
-   	        	 
 		   			}
 
 		            /* create estimate pdf and send mail*/
@@ -187,13 +187,11 @@ class purchase extends CI_Controller {
 
 		            $html = $this->load->view('inventory/email_template/estimate_template', $emaildata, true);
 
-
 	 	    		$data = pdf_create($html, $estimate_name_file,false);
-
 
 					if(!write_file("assets_inv/estimations/".$estimate_name_file, $data))
 					{
-					     echo 'Unable to write the file';
+					    echo 'Unable to write the file';
 					}
 
 					
@@ -283,7 +281,7 @@ class purchase extends CI_Controller {
 	*
    */
 	public function updateestimate()
-		{
+	{
 		$this->navigator->mustBeAdminOrSAdmin();
 		$this->load->helper('form');
 		$this->load->helper('url');
@@ -453,7 +451,7 @@ class purchase extends CI_Controller {
 		   {
 			 echo $e->getMessage();
 		   }
-	 }
+	 	}
 	}
 
 
@@ -464,11 +462,62 @@ class purchase extends CI_Controller {
 		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$group_id = $this->ion_auth->GetUserGroupId();
 		$menu = $this->navigator->getMenuInventory();
-        $data['product'] = $this->em->getRepository('models\inventory\products')->find($id);
-			$this->load->view('inventory/general/header', $header);
-			$this->load->view($menu);
-			$this->load->view('inventory/purchase/productestimate',$data);
-			 $this->load->view('inventory/general/footer');
+        $products = $this->em->getRepository('models\inventory\products')->findBy(array('productGenId'=>$id));
+
+        $est_products = array();
+
+		foreach ($products as $product) 
+		{
+			$p_id 	= $product->getProductGenId();
+	        
+	        $p_name = $product->getSuppplierProductName();
+
+	        $plu 	= $product->getProductIdPlu();
+	        $supplierId = $product->getSuppliersSupplier()->getSupplierId();
+	        $design = $product->getSupplierDesignName();
+	        $shade  = $product->getSupplierShadeName();
+	        $desc 	= $product->getDescription();
+	        $quan 	= $product->getQuantity();
+	        
+	        $width 	= $product->getWidth();
+	        $length = $product->getLength();
+	        $height = $product->getHeight();
+	        $dimension = array();
+
+	        if($width != 0)
+	            $dimension[] = " ".$width."W ";
+
+	        if($length != 0)
+	            $dimension[] = " ".$length."L ";
+
+	        if($height != 0)
+	            $dimension[] = " ".$height."H ";
+
+	        $dimensions = implode('x', $dimension);
+
+	        isset($dimensions) ? $dimensions = $dimensions : $dimensions = $dimensions." ".$product->getDimenUnit();
+
+	        
+	        $est_product_details = array( 'p_id' => $p_id,
+	        							  'supplierId' => $supplierId,
+	        							  'p_name' => $p_name,
+	        							  'desc'  => $desc,
+	        							  'design' => $design,
+	        							  'shade' => $shade,
+	        							  'dimensions' => $dimensions,
+	        							  'quan' => $quan
+	        							 );
+
+	        array_push( $est_products, $est_product_details );
+		}
+
+		$data['products'] = $est_products;		        
+
+
+		$this->load->view('inventory/general/header', $header);
+		$this->load->view($menu);
+		$this->load->view('inventory/purchase/productestimate',$data);
+		$this->load->view('inventory/general/footer');
 	
 	}
 

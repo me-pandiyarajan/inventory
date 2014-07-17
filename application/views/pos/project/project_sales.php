@@ -12,7 +12,7 @@
        
     <div class="col-lg-12">
         <?php echo validation_errors();   
-          if(!empty($success)) echo $success; ?>
+        if(!empty($success)) echo $success; ?>
         <?php 
            $attributes = array('class' => 'form-horizontal', 'id' => 'general');
            echo form_open_multipart($form_action,$attributes);
@@ -60,9 +60,9 @@
         </div>
 
 
-    <div >
+    <div class="col-xs-7">
         
-        <div class="row col-xs-7">
+        <div class="row col-xs-6">
             <address >
               <strong>To:</strong><br>
               <strong><span id="customer_name_show"></span></strong><br>
@@ -72,23 +72,31 @@
               <span id="customer_phone_show"></span><br>
               <span id="customer_email_show"></span><br>
             </address>
+        </div>
+        <div class="row col-xs-6">
+             <address >
+              <strong>Delivery Address:</strong><br>
+              <span id="d_address" class="hidden"> <textarea class="form-control" rows="4" name="d_address_txt" id="d_address_txt" ></textarea> </span>
+            </address>
+        </div>
 
-            <div class="row">
-                <table class="table table-bordered" id='tableLastTransaction'>
-                    <thead>
+        <div class="row">
+            <table class="table table-bordered" id='tableLastTransaction'>
+                <thead>
+                    <tr>
                         <th>Payment Id</th>
                         <th>Due Amount</th>
                         <th>Date</th>
                         <th>Action</th>
-                    </thead>
-                    <tbody id="dueList">
-                        
-                    </tbody>
-                </table>
-            </div>
-
-
+                    </tr>
+                </thead>
+                <tbody id="dueList">
+                    
+                </tbody>
+            </table>
         </div>
+
+    </div>
 
         <div class="row col-xs-5 pull-right">
 
@@ -126,10 +134,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Tendered by</th>
+                        <th>Mode of Payment</th>
                         <td class="control-group"> 
                             <?php 
-                                $options = array(' '=>'Select payment type','1' => 'Cash','2' => 'Cheque', '3' => 'DD', '4' => 'Card'); 
+                                $options = array(' '=>'Select mode of payment','1' => 'Cash','2' => 'Cheque', '3' => 'Card'); 
                                 echo form_dropdown('paymentType', $options,set_value('paymentType'),'class="form-control"');
                             ?>
                         </td>
@@ -150,10 +158,23 @@
                                 <input type="text" name="amount_paid" id="amount_paid" class="form-control" /> 
                             </div>
                         </td>
-                    </tr>  
+                    </tr>
+                    <tr>
+                        <th>Delivery</th>
+                        <td class="control-group"> 
+                            <input type="checkbox" name="deliver" id="deliver" checked /> Now
+                        </td>
+                    </tr>
+                    <tr id="discountAccess">
+                        <th>Discount</th>
+                        <td class="control-group"> 
+                            <input type="hidden" class="form-control col-xs-8" id="cg_discount_percent" name="discount" value="0.00" />
+                            <a class="btn btn-success btn-sm" id="access_code"  >Request</a>
+                        </td>
+                    </tr> 
                 </table>
             
-                <button class="btn btn-success btn-lg col-xs-12" type="submit" >Complete Sale</button>
+                <button class="btn btn-success btn-lg col-xs-12" id="complete_sale" type="submit" >Complete Sale</button>
 
         </div>
             

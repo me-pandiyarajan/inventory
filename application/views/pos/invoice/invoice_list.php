@@ -3,10 +3,11 @@
         <div class="col-lg-12">
           <h2 class="page-header">Invoice List</h2>
 		 </div>
-		  <?php if ( $this->session->flashdata('cancelvoid') ) echo $this->session->flashdata('cancelvoid'); ?>
+
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
+    <?php if ( $this->session->flashdata('delivered') ) echo $this->session->flashdata('delivered'); ?>
     <div class="row">
          <!-- /.dynamic content -->
             <div class="col-lg-12">
@@ -20,15 +21,7 @@
             <tbody role="alert" aria-live="polite" aria-relevant="all">
 			<?php foreach($invoice_details as $invoice): ?> 			
 			<tr>		
-				<td> 
-				<?php 
-					if($invoice->getStatus() == 0){
-						echo '<span class="label label-danger">'.$invoice->getInvoiceNumber().' VOID </span>';
-					} else {
-						echo $invoice->getInvoiceNumber();
-					}
-				 ?>
-				</td>
+				
 				<td>
 					<?php 
 					if($invoice->getPosCustomerCustomer() != null){
@@ -37,12 +30,34 @@
 					?>
 				</td>
 				<td><?php echo date("d-m-Y", $invoice->getCreatedDate()); ?></td>
+				<?php 
+					$status = $invoice->getStatus();
+					if ($status == 0) 
+					{ 
+					$stat = '<span class="label label-danger">Void</span>';
+					
+					}
+					elseif ($status == 1)
+					{
+					$stat = '<span class="label label-success">Delivered</span>';	
+					}					
+					else 
+				    {
+					$stat = '<span class="label label-info">In-Progress</span>';
+
+				  
+					}
+					?>		
+					<td> <?php echo $stat;?></td>
 				<td>
 				<div class="btn-group">
 				 <a type="button" href="<?php echo site_url()."pos/invoice/view_invoice/".$invoice->getInvoiceid();?>" class="btn btn-info btn-outline btn-xs">View Invoice</a>
+				<?php if($status == 2) : ?> 
+				<a type="button" href="<?php echo site_url()."pos/invoice/Delivered/".$invoice->getInvoiceid();?>" class="btn btn-info btn-outline btn-xs">Delivered</a>
+				<?php endif;	?>
 				</div>
 				</td>
-			</tr>	
+				</tr>	
 			<?php endforeach; ?>
 			</tbody>
 			</table>

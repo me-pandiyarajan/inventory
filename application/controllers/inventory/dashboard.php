@@ -42,7 +42,7 @@ class Dashboard extends CI_Controller {
 		$data['forApproval'] =  $this->forApproval();
 
 		$data['productsCount'] = $this->productsCount($header['user_data']['id'],$group_id);
-		$data['totalProducts'] = $this->totalProducts();
+		$data['totalProductsdeo'] = $this->totalProductsdeo();
 
 		$this->load->view('inventory/general/header', $header);
 		$this->load->view($menu);
@@ -66,7 +66,7 @@ class Dashboard extends CI_Controller {
 		$data['delivered'] = $this->delivered($header['user_data']['id'],$group_id);
 		$data['productsCount'] = $this->productsCount($header['user_data']['id'],$group_id);
 		$data['totalProducts'] = $this->totalProducts();
-
+		$data['outofstock'] = $this->out_of_stock();
 		$this->load->view('inventory/general/header', $header);
 		$this->load->view($menu);
 		$this->load->view('inventory/dashboard/admindashboard',$data);
@@ -90,7 +90,7 @@ class Dashboard extends CI_Controller {
 		$data['productsCount'] = $this->productsCount($header['user_data']['id'],$group_id);
 		$data['totalProducts'] = $this->totalProducts();
 		$data['updateproductcount'] = $this->updateproductcount();
-
+		$data['outofstock'] = $this->out_of_stock();
 
 		$this->load->view('inventory/general/header', $header);
 		$this->load->view($menu);
@@ -162,7 +162,14 @@ class Dashboard extends CI_Controller {
 		$ProductsCount = $this->em->getRepository('models\inventory\Products')->findBy(array('approved' => 1,'deleted' => 0));
 		return count($ProductsCount);
 	}
-
+    public function totalProductsdeo()
+	{
+	   $header['user_data']=$this->ion_auth->GetHeaderDetails();
+	    $user_id = $this->em->getRepository('models\inventory\Users')->find($header['user_data']);
+		$totalProductdeo= $data =$this->em->getRepository('models\inventory\products')->findBy(array('createdBy' => $user_id,'deleted' => 0)); 
+		
+		return count($totalProductdeo);
+	}
 	public function forApproval()
 	{
 		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
@@ -275,6 +282,35 @@ class Dashboard extends CI_Controller {
             return count($delivered);
 		}
         
+	}
+
+	public function out_of_stock()
+	{
+		  $product_gen_id = array();
+		  $outofstock = 0;
+	      $invoices =$this->em->getRepository('models\pos\PosInvoices')->findBy(array('status' =>2));
+          foreach ($invoices as $invoice) {
+
+          		 $invoice_id   = $invoice->getInvoiceid();
+           		 $product_sales =$this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_id));
+           		 
+           		 foreach ($product_sales as $product_sale) {
+
+           		 	$product_id  = $product_sale->getProductsProductGen()->getProductGenId();
+           		 	$product_stock  = $product_sale->getProductsProductGen()->getStockAvailability();
+           		 	
+					$product_gen_id[] = $product_id;
+					
+           		 	if($product_stock == 0)
+           		 	{
+                         $outofstock++;
+           		 	}
+           		 	
+           		 }
+
+           }
+           	 
+             return $outofstock;
 	}
 
 }

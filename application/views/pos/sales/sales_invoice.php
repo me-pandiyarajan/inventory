@@ -141,6 +141,12 @@
                             ?>
                         </td>
                     </tr>
+                    <tr>
+                        <th>Delivery</th>
+                        <td class="col-xs-6 control-group"> 
+                            <?php if(isset($deliver)){ echo "NOW"; }else{ echo "LATER"; }   ?>
+                        </td>
+                    </tr>
                 </table>
 
             </div>
@@ -162,7 +168,7 @@
         <div class="row">
 
             <div class="col-xs-3 col-xs-offset-1">
-                <a class="btn btn-danger btn-lg col-xs-12 pull-right" href="pos/sales"  >Cancel</a> 
+                <a class="btn btn-danger btn-lg col-xs-12 pull-right" href="pos/sales/Sale" > Cancel </a> 
             </div>
 
             <div class="col-xs-3">
@@ -215,7 +221,7 @@ jQuery(document).ready(function($) {
   }*/
  
   //initiates print once content has been loaded into iframe
-  function callPrint() {
+ /* function callPrint() {
     var _this = this,
           iframeId = 'iframeprint',
           $iframe = $('iframe#iframeprint');
@@ -227,7 +233,7 @@ jQuery(document).ready(function($) {
       PDF.contentWindow.print();
   }
   callPrint();
-});
+});*/
 
    /* $(function() {
 

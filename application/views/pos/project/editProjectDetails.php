@@ -10,8 +10,8 @@
 
 	<div class="col-lg-12">
 		<?php 
-					$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id'=>'edit-project');
-					echo form_open($form_action,$attributes); 
+			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id'=>'edit-project');
+			echo form_open($form_action,$attributes); 
 		?>
 		
 	<div class="form-group">

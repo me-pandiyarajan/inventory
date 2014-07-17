@@ -27,7 +27,7 @@
 				<td class="align-center "><?php echo $datum->getSku();?></td>
 				<td class="align-center "><a href="productDetails/<?php echo $datum->getproductGenId();?>/productview"><?php echo $datum->getProductName();?></a></td>
 				<td class="align-center "><?php echo $Category; ?></td>
-				<td class="align-center "><?php echo $datum->getCreatedDate()->format('d-m-y H:i:s');?></td>
+				<td class="align-center "><?php $data= $datum->getCreatedDate();echo date("m-d-Y", $data);?></td>
 				<td class="align-center"><div class="btn-group">
 			    <a class="btn btn-primary btn-xs" href="productDetails/<?php echo $datum->getproductGenId();?>/productedit">Edit</a>
 			    <a class="btn btn-primary btn-xs" href="">Delete</a>

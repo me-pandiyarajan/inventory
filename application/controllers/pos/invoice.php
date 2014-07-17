@@ -33,6 +33,22 @@ class Invoice extends CI_Controller {
 		$this->load->view('pos/invoice/invoice_list',$data);
 		$this->load->view('pos/footer/footer');
    	}
+/* deliverd invoice*/
+
+   	public function delivered($invoice_id)
+	{ 
+        $header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$group = $this->ion_auth->GetUserGroupId();
+		$menu = $this->navigator->getMenuInventory();
+		$data['void_status'] = $void = $this->em->getRepository('models\pos\PosInvoices')->find($invoice_id);
+		$created_date = new\DateTime("now");
+		$void->setCreatedDate($created_date->getTimestamp());
+		$void->setStatus(1);
+		$this->em->persist($void);
+		$this->em->flush();
+		$this->session->set_flashdata('delivered','<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>delivered Successful</b></div>');
+		redirect('pos/invoice/invoice_list'); 
+	}
  	
  	/* invoice view*/  
 	public function view_invoice($invoice_id)
@@ -96,23 +112,11 @@ class Invoice extends CI_Controller {
 					$header = $this->ion_auth->GetHeaderDetails();
 					$user = $this->em->getRepository('models\pos\Users')->find($header['id']);
 					$data['invoice_superadmin'] = $invoice_superadmin = $this->em->getRepository('models\pos\PosInvoices')->findBy(array('createdBy' => $user,'status' =>array(1,2)));
-					  $data['void_invoices'] = $this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_superadmin));
-				   // var_dump($data['void_invoices']);exit;
-					//var_dump($invoice_superadmin);exit;
-				  /*  foreach($data['invoice_superadmin'] as $sa_invoiceid)
-					{
-				    $invoiceid = $sa_invoiceid->getInvoiceid();
-				   // var_dump($invoiceid);exit;
-				    $data['void_invoices'] = $this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_superadmin));
-				   // var_dump($data['void_invoices']);
-				    } */
-					//$data['customer_details'] = $customer = $this->em->getRepository('models\pos\PosInvoices')->findBy(array('invoiceid' => $invoice_superadmin));  
-					break;
+					$data['void_invoices'] = $this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_superadmin));
+				  	break;
 				case 12:
 					$data['visiblity'] = 2;
-					 $queryDate = strtotime("today"); 
-					 //$unitxtime = time();
-					// $status = array(1, 2);
+					$queryDate = strtotime("today"); 
 				    $data['invoice']	= $invoice = $this->em->getRepository('models\pos\PosInvoices')->createQueryBuilder('i')
 									->where('i.createdBy = :id')
 									->setParameter('id', $header['user_data']['id'])
@@ -124,7 +128,7 @@ class Invoice extends CI_Controller {
 									->setMaxResults(3)
 									->getQuery()
 									->getResult();
-									//var_dump($invoice);exit;
+									
 					/*get invoice id */
 					//
 					$invoiceid = $invoice[0]->getInvoiceid();
@@ -242,8 +246,15 @@ class Invoice extends CI_Controller {
 					$base_amount = $quantity * $unitprice;
 
 					$discount_price = ($base_amount * ($discount/100));
-			    
-				
+			   	    $product_return = $this->em->getRepository('models\pos\PosDamaged')->findByproductsProductGen($genid);	
+					$products_damaged = $this->em->getRepository('models\pos\PosReturn')->findByproductsProductGen($genid);	
+					
+					if (count($product_return) >=1 || count($products_damaged) >=1) {
+					# code...
+				   }
+				   else
+				  {
+
 					$invoice_detail = array(	"InvoiceId"=> $invoiceid,
 					                            "productId"=> $genid,				 	                 
 						 						"Plu"=> $plu,
@@ -260,7 +271,9 @@ class Invoice extends CI_Controller {
 						 						"Total"=>$total
 						 						); 
 					array_push($invoicelist,$invoice_detail);
-				}	
+				}
+			}	
+
                // echo json_encode($invoicelist);
 			    $invoice = $this->em->getRepository('models\pos\PosInvoices')->findByInvoiceid($invoiceid);
                 

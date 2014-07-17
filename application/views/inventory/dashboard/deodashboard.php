@@ -23,12 +23,13 @@
 		 <div class="panel panel-default ht-5 text-center">
 			<div class="col-md-12">
 			<h3>REVERTED</h3>
-			<h2 class="txt-thick-big"> { <?php echo $productsCount['reverted']; ?> } </h2>
+
+			<a href="<?php echo base_url();?>inventory/Product/revertproductlist"><h2 class="txt-thick-big"> { <?php echo $productsCount['reverted']; ?> } </h2></a>
 			</div>
 
 			<div class="col-md-12">
 				<h3>TOTAL PRODUCTS</h3>
-				<h2 class="txt-thick-big"> { <?php echo $totalProducts; ?> } </h2>
+				<a href="<?php echo base_url();?>inventory/Product/deoproductlist"><h2 class="txt-thick-big"> { <?php echo $totalProductsdeo; ?> } </h2></a>
 			</div>			
 		</div>			
 	</div>

@@ -26,7 +26,7 @@
 							<td><?php echo $feedback->getCreatedBy()->getUsername(); ?></td>
 							<td>
 								 <div class="btn-group">
-								 <a type="button" href="<?php echo site_url()."pos/feedback/feedbackview/".$feedback->getFeedbackid();?>" class="btn btn-primary btn-xs">View command</a>
+								 <a type="button" href="<?php echo site_url()."pos/feedback/feedbackview/".$feedback->getFeedbackid();?>" class="btn btn-primary btn-xs">View comment</a>
 																 
 								</div>
                                 </td>

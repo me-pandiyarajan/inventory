@@ -65,9 +65,15 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                          });
                         break;
                     case 'customer_d_address':
+                        var fa = "";
                         $.each(value, function(field2,value2){
                             $('#'+field2).val(value2);
+                            fa = fa + value2 + "\n";
                          });
+                        $('#d_address_txt').text(fa);
+                        if($('input[name="deliver"]:checked').length == 0){
+                            $('#d_address').removeClass('hidden');
+                        }
                         break;
                     case 'customer_group':
                         $.each(value, function(field3,value3){
@@ -77,12 +83,12 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                     default:
                         $('#'+field).val(value);
                         break;
-                    }
-            
+                    }        
             });
 
            $('.dis_per').val($('#cg_discount_percent').val());
 
+        
            $('#customer_name_show').text($('#customer_name').val());
            $('#street_show').text($('#street').val());
            $('#city_show').text($('#city').val());
@@ -92,12 +98,12 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
            $('#customer_email_show').html('<abbr title="Email">E:</abbr> ' + $('#customer_email').val());
 
       discount();
-
+      discountAccess();
       grandTotal();
       });
 
 });
- 
+
 
 /*
 *  -----------------------------------------------------------------------------------------------------------------------------
@@ -117,6 +123,7 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
    
     function addProduct(product)
     {
+
         if(x <= MaxInputs) 
         {
             FieldCount++;
@@ -145,6 +152,11 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
 
                 var description = "<strong>" +product.p_name + "</strong><br><i>" + plu + "</i><br><br>" + product.desc; 
 
+                //var selectTax = <input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ product.tax.percent +'" />
+
+                var selectTax = '<select id="t'+ p_id +'" pd-id="'+ p_id +'"  class="form-control tax" name="taxs[]" >'+ product.tax_options +'</select>';
+
+
             newRow = '<tr>' +
                         '<td ><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
                         '<td >'+ description +' <input type="hidden"  id="descriptions" name="descriptions[]" value="'+ description +'" /> </td>' +
@@ -153,9 +165,11 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                         '<td ><i class="fa fa-inr"></i> '+ price +'<input type="hidden" id="p'+ p_id +'" name="prices[]" value="'+ price +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ amount +'</span><input type="hidden" id="a'+ p_id +'" pd-id="'+ p_id +'"  name="amounts[]" class="amount" value="'+ amount +'" /> </td>' +
                         '<td ><i class="fa fa-inr"></i> <span>'+ discount_price +'</span><input type="hidden" id="dp'+ p_id +'" pd-id="'+ p_id +'"  class="discount_amounts" name="discount_percents[]" value="'+ discount_price +' " /><input type="hidden" id="dpr'+ p_id +'" pd-id="'+ p_id +'" name="discount_prices[]" value="'+ discount_price +' " /></td>' +
-                        '<td >'+ product.tax.percent +' %<input type="hidden" id="t'+ p_id +'" name="taxs[]"  value="'+ product.tax.percent +'" /></td>' + 
+                        '<td >'+ selectTax +'</td>' + 
                         '<td ><i class="fa fa-inr"></i> <span>'+ amount_price_taxed +'</span><input type="hidden" id="ta'+ p_id +'" name="totals[]" class="total" value="'+ amount_price_taxed +'" /> </td>' +
                      '</tr>';
+
+
             
             $('.table > tbody#itemsList').append(newRow);
 
@@ -218,7 +232,7 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     grandTotal();   
     });
 
-
+    /* calculate on change of quantity */
     $( "table#sales" ).on( "blur",".quantity", function() {
         
         var pd_id = $(this).attr('pd-id');
@@ -254,6 +268,26 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     grandTotal();   
     });
     
+
+    /*
+    *   calculate price for tax
+    */
+    $( "table#sales" ).on( "change",".tax", function() {
+        
+        tax_percent = $(this).val();
+        
+        if( tax_percent != "" ){
+           var pd_id = $(this).attr('pd-id');
+           MasterCalculation(pd_id);
+        }
+        else
+        {
+            //$(this).val(1).delay(1500);
+        }
+    
+    grandTotal();   
+    });
+    
     
     /*
     *   apply discount
@@ -264,6 +298,49 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
             MasterCalculation(pd_id);
         });
     }
+
+    function discountAccess() 
+    {
+        if(parseFloat($('#cg_discount_percent').val()) <= 0)
+        {
+            $('#discountAccess').show();
+        }
+        else
+        {
+            $('#discountAccess').hide();
+        }
+    }
+    discountAccess();
+
+
+    $( "body" ).on( "click","#access_code", function() {
+        $.get(base_url + "pos/sales/accessCode",function (response) {
+            if(response == 1){
+                $('#access_code').html('Verify');
+                $('#access_code').attr('id','verifyCode');
+                $('#cg_discount_percent').attr('type','text');
+                $('#cg_discount_percent').val('');
+            }
+        }); 
+    });
+
+    $( "body" ).on( "click","#verifyCode", function() {
+        var code = $('#cg_discount_percent').val();
+        $.post(base_url + "pos/sales/discountCodeVerification",{ verification_code:code },function (response) {
+            if(response == 1){
+                $('#verifyCode').html('Apply');
+                $('#verifyCode').attr('id','applyDiscount');
+                $('#cg_discount_percent').val('');
+            }
+        });
+    });
+
+    $( "body" ).on( "click","#applyDiscount", function() { 
+        var discount_percentage = $('#cg_discount_percent').val();
+        discount();
+        grandTotal();
+    });
+
 
 
     /*
@@ -335,7 +412,6 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
     /*
     *   warning function
     */
-
     function alert_warning (message_content) {
        BootstrapDialog.show({
             title: '<i class="fa fa-warning fa-lg"></i>  Warning',
@@ -349,6 +425,19 @@ $('.customer_typeahead').bind('typeahead:selected', function(obj, datum, name) {
                 }]
             });
     }
+
+    /* 
+    *   delivery address editable; show hide
+    */
+
+    $("table").on("click","#deliver", function(e)
+    {  
+        if($('input[name="deliver"]:checked').length == 1){
+            $('#d_address').addClass('hidden');
+        }else{
+            $('#d_address').removeClass('hidden');
+        }
+    });
 
     
     

@@ -70,9 +70,21 @@ if ( $this->session->flashdata('ProductNot') ) echo $this->session->flashdata('P
 				<td class="align-center "><?php echo $Category; ?></td>
 				<td class="align-center "><?php echo $datum->getQuantity()." ".$datum->getUnit();?></td>
 				<td class="align-center "><?php echo $supplier;?></td>
-				<?php $status = $datum->getStatus();
-				if($status == 0 ){$stat ="DISABLE";}else{$stat ="ENABLE";}?>
-				<td class="align-center "><?php echo $stat;?></td>
+                 <?php 
+									$status = $datum->getStatus();
+									if ($status == 0) 
+									{ 
+									$stat = '<span class="label label-danger">Disable</span>';
+									
+									}
+														else 
+									{
+									$stat = '<span class="label label-success">Enable</span>';
+									}
+									?>					
+						<td class="align-center "><?php echo $stat;?></td>
+
+			
 						<?php 
 							if($visiblity == 1)
 							{

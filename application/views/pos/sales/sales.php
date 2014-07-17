@@ -60,7 +60,7 @@
     
     <div >
         
-        <div class="row col-xs-7">
+        <div class="row col-xs-3">
             <address >
               <strong>To:</strong><br>
               <strong><span id="customer_name_show"></span></strong><br>
@@ -69,6 +69,12 @@
               <span id="state_show"></span> <br>
               <span id="customer_phone_show"></span><br>
               <span id="customer_email_show"></span><br>
+            </address>
+        </div>
+        <div class="row col-xs-4">
+             <address >
+              <strong>Delivery Address:</strong><br>
+              <span id="d_address" class="hidden"> <textarea class="form-control" rows="4" name="d_address_txt" id="d_address_txt" ></textarea> </span>
             </address>
         </div>
 
@@ -106,18 +112,31 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Tendered by</th>
+                        <th>Mode of Payment</th>
                         <td class="control-group"> 
                             <?php 
-                                $options = array(' '=>'Select payment type','1' => 'Cash','2' => 'Cheque', '3' => 'DD', '4' => 'Card'); 
+                                $options = array(' '=>'Select mode of payment','1' => 'Cash','2' => 'Cheque','3' => 'Card'); 
                                 echo form_dropdown('paymentType', $options,set_value('paymentType'),'class="form-control"');
                             ?>
+                        </td>
+                    </tr>
+                     <tr>
+                        <th>Delivery</th>
+                        <td class="control-group"> 
+                            <input type="checkbox" name="deliver" id="deliver" checked /> Now
+                        </td>
+                    </tr>
+                    <tr id="discountAccess">
+                        <th>Discount</th>
+                        <td class="control-group"> 
+                            <input type="hidden" class="form-control col-xs-8" id="cg_discount_percent" name="discount" value="0.00" />
+                            <a class="btn btn-success btn-sm" id="access_code"  >Request</a>
                         </td>
                     </tr>
                 <!-- <tr>
                         <td colspan="2" class="form-group text-center">        
                         <label class="radio-inline">
-                            <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
+                        <input id="payment_status1" type="radio" required value="1" name="payment_status">Fully Payment</label>
                         <label class="radio-inline">
                         <input id="payment_status2" type="radio" required value="2" name="payment_status">Partial Payment</label>
                         </td>

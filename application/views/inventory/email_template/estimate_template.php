@@ -120,7 +120,6 @@
       <table class="table_style">
         <thead >
         <tr>
-          <th>SKU</th>
           <th>Product name</th>
           <th>Description</th>
           <th>Design/Shade</th>
@@ -132,7 +131,7 @@
         
           <?php for($i=0; $i < count($productdata) ; $i++) : ?>
           <tr>
-            <td><?php echo $productdata[$i]['sku']; ?></td>
+            <!-- <td><?php //echo $productdata[$i]['sku']; ?></td> -->
             <td><?php echo $productdata[$i]['productname']; ?></td>
             <td><?php echo $productdata[$i]['description']; ?></td>
             <td><?php echo $productdata[$i]['design']; ?></td>

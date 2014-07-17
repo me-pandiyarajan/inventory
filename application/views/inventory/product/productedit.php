@@ -137,6 +137,14 @@
           </div>
 
        </div>
+       <div class="col-xs-6">
+            <div class="form-group">
+              <label class="control-label col-xs-4" for="sPrice">Supplier Price</label>
+              <div class="col-xs-8">
+                <input type="text" class="form-control" required value="<?php echo $product->getSuppplierPrice(); ?>" id="sPrice" name="sPrice" placeholder="Supplier Price">
+              </div>
+          </div>
+        </div>
         </div>
           <?php if($visiblity == 1) : ?>
           <legend>Price</legend>
@@ -269,6 +277,12 @@
              <input type="text" class="form-control" value="<?php echo $product->getLength();?>" id="length" name="length"  placeholder="Length">
             </div>
           </div>
+          <div class="form-group">
+          <label class="control-label col-xs-4" for="measured_by">Measured By</label>
+          <div class="col-xs-8">
+           <input type="text" class="form-control" value="<?php echo set_value("measured_by"); ?>" id="measured_by" name="measured_by"  placeholder="Measured By">
+          </div>
+        </div>
       </div>
 
       <!-- right -->
@@ -297,6 +311,7 @@
              <input type="text" class="form-control" value="<?php echo $product->getHeight(); ?>" id="height" name="height" placeholder="Height">
             </div>
        </div>
+
      </div>
    </div>
      <legend>Design</legend>

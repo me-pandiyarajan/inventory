@@ -200,9 +200,6 @@ class TaxClass extends CI_Controller {
 	}
 
 
-
-	
-
 	/*
 	* 	Tax delete
 	*/

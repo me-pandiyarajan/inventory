@@ -48,6 +48,12 @@ class PosReturn
      */
     private $discount;
 
+    /**
+     * @var float $unitprice
+     *
+     * @Column(name="unitprice", type="float", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $unitprice;
 
     /**
      * @var integer $createdDate
@@ -164,7 +170,7 @@ class PosReturn
    /** Set discount
      *
      * @param float $discount
-     * @return PosDamaged
+     * @return PosReturn
      */
     public function setDiscount($discount)
     {
@@ -181,6 +187,29 @@ class PosReturn
     {
         return $this->discount;
     }
+
+     /**
+     * Set unitprice
+     *
+     * @param float $unitprice
+     * @return PosReturn
+     */
+    public function setUnitprice($unitprice)
+    {
+        $this->unitprice = $unitprice;
+        return $this;
+    }
+
+    /**
+     * Get unitprice
+     *
+     * @return float 
+     */
+    public function getUnitprice()
+    {
+        return $this->unitprice;
+    }
+
 
     /**
      * Set createdDate

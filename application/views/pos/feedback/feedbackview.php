@@ -10,7 +10,7 @@
     <div class="col-lg-12">
 	<?php foreach($feedback as $feedbacks): ?> 
 		<div class="form-group" >
-            <label class="control-label col-xs-3" for="command"><b>Commands:</b></label>
+            <label class="control-label col-xs-3" for="command"><b>comment:</b></label>
 			  <p><?php echo $feedbacks->getComments(); ?></p>
         </div>
 	<?php endforeach; ?>		

@@ -487,6 +487,18 @@ class Project extends CI_Controller {
 
 						$base_amount = $quantity * $price;
 
+						/* 
+						* all tax
+						*/
+						$taxes = $this->em->getRepository('models\pos\PosTax')->findBy(array('status' => 1));
+						$taxOptions = '<option value="0">Select Tax</option>';
+						if($taxes != null) {
+							foreach ($taxes as $tax) {
+								$taxOptions .= '<option value="'. $tax->getTaxPercent() .'">'. $tax->getTaxClassName() .' ( '. $tax->getTaxPercent() .'% ) </option>';
+							}
+						}
+						/*------all tax end------------*/
+
 						$unsold_detail = array(
 						 	                    "ProductId"=>$genid,
 						 						"Plu"=>$plu,
@@ -500,7 +512,8 @@ class Project extends CI_Controller {
 						 						"Amount"=> number_format($base_amount, 2),
 						 						"Discount"=> "0.00",
 										        "Tax"=> $tax,
-						 						"Total"=> number_format($total, 2)
+						 						"Total"=> number_format($total, 2),
+						 						"tax_options" => $taxOptions
 						 						); 
 						array_push($unsold_list,$unsold_detail);	
 					}
@@ -590,7 +603,6 @@ class Project extends CI_Controller {
 
 						
 						$createdDate = $transactions->getCreatedDate();
-
 
 						$last_transaction['partPaymentDetails'][] = array('paymentSlipId' => $payment_slip_id,
 													 					  'createdDate'	  => date('d-M-Y',$createdDate),

@@ -543,10 +543,46 @@ class Products extends \models\inventory\Products implements \Doctrine\ORM\Proxy
         return parent::getApprovedBy();
     }
 
+    public function setSuppplierPrice($suppplierPrice)
+    {
+        $this->__load();
+        return parent::setSuppplierPrice($suppplierPrice);
+    }
+
+    public function getSuppplierPrice()
+    {
+        $this->__load();
+        return parent::getSuppplierPrice();
+    }
+
+    public function setSuggestion($suggestion)
+    {
+        $this->__load();
+        return parent::setSuggestion($suggestion);
+    }
+
+    public function getSuggestion()
+    {
+        $this->__load();
+        return parent::getSuggestion();
+    }
+
+    public function setMeasuredBy($measuredBy)
+    {
+        $this->__load();
+        return parent::setMeasuredBy($measuredBy);
+    }
+
+    public function getMeasuredBy()
+    {
+        $this->__load();
+        return parent::getMeasuredBy();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'productGenId', 'productIdPlu', 'sku', 'barcodeimage', 'productName', 'description', 'shortDescription', 'status', 'countryOfManufacture', 'price', 'specialPriceFrom', 'specialPriceTo', 'installationCharges', 'uploadImage', 'quantity', 'unit', 'material', 'stockAvailability', 'safetyStockLevel', 'posStockLevel', 'dimenUnit', 'weight', 'width', 'length', 'height', 'designName', 'shade', 'productActivated', 'approved', 'approvedDate', 'deleted', 'createdDate', 'lastUpdatedDate', 'suppplierProductName', 'supplierDesignName', 'supplierShadeName', 'categoriesCategory', 'posTaxTaxClass', 'suppliersSupplier', 'createdBy', 'lastUpdatedBy', 'approvedBy');
+        return array('__isInitialized__', 'productGenId', 'productIdPlu', 'sku', 'barcodeimage', 'productName', 'description', 'shortDescription', 'status', 'countryOfManufacture', 'price', 'specialPriceFrom', 'specialPriceTo', 'installationCharges', 'uploadImage', 'quantity', 'unit', 'material', 'stockAvailability', 'safetyStockLevel', 'posStockLevel', 'dimenUnit', 'weight', 'width', 'length', 'height', 'designName', 'shade', 'productActivated', 'approved', 'approvedDate', 'deleted', 'createdDate', 'lastUpdatedDate', 'suppplierProductName', 'supplierDesignName', 'supplierShadeName', 'suggestion', 'suppplierPrice', 'measuredBy', 'categoriesCategory', 'posTaxTaxClass', 'suppliersSupplier', 'createdBy', 'lastUpdatedBy', 'approvedBy');
     }
 
     public function __clone()

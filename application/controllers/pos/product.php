@@ -71,71 +71,85 @@ function __construct()  {
 			}
 	}
 
-		/*
-		* AjaxCall: get product Details
-		* ---------------------
-		* input : id
-		*
-		*/
-		public function ajaxProductDetails($productId)
+	/*
+	* AjaxCall: get product Details
+	* ---------------------
+	* input : id
+	*
+	*/
+	public function ajaxProductDetails($productId)
+	{
+
+	try {
+		
+		$product = $this->em->getRepository('models\inventory\Products')->find($productId);
+
+		$product_detail['productId'] = $productId;
+		$product_detail['p_name'] = $product->getProductName();
+		$product_detail['plu'] = $product->getProductIdPlu();
+		$product_detail['price'] = $product->getPrice();
+		$product_detail['unit'] = $product->getUnit();
+		$product_detail['desc'] = $product->getDescription();
+		$product_detail['ava_quan'] = $product->getQuantity(); 			// available quantity 
+		$product_detail['ssl'] = $product->getSafetyStockLevel();		// safety stock level
+		
+
+		if($product->getPosTaxTaxClass() != NULL)
 		{
-
-		try {
-			
-			$product = $this->em->getRepository('models\inventory\Products')->find($productId);
-
-			$product_detail['productId'] = $productId;
-			$product_detail['p_name'] = $product->getProductName();
-			$product_detail['plu'] = $product->getProductIdPlu();
-			$product_detail['price'] = $product->getPrice();
-			$product_detail['unit'] = $product->getUnit();
-			$product_detail['desc'] = $product->getDescription();
-			$product_detail['ava_quan'] = $product->getQuantity(); 		// available quantity 
-			$product_detail['ssl'] = $product->getSafetyStockLevel();		// safety stock level
-
-			if($product->getPosTaxTaxClass() != NULL)
-			{
-				$product_detail['tax']['id'] = $product->getPosTaxTaxClass()->getTaxClassId();
-				$product_detail['tax']['name'] = $product->getPosTaxTaxClass()->getTaxClassName();
-				$product_detail['tax']['percent'] = $product->getPosTaxTaxClass()->getTaxPercent();
-			}
-			else
-			{
-				$product_detail['tax']['id'] = null;
-				$product_detail['tax']['name'] = null;
-				$product_detail['tax']['percent'] = 0;
-			}
-
-			// $product_detail['design'] = $product->getDesignName();
-			// $product_detail['shade'] = $product->getShade();
-			
-			// $product_detail['quantity'] = $product->getQuantity()." ".$product->getUnit();
-
-			// $width = $product->getWidth();
-			// $length = $product->getLength();
-			// $height = $product->getHeight();
-
-			// $product_detail['dimension'] = array();
-
-			// if($width != 0)
-			// $product_detail['dimension'][] = " ".$width."W ";
-
-			// if($length != 0)
-			// $product_detail['dimension'][] = " ".$length."L ";
-
-			// if($height != 0)
-			// $product_detail['dimension'][] = " ".$height."H ";
+			$product_detail['tax']['id'] = $product->getPosTaxTaxClass()->getTaxClassId();
+			$product_detail['tax']['name'] = $product->getPosTaxTaxClass()->getTaxClassName();
+			$product_detail['tax']['percent'] = $product->getPosTaxTaxClass()->getTaxPercent();
+		}
+		else
+		{
+			$product_detail['tax']['id'] = null;
+			$product_detail['tax']['name'] = null;
+			$product_detail['tax']['percent'] = 0;
+		}
 
 
-			// $product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();
+		$taxes = $this->em->getRepository('models\pos\PosTax')->findBy(array('status' => 1));
+		
+		$taxOptions = '<option value="0">Select Tax</option>';
 
-			echo json_encode($product_detail);	
-			}
-			catch(Exception $e)
-			{
-				log_message('error',$e->getMessage());
+		if($taxes != null) {
+			foreach ($taxes as $tax) {
+				$taxOptions .= '<option value="'. $tax->getTaxPercent() .'">'. $tax->getTaxClassName() .' ( '. $tax->getTaxPercent() .'% ) </option>';
 			}
 		}
+		
+		$product_detail['tax_options'] = $taxOptions;
+
+		// $product_detail['design'] = $product->getDesignName();
+		// $product_detail['shade'] = $product->getShade();
+		
+		// $product_detail['quantity'] = $product->getQuantity()." ".$product->getUnit();
+
+		// $width = $product->getWidth();
+		// $length = $product->getLength();
+		// $height = $product->getHeight();
+
+		// $product_detail['dimension'] = array();
+
+		// if($width != 0)
+		// $product_detail['dimension'][] = " ".$width."W ";
+
+		// if($length != 0)
+		// $product_detail['dimension'][] = " ".$length."L ";
+
+		// if($height != 0)
+		// $product_detail['dimension'][] = " ".$height."H ";
+
+
+		// $product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();
+
+		echo json_encode($product_detail);	
+		}
+		catch(Exception $e)
+		{
+			log_message('error',$e->getMessage());
+		}
+	}
 
 	/*	AjaxCall: get Category list  
 	*	---------------------

@@ -33,7 +33,21 @@
 								<td><?php echo $supplier->getSupplierName(); ?></td>
 								<td><?php echo $supplier->getEmail(); ?></td>
 								<td><?php echo $supplier->getMobile(); ?></td>
-								<td><?php if($supplier->getStatus() == 1){echo "ACTIVE";} else {echo "INACTIVE";}?></td>
+                                <?php 
+									$status = $supplier->getStatus();
+									if ($status == 0) 
+									{ 
+									$stat = '<span class="label label-danger">INACTIVE</span>';
+									
+									}
+														else 
+									{
+									$stat = '<span class="label label-success">ACTIVE</span>';
+									}
+									?>					
+         						<td class="align-center "><?php echo $stat;?></td>
+  
+								
 								<td>
 									<div class="btn-group">
 									  	<a type="button" href="<?php echo site_url()."inventory/supplier/supplierDetails/".$supplier->getSupplierId()."/editSupplierDetails";?>" class="btn btn-primary btn-xs">Edit</a>

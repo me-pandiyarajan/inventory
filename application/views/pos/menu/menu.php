@@ -114,7 +114,17 @@
                     </li>
                     
                 </ul>
-            </li>                       
+            </li>    
+              <!-- Feedback-->
+             <li>
+                <a href="#"><i class="fa fa-users"></i>Sales Report<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo base_url();?>pos/salesreport/index">Sales Report</a>
+                    </li>
+                    
+                </ul>
+            </li>                         
                     </ul>
                     <!-- /#side-menu -->
                 </div>

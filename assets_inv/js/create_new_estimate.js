@@ -24,18 +24,18 @@
                     var sku = $('#sku').val();
                     var p_id = $('#productId').val();
                     var supplier_id = $('#supplierId').val();
-                   
+                    var supplier_pname = $('#supplier_pname').val();
                     var desc = $('#description').val();
                     var quan = $('#quantity').val();
-                    var design = $('#design').val();
-                    var shade = $('#shade').val();
+                    var design = $('#supplierdesign').val();
+                    var shade = $('#suppliershade').val();
                     var dime = $('#dimension').val();
                     listed_products[FieldCount-1] = p_name; 
 
                 newRow = '<tr>' +
                             '<td style="cursor: pointer;"><input type="hidden" name="product_ids[]" value="'+ p_id +'" /><input type="hidden" name="suppliers[]" value="'+ supplier_id +'" /><span class="glyphicon glyphicon-trash remover"></span></td>' +
-                            '<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
-                            '<td >'+ p_name +' <input type="hidden" id="product_names" name="product_names[]" value="'+ p_name +'" /></td>' +
+                            //'<td >'+ sku +' <input type="hidden" name="sku[]" value="'+ sku +'" /></td>' +
+                            '<td >'+ supplier_pname +' <input type="hidden" id="product_names" name="product_names[]" value="'+ supplier_pname +'" /></td>' +
                             '<td >'+ desc +' <input type="hidden" name="descriptions[]" value="'+ desc +'" /> </td>' +
                             '<td >'+ design +'/'+ shade +'<input type="hidden" name="designShade[]" value="'+ design +'/'+ shade +'" /> </td>' +
                             '<td >'+ dime +' <input type="hidden" name="dimensions[]" value="'+ dime +'" /> </td>' +

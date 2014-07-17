@@ -114,7 +114,6 @@ function __construct()  {
 	public function addProduct()
 	{
 	    
-
 	    $this->form_validation();
 		$header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		$group_id = $this->ion_auth->GetUserGroupId();
@@ -248,6 +247,8 @@ function __construct()  {
  					$product->setSuppplierProductName($this->input->post('sproductname'));
 					$product->setSupplierDesignName($this->input->post('sdesign'));
 					$product->setSupplierShadeName($this->input->post('sshade'));
+					$product->setMeasuredBy($this->input->post('measured_by'));
+                    $product->setSuppplierPrice($this->input->post('sPrice'));
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
 					$product->setDeleted(0);
@@ -436,6 +437,8 @@ function __construct()  {
 					$product->setSuppplierProductName($this->input->post('sproductname'));
 					$product->setSupplierDesignName($this->input->post('sdesign'));
 					$product->setSupplierShadeName($this->input->post('sshade'));
+					$product->setMeasuredBy($this->input->post('measured_by'));
+                    $product->setSuppplierPrice($this->input->post('sPrice'));
 					$product->setCategoriesCategory($Categories);
 					$product->setSuppliersSupplier($supplier);
 					//$approve_date = new\DateTime("now");
@@ -499,6 +502,9 @@ function __construct()  {
 							elseif ($editmode == 'ep' && $group_id == 1) {
 								redirect('inventory/product/updatedproductlist'); 
 							}
+							elseif ($editmode == 'dp' && $group_id == 3) {
+								redirect('inventory/product/updatedproductlistz'); 
+							}
 							else{
 								redirect('inventory/product/productlist'); 
 							}
@@ -533,6 +539,42 @@ function __construct()  {
 		$this->load->view('inventory/product/updatedproductlist',$user);
 	    $this->load->view('inventory/general/footer');
 	}
+    
+
+    /*
+	*	 Product safetystocklevellist
+	*	----------------------------------
+	*	
+	*/
+	public function safetystocklevellist()
+	{
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$user['data'] = $this->em->getRepository('models\inventory\Products')->createQueryBuilder('p')
+				->where("p.safetyStockLevel >= p.posStockLevel")
+				->andWhere("p.status = 1")
+				->andWhere("p.deleted = 0")
+				->getQuery()
+				->getResult();
+				//var_dump($user['data']);exit;
+	    $group = $this->ion_auth->GetUserGroupId();
+	    $menu = $this->navigator->getMenuInventory();
+		switch($group)
+		{
+		case 1:
+		    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','SafetyStockLevel','Status','Price','Safetylevel','Action'); 
+			$user['visiblity'] = 1;
+			break;
+		case 2:
+		    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','SafetyStockLevel','Status','Action'); 
+			$user['visiblity'] = 2;
+			break;
+		}
+		$this->load->view('inventory/general/header',$header);
+	   	$this->load->view($menu);
+		$this->load->view('inventory/product/safetystocklevellist',$user);
+	    $this->load->view('inventory/general/footer');
+		
+	}
 
 	/*
 	*	list New Product 
@@ -560,7 +602,7 @@ function __construct()  {
 				$user['visiblity'] = 1;
 				break;
 			case 2:
-			    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Supplier','Action'); 
+			    $user['tablehead'] = array('Product Code','Product Name','Category','Quantity','Action'); 
 				$user['visiblity'] = 2;
 				break;
 		}
@@ -702,15 +744,18 @@ function __construct()  {
 		   $header['user_data'] = $this->ion_auth->GetHeaderDetails();
 		   $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
 			$group_id = $this->ion_auth->GetUserGroupId();
-			$update_date = new\DateTime("now");
+			
 			//$product->setProductActivated($create_date);
 			if($group_id == 2)
 			{
 			$product->setApproved(4);//reverted by admin
-			$product->setApprovedDate($update_date);
-			$product->setLastUpdated($update_date);
-			$product->setLastUpdatedBy($id);
-			$product->setApprovedBy($header['user_data']->id); 
+			$update_date = new\DateTime("now");
+			$product->setApprovedDate($update_date->getTimestamp());
+			$lastdate_date = new\DateTime("now");
+			$product->setLastUpdatedDate($lastdate_date->getTimestamp());
+			$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+			$product->setLastUpdatedBy($user);
+			$product->setApprovedBy($user); 
 			}
 			$this->em->persist($product);
 			$this->em->flush();
@@ -736,6 +781,28 @@ function __construct()  {
 	$this->load->view('inventory/product/revertproductlist',$user);
 	$this->load->view('inventory/general/footer');
 	}
+    
+
+     	/*
+	*	 Product deoproductlist
+	*	----------------------------------
+	*	
+	*/
+	public function deoproductlist()
+	{
+	    $header['user_data']=$this->ion_auth->GetHeaderDetails();
+		$user_id = $this->em->getRepository('models\inventory\Users')->find($header['user_data']);
+		$menu = $this->navigator->getMenuInventory();
+		$user['data'] = $data =$this->em->getRepository('models\inventory\products')->findBy(array('createdBy' => $user_id,'deleted' => 0)); 
+	//var_dump($user['data']);exit;
+		
+        $user['tablehead'] = array('Product Code','Product Name','Status','Action'); 		
+     	$this->load->view('inventory/general/header',$header);
+	   	$this->load->view($menu);
+		$this->load->view('inventory/product/doeproductlist',$user);
+	    $this->load->view('inventory/general/footer');
+	
+	}
 
     public function delete($id,$nav)
 	{
@@ -744,12 +811,10 @@ function __construct()  {
 		$menu = $this->navigator->getMenuInventory();
 	    $data['product'] = $product = $this->em->getRepository('models\inventory\Products')->find($id);
 		$update_date = new\DateTime("now");
-		$product->setLastUpdated($update_date->getTimestamp());
-		$product->setDeleted(1);
-
-		$updator = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
-		$product->setLastUpdatedBy($updator);
-
+		$product->setLastUpdatedDate($update_date->getTimestamp());
+		$user = $this->em->getRepository('models\inventory\Users')->find($header['user_data']['id']);
+		$product->setLastUpdatedBy($user);
+        $product->setDeleted(1);
 		$this->em->persist($product);
 		$this->em->flush();
 		$this->session->set_flashdata('EditProduct', '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><b>'.$data['product']->getProductName().' Deleted </b></div>');
@@ -962,8 +1027,7 @@ function __construct()  {
 	*
 	*/
 	public function ajaxProductDetails($productId)
-	{
-		
+	{		
 		try {
 				$product = $this->em->getRepository('models\inventory\Products')->find($productId);
 				$product_detail['productId'] = $productId;
@@ -992,6 +1056,12 @@ function __construct()  {
 
 
 				$product_detail['dimension'] = implode('x', $product_detail['dimension'])." ".$product->getDimenUnit();
+
+				/*Supplier Product Details*/
+
+	         	$product_detail['supplier_pname'] = $product->getSuppplierProductName();
+	         	$product_detail['supplierdesign'] = $product->getSupplierDesignName();
+	         	$product_detail['suppliershade'] = $product->getSupplierShadeName();
 
 				echo json_encode($product_detail);			
 			}
@@ -1159,6 +1229,115 @@ function __construct()  {
 			{
 				log_message('error',$e->getMessage());
 			}
+	}
+
+	/*
+	*	 Product List-To Be Ordered
+	*	----------------------------------
+	*	
+	*/
+	public function tobeordered()
+	{
+ 
+		  $product_gen_id = array();
+		  $outofstock = 0;
+	      $invoices =$this->em->getRepository('models\pos\PosInvoices')->findBy(array('status' =>2));
+          foreach ($invoices as $invoice) {
+
+          		 $invoice_id   = $invoice->getInvoiceid();
+           		 $product_sales =$this->em->getRepository('models\pos\PosProductSales')->findBy(array('invoicesInvoiceid' => $invoice_id));
+           		 
+           		 foreach ($product_sales as $product_sale) {
+
+           		 	$product_id  = $product_sale->getProductsProductGen()->getProductGenId();
+           		 	$product_stock  = $product_sale->getProductsProductGen()->getStockAvailability();
+   					
+            		 	if($product_stock == 0)
+           		 	{
+           		 		
+                         $outofstock++;
+           		 	}
+           		 	
+           		 }  $product_gen_id[] = $product_id;
+
+           }
+           
+            
+		$header['user_data']=$this->ion_auth->GetHeaderDetails();
+
+		if($this->input->post())
+		{
+			$params = array('approved' => 1,'deleted' => 0);
+
+			foreach ($this->input->post() as $key => $value) 
+			{
+
+				if(strlen($value) > 0)
+				{
+					switch ($key) {
+						case "category_id":
+							$category_id =$this->em->getRepository('models\inventory\categories')->findBy(array('categoryName' => $value));
+							if(empty($category_id))
+							{
+                             $params['categoriesCategory'] = $value;
+							}
+							else
+							{
+							  $params['categoriesCategory'] = $category_id[0]->getCategoryId();
+							}
+						break;
+						case "supplier":
+							$supplier_id = $this->em->getRepository('models\inventory\Suppliers')->findBy(array('supplierName' => $value));
+							if(empty($supplier_id))
+							{
+                             $params['suppliersSupplier'] = $value;
+							}
+							else
+							{
+							 $params['suppliersSupplier'] = $supplier_id[0]->getSupplierId();
+							}
+           					
+							break;
+						case 'design':
+							$params['designName'] = $value;
+							break;
+						case 'Shade':
+							$params['shade'] = $value;
+							break;
+						case 'product':
+							$params['productName'] = $value;
+							break;
+					}
+				}
+					
+			}
+		
+           $user['data'] = $data =$this->em->getRepository('models\inventory\products')->findBy($params);
+		}
+		else
+		{
+		    $user['data'] = $data =$this->em->getRepository('models\inventory\products')->findBy(array('approved' => 1,'deleted' => 0,'productGenId' => $product_gen_id));      
+		}
+		
+		$group = $this->ion_auth->GetUserGroupId();
+	    $menu = $this->navigator->getMenuInventory();
+		$user['form_action']="inventory/product/productlist";	
+
+		switch($group)
+		{
+		case 1:
+		    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Status','Price','Safetylevel','Action'); 
+			$user['visiblity'] = 1;
+			break;
+		case 2:
+		    $user['tablehead'] = array('Product Code','Product Name','Categories','Quantity','Supplier','Status','Action'); 
+			$user['visiblity'] = 2;
+			break;
+		}
+		$this->load->view('inventory/general/header',$header);
+	   	$this->load->view($menu);
+		$this->load->view('inventory/product/tobeorderedproducts',$user);
+	    $this->load->view('inventory/general/footer');
 	}
   
 }

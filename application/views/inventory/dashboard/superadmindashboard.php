@@ -17,19 +17,24 @@
 
 				<div class="col-md-6">
 					<h3>FOR APPROVAL</h3>
-					<h2 class="txt-thick-big"> { <?php echo $forApproval; ?> } </h2>
+					<a href="<?php echo base_url();?>inventory/Product/newproductlist"><h2 class="txt-thick-big"> { <?php echo $forApproval; ?> } </h2></a>
 				</div>
 				<div class="col-md-6">
 					<h3>BELOW SAFETY LEVEL</h3>
-					<h2 class="txt-thick-big"> { <?php echo $belowSaftyLevel; ?> } </h2>
+					<a href="<?php echo base_url();?>inventory/Product/safetystocklevellist"><h2 class="txt-thick-big"> { <?php echo $belowSaftyLevel; ?> } </h2></a>
 				</div>	
 				<div class="col-md-6 ">
 					<h3>TOTAL PRODUCTS</h3>
-					<h2 class="txt-thick-big"> { <?php echo $totalProducts; ?> } </h2>
+					<a href="<?php echo base_url();?>inventory/Product/productlist"><h2 class="txt-thick-big"> { <?php echo $totalProducts; ?> } </h2></a>
 				</div>
 				<div class="col-md-6">
 					<h3>UPDATED PRODUCTS</h3>
-					<h2 class="txt-thick-big"> { <?php echo $updateproductcount; ?> } </h2>
+					<a href="<?php echo base_url();?>inventory/Product/updatedproductlist"> <h2 class="txt-thick-big">{ <?php echo $updateproductcount; ?> } </h2></a>
+				</div>	
+				<div class="col-md-6 col-md-offset-3">
+					<h3>TO BE ORDERED</h3>
+
+					<a href="<?php echo base_url();?>inventory/product/tobeordered"><h2 class="txt-thick-big text-danger">{<?php echo $outofstock ; ?>} </h2></a>
 				</div>				
 		</div> 
 							
